@@ -1,0 +1,293 @@
+/* ============================== GLOBAL ============================== */
+/* ============================== GLOBAL ============================== */
+
+$font-comfortaa: Comfortaa;
+$font-montserrat: montserrat;
+$font-roboto: Roboto; 
+
+.wrapper {
+    min-height: 100%;
+    width: 100%;
+    overflow: hidden;
+    scroll-behavior: smooth;
+}
+
+.container {
+    margin: 0 auto;
+    padding: 18px 18px;
+    max-width: 1260px;
+}
+
+/* ============================== HEADER ============================== */
+/* ============================== HEADER ============================== */
+
+.header {
+    position: relative;
+    background: url('../img/back-icon/home-1.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.header-inner {
+}
+.container {
+}
+.header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 50px;
+}
+.header_top-logo {
+    a {
+        color: white;
+        font-family: $font-comfortaa;
+        font-size: 36px;
+        font-weight: 700;
+        line-height: 40px;
+    }
+}
+.header_top-register {
+    button {
+        color: rgb(187, 109, 243);
+        font-family: Comfortaa;
+        font-size: 13.42px;
+        font-weight: 500;
+        line-height: 16px;
+        letter-spacing: 1.25px;
+        text-align: center;
+        text-transform: uppercase;
+        border-radius: 30px;
+        padding: 10px 21px;
+        background: rgb(255, 255, 255);
+    }
+}
+.header-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.header_body-left {
+}
+.header_left-headline {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 32px;
+    margin-bottom: 45px;
+    border-bottom: 2px solid rgb(59, 102, 141);
+
+    h1 {
+        color: rgb(59, 102, 141);
+        font-family: Roboto;
+        font-size: 72px;
+        font-weight: 900;
+        line-height: 70px;
+    }
+    span {
+        color: rgb(59, 102, 141);
+        font-family: Montserrat;
+        font-size: 24px;
+        font-weight: 400;
+        line-height: 150%;
+        letter-spacing: 90.5%;
+    }
+}
+.header_left-description {
+    margin-bottom: 27px;
+
+    h2 {
+        color: rgb(59, 102, 141);
+        font-family: Roboto;
+        font-size: 26px;
+        font-weight: 500;
+        line-height: 156%;
+    }
+    p {
+        color: rgb(43, 73, 100);
+        font-family: Montserrat;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 156%;
+        letter-spacing: 7.5%;
+    }
+}
+.header_left-button {
+    button {
+        border-radius: 62px;
+        box-shadow: 0px 6px 8px 0px rgba(0, 0, 0, 0.2);
+        background: linear-gradient(90.00deg, rgb(67, 161, 214),rgb(144, 126, 255) 100%);
+        color: rgb(255, 255, 255);
+        font-family: Comfortaa;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 27px;
+        padding: 20px 40px;
+    }
+}
+.header_body-right {
+    img {
+        max-width: 750px;
+    }
+}
+
+/* ============================== MAIN ============================== */
+/* ============================== MAIN ============================== */
+/* ============================== FEATURES ============================== */
+/* ============================== FEATURES ============================== */
+
+.main {
+    margin-top: 40px;
+}
+.features {
+}
+.main-featires {
+}
+.features--inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.featires-left {
+    img {
+        width: 600px;
+    }
+}
+.features-right {
+}
+.features_right-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.features_right-item {
+    display: flex;
+    gap: 25px;
+}
+.features_right-img {
+    img {
+        width: 80px;
+    }
+}
+.features_right-link {
+    h3 {
+        text-transform: uppercase;
+        color: rgb(59, 102, 141);
+        font-family: Roboto;
+        font-size: 24px;
+        font-weight: 400;
+        line-height: 1.6;
+    }
+    p {
+        color: rgb(43, 73, 100);
+        font-family: Montserrat;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 150%;
+    }
+}
+
+/* ============================== PRICE ============================== */
+/* ============================== PRICE ============================== */
+
+.price {
+    margin-top: 70px;
+}
+.main-price {
+}
+.price--inner {
+}
+.price__head {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 16px;
+    h2 {
+        color: rgb(59, 102, 141);
+        font-family: Roboto;
+        font-size: 72px;
+        font-weight: 900;
+        line-height: 70px;
+        letter-spacing: 40.5%;
+        text-transform: uppercase;
+    }
+    p {
+        color: rgb(59, 102, 141);
+        font-family: Montserrat;
+        font-size: 24px;
+        font-weight: 400;
+        line-height: 150%;
+        letter-spacing: 90.5%;
+        text-transform: uppercase;
+    }
+}
+.price__body {
+    margin-top: 70px;
+}
+.price__body-list {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+.price__body-item {
+    width: 100%;
+    padding: 24px 32px;
+    border-radius: 32px;
+    box-shadow: 0px 6px 8px 0px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+.price__body-name {
+    display: flex;
+    justify-content: space-between;
+    h3 {
+        color: rgb(59, 102, 141);
+        font-family: Comfortaa;
+        font-size: 32px;
+        font-weight: 700;
+        line-height: 54px;
+    }
+    img {
+        transform: rotate(180deg);
+        width: 50px;
+        transition: all .3s;
+        user-select: none;
+    }
+}
+.price__body-link {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: all .3s, margin-top .6s, opacity .6s;
+    
+    margin-top: 0;
+    opacity: 0;
+    height: 0;
+
+    h4 {
+        color: rgb(133, 114, 255);
+        font-family: Comfortaa;
+        font-size: 24px;
+        font-weight: 400;
+    }
+
+    p {
+        color: rgb(86, 119, 150);
+        font-family: Comfortaa;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 100%;
+    }
+
+    span {
+        font-weight: 800;
+    }
+}
+.price__body-name--active {
+    img {
+        transform: rotate(0deg);
+    }
+}
+.price__body-link--active {
+    margin-top: 20px;
+    opacity: 1;
+    height: 100%;
+}

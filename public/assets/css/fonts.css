@@ -1,0 +1,147 @@
+/* ============================== ROBOTO ============================== */
+/* ============================== ROBOTO ============================== */
+
+@font-face {
+    font-family: Roboto;
+    font-weight: 900;
+    font-style: normal;
+    src: local("Roboto"),
+        url("../fonts/Roboto/Roboto-Black.ttf") format('ttf');
+    font-display: swap;
+}
+@font-face {
+    font-family: Roboto;
+    font-weight: 700;
+    font-style: normal;
+    src: local("Roboto"),
+        url("../fonts/Roboto/Roboto-Bold.ttf") format('ttf');
+    font-display: swap;
+}
+@font-face {
+    font-family: Roboto;
+    font-weight: 500;
+    font-style: normal;
+    src: local("Roboto"),
+        url("../fonts/Roboto/Roboto-Medium.ttf") format('ttf');
+    font-display: swap;
+}
+@font-face {
+    font-family: Roboto;
+    font-weight: 400;
+    font-style: normal;
+    src: local("Roboto"),
+        url("../fonts/Roboto/Roboto-Regular.ttf") format('ttf');
+    font-display: swap;
+}
+@font-face {
+    font-family: Roboto;
+    font-weight: 300;
+    font-style: normal;
+    src: local("Roboto"),
+        url("../fonts/Roboto/Roboto-Light.ttf") format('ttf');
+    font-display: swap;
+}
+@font-face {
+    font-family: Roboto;
+    font-weight: 100;
+    font-style: normal;
+    src: local("Roboto"),
+        url("../fonts/Roboto/Roboto-Thin.ttf") format('ttf');
+    font-display: swap;
+}
+
+/* ============================== MONTSERRAT ============================== */
+/* ============================== MONTSERRAT ============================== */
+
+@font-face {
+    font-family: Montserrat;
+    font-weight: 900;
+    font-style: normal;
+    src: local("Montserrat"),
+        url("../fonts/Montserrat/Montserrat-Black.ttf") format('ttf');
+    font-display: swap;
+}
+@font-face {
+    font-family: Montserrat;
+    font-weight: 700;
+    font-style: normal;
+    src: local("Montserrat"),
+        url("../fonts/Montserrat/Montserrat-Bold.ttf") format('ttf');
+    font-display: swap;
+}
+@font-face {
+    font-family: Montserrat;
+    font-weight: 500;
+    font-style: normal;
+    src: local("Montserrat"),
+        url("../fonts/Montserrat/Montserrat-Medium.ttf") format('ttf');
+    font-display: swap;
+}
+@font-face {
+    font-family: Montserrat;
+    font-weight: 400;
+    font-style: normal;
+    src: local("Montserrat"),
+        url("../fonts/Montserrat/Montserrat-Regular.ttf") format('ttf');
+    font-display: swap;
+}
+@font-face {
+    font-family: Montserrat;
+    font-weight: 300;
+    font-style: normal;
+    src: local("Montserrat"),
+        url("../fonts/Montserrat/Montserrat-Light.ttf") format('ttf');
+    font-display: swap;
+}
+@font-face {
+    font-family: Montserrat;
+    font-weight: 100;
+    font-style: normal;
+    src: local("Montserrat"),
+        url("../fonts/Montserrat/Montserrat-Thin.ttf") format('ttf');
+    font-display: swap;
+}
+
+/* ============================== COMFORTAA ============================== */
+/* ============================== COMFORTAA ============================== */
+
+@font-face {
+    font-family: Comfortaa;
+    font-weight: 700;
+    font-style: normal;
+    src: local("Comfortaa"),
+        url("../fonts/Comfortaa/Comfortaa-Bold.ttf") format('ttf');
+    font-display: swap;
+}
+@font-face {
+    font-family: Comfortaa;
+    font-weight: 600;
+    font-style: normal;
+    src: local("Comfortaa"),
+        url("../fonts/Comfortaa/Comfortaa-SemiBold.ttf") format('ttf');
+    font-display: swap;
+}
+@font-face {
+    font-family: Comfortaa;
+    font-weight: 500;
+    font-style: normal;
+    src: local("Comfortaa"),
+        url("../fonts/Comfortaa/Comfortaa-Medium.ttf") format('ttf');
+    font-display: swap;
+}
+@font-face {
+    font-family: Comfortaa;
+    font-weight: 400;
+    font-style: normal;
+    src: local("Comfortaa"),
+        url("../fonts/Comfortaa/Comfortaa-Regular.ttf") format('ttf');
+    font-display: swap;
+}
+@font-face {
+    font-family: Comfortaa;
+    font-weight: 300;
+    font-style: normal;
+    src: local("Comfortaa"),
+        url("../fonts/Comfortaa/Comfortaa-Light.ttf") format('ttf');
+    font-display: swap;
+}

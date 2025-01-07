@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="rgb(67, 161, 214)" />
+      <stop offset="100%" stop-color="rgb(144, 126, 255)" />
+    </linearGradient>
+  </defs>
+  <path fill="none" stroke="url(#gradient)" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M112 184l144 144 144-144"/>
+</svg>
