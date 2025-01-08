@@ -18,6 +18,32 @@ $font-roboto: Roboto;
     max-width: 1260px;
 }
 
+.section__head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+
+    h2 {
+        color: rgb(59, 102, 141);
+        font-family: Roboto;
+        font-size: 72px;
+        font-weight: 900;
+        line-height: 70px;
+        letter-spacing: 40.5%;
+        text-transform: uppercase;
+    }
+    p {
+        color: rgb(59, 102, 141);
+        font-family: Montserrat;
+        font-size: 24px;
+        font-weight: 400;
+        line-height: 150%;
+        letter-spacing: 90.5%;
+        text-transform: uppercase;
+    }
+}
+
 /* ============================== HEADER ============================== */
 /* ============================== HEADER ============================== */
 
@@ -197,31 +223,9 @@ $font-roboto: Roboto;
 .price--inner {
 }
 .price__head {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    gap: 16px;
-    h2 {
-        color: rgb(59, 102, 141);
-        font-family: Roboto;
-        font-size: 72px;
-        font-weight: 900;
-        line-height: 70px;
-        letter-spacing: 40.5%;
-        text-transform: uppercase;
-    }
-    p {
-        color: rgb(59, 102, 141);
-        font-family: Montserrat;
-        font-size: 24px;
-        font-weight: 400;
-        line-height: 150%;
-        letter-spacing: 90.5%;
-        text-transform: uppercase;
-    }
 }
 .price__body {
-    margin-top: 70px;
+    margin-top: 30px;
 }
 .price__body-list {
     display: flex;
@@ -290,4 +294,232 @@ $font-roboto: Roboto;
     margin-top: 20px;
     opacity: 1;
     height: 100%;
+}
+
+/* ============================== FAQ ============================== */
+/* ============================== FAQ ============================== */
+
+.faq {
+    margin-top: 70px;
+}
+.main-faq {
+}
+.faq--inner {
+}
+.faq__head {
+
+}
+.faq__accord {
+}
+.faq__accord-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.faq__accord-item {
+    position: relative;
+    cursor: pointer;
+    padding: 21px 38px;
+    
+    &::after {
+        position: absolute;
+        content: '';
+        z-index: -1;
+        inset: 0;
+        background: linear-gradient(90.00deg, rgb(178, 228, 255),rgb(223, 191, 255) 100%);
+        opacity: 0.3;
+    }
+}
+.faq__accord-list li:first-of-type {
+    &::after {
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+    }
+}
+.faq__accord-list li:last-of-type {
+    &::after {
+        border-bottom-left-radius: 16px;
+        border-bottom-right-radius: 16px;
+    }
+}
+.faq__accord-name {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    h3 {
+        color: rgb(70, 99, 126);
+        font-family: Comfortaa;
+        font-size: 30px;
+        font-weight: 700;
+        line-height: 33px;
+    }
+}
+.plusminus {
+	position: relative;
+	width: 25px;
+	height: 25px;
+	cursor: pointer;
+	
+	&.active {
+		&:before {
+			transform: translatey(-50%) rotate(-90deg);
+			opacity: 0;
+		}
+		&:after {
+			transform: translatey(-50%) rotate(0);
+		}
+	}
+	
+	&:before , &:after {
+		content: "";
+		display: block;
+		background: linear-gradient(90.00deg, rgb(67, 161, 214),rgb(144, 126, 255) 100%);
+		position: absolute;		
+		top: 50%; left: 0;
+		transition: .35s;
+		width: 100%;
+		height: 3px;
+	}
+	
+	&:before {		
+		transform: translatey(-50%);
+	}
+	
+	&:after {
+		transform: translatey(-50%) rotate(90deg);
+	}
+	
+}
+.faq__accord-link {
+    display: flex;
+    transition: all .3s;
+    opacity: 0;
+    height: 0;
+    p {
+        color: rgb(135, 135, 135);
+        font-family: Comfortaa;
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 150%;
+    }
+}
+.faq__accord-link--active {
+    opacity: 1;
+    height: 100%;
+    padding: 32px 0;
+}
+
+/* ============================== CONTACT ============================== */
+/* ============================== CONTACT ============================== */
+
+.contact {
+    margin-top: 70px;
+    position: relative;
+    z-index: 10;
+
+    &::before{
+        content: url('../img/back-icon/contact-1.svg');
+        position: absolute;
+        z-index: -10;
+        top: 50%;
+        left: 0;
+        margin-left: -5%;
+    }
+    &::after {
+        content: url('../img/back-icon/contact-2.svg');
+        position: absolute;
+        z-index: -10;
+        top: 50%;
+        right: 0;
+        margin-right: -5%;
+    }
+}
+.main-contact {
+}
+.contact--inner {
+}
+.contact__head {
+    margin-bottom: 30px;
+}
+.section__head {
+}
+.contact__map {
+    margin-bottom: 70px;
+
+    iframe {
+        width: 100%;
+    }
+}
+.contact__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 70px;
+}
+.contact__form-head {
+    display: flex;
+    justify-content: center;
+    h3 {
+        color: rgb(59, 102, 141);
+        font-family: Comfortaa;
+        font-size: 72px;
+        font-weight: 700;
+        line-height: 80px;
+    }
+}
+.contact__form-input {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    textarea {
+        color: rgb(173, 173, 173);
+        font-family: Comfortaa;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 27px;
+        border-radius: 50px;
+        height: 220px;
+        padding: 24px 32px;
+        background: rgb(243, 243, 243);
+    }
+}
+.contact__form-item {
+    display: flex;
+    align-items: center;
+    gap: 45px;
+
+    h4 {
+        color: rgb(59, 63, 141);
+        font-family: Comfortaa;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 27px;
+    }
+
+    input {
+        color: rgb(173, 173, 173);
+        font-family: Comfortaa;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 27px;
+        border-radius: 61px;
+        padding: 24px 32px;
+        background: rgb(243, 243, 243);
+    }
+}
+.contact__form-button {
+    display: flex;
+    justify-content: end;
+
+    button {
+        color: rgb(255, 255, 255);
+        font-family: Comfortaa;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 27px;
+        border-radius: 62px;
+        padding: 24px 32px;
+        background: linear-gradient(90.00deg, rgb(67, 161, 214),rgb(144, 126, 255) 100%);
+    }
 }
