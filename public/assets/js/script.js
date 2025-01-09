@@ -46,3 +46,16 @@ function showAccord(){
         })
     })
 }showAccord()
+
+function moveUp() {
+    const button = document.getElementById('footer-title')
+
+    button.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    })
+}moveUp()
