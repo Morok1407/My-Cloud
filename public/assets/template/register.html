@@ -14,7 +14,7 @@
 </head>
 <body>
     <div class="wrapper">
-        <header class="header">
+        <header class="register-header">
             <div class="container">
                 <div class="header-inner">
                     <div class="header-top">
@@ -25,6 +25,105 @@
                 </div>
             </div>
         </header>
+        <main class="main">
+            <section class="register main-registre">
+                <div class="container">
+                    <div class="register--inner">
+                        <div class="register__head register__head--acitve section__head" id="register-head">
+                            <h2>Регистрация</h2>
+                            <p>Онлайн-хранилище</p>
+                        </div>
+                        <div class="login__head section__head" id="login-head">
+                            <h2>Вход</h2>
+                            <p>Онлайн-хранилище</p>
+                        </div>
+                        <div class="register__switch" id="switch">
+                            <div class="register__switch-link"></div>
+                        </div>
+                        <form action="" class="register__form register__form--active" id="register-form">
+                            <div class="register__form-input">
+                                <div class="register__form-item">
+                                    <span>Name</span>
+                                    <input type="name" name="name" placeholder="Daniel" required>
+                                </div>
+                                <div class="register__form-item">
+                                    <span>Email</span>
+                                    <input type="email" name="email" placeholder="mail@example.com" required>
+                                </div>
+                                <div class="register__form-item">
+                                    <span>Password</span>
+                                    <input type="password" name="password" placeholder="********" required>
+                                </div>
+                                <div class="register__form-item">
+                                    <span>Re-Password</span>
+                                    <input type="password" name="password" placeholder="********" required>
+                                </div>
+                            </div>
+                            <div class="register__form-capcha">
+                                <span>Capcha</span>
+                                <input type="capcha" name="capcha" placeholder="capcha" required>
+                            </div>
+                            <div class="register__form-button">
+                                <button>Регистрация</button>
+                            </div>
+                            <div class="register__form-agree" required>
+                                <input type="checkbox">
+                                <span>Пользовательское соглашение</span>
+                            </div>
+                        </form>
+                        <form action="" class="login__form" id="login-form">
+                            <div class="register__form-item">
+                                <span>Email</span>
+                                <input type="email" name="email" placeholder="mail@example.com" required>
+                            </div>
+                            <div class="register__form-item">
+                                <span>Password</span>
+                                <input type="password" name="password" placeholder="********" required>
+                            </div>
+                            <div class="register__form-button">
+                                <button>Вход</button>
+                                <a href="#">Забыли пароль</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="footer--inner">
+                    <div class="footer__top">
+                        <div class="footer__top-about">
+                            <h2>О нас</h2>
+                            <p>При использовании услуг SKYBOX Вы можете передавать, хранить и/или делиться определенными данными, информацией, файлами и т. д. Во избежание сомнений, Вы сохраняете полное право собственности на Ваши данные, так же Я (Б. Даниил) не несу ответственности за Ваши данные. При использовании SKYBOX Вы и любой другой пользователь соглашаетесь с тем что данный сайт является дипломной работой студента. Весь программный код и история разработки, а именно репозитории и коммиты Git доступны в открытом доступе на моем GitHub профиле.</p>
+                            <a href="#" id="footer-title">SKYBOX</a>
+                        </div>
+                        <div class="footer__top-contact">
+                            <h2>Мои контакты</h2>
+                            <ul class="footer__contact-list">
+                                <li class="footer__contact-item">
+                                    <a href="https://t.me/Morok1407" target="_blank" class="footer__contact-link">Мой телеграмм: Morok1407</a>
+                                </li>
+                                <li class="footer__contact-item">
+                                    <a href="https://github.com/Morok1407" target="_blank" class="footer__contact-link">Мой GitHub: Morok1407</a>
+                                </li>
+                                <li class="footer__contact-item">
+                                    <a href="tel:+7 (775) 591-95-40" class="footer__contact-link">Телефон: +7 (775) 591-95-40</a>
+                                </li>
+                                <li class="footer__contact-item">
+                                    <a href="mailto:bugaevdaniil1407@icloud.com" class="footer__contact-link">Email: bugaevdaniil1407@icloud.com</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="footer__line"></div>
+                    <div class="footer__bottom">
+                        <h2>Авторские права © 2025 - 2025 - SkyBox - Онлайн-хранилище файлов</h2>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
 </body>
 <script src="../js/script.js"></script>

@@ -59,3 +59,44 @@ function moveUp() {
         });
     })
 }moveUp()
+
+function registerSwitch(){
+    const buttonSwitch = document.getElementById('switch') 
+    const switchLink = document.querySelector('.register__switch-link')
+    const loginHead = document.getElementById('login-head')
+    const registerHead = document.getElementById('register-head')
+    const loginForm = document.getElementById('login-form')
+    const registerForm = document.getElementById('register-form')
+
+    buttonSwitch.addEventListener('click', () => {
+        switchLink.classList.toggle('register__switch-end')
+
+        if(registerHead.classList.contains('register__head--acitve')){ 
+            registerForm.style.opacity = '0'
+            registerHead.style.opacity = '0' 
+            setTimeout(() => {
+                registerHead.classList.remove('register__head--acitve')
+                registerForm.classList.remove('register__form--active')
+                loginHead.classList.add('login__head--active')
+                loginForm.classList.add('login__form--active')
+                setTimeout(() => {
+                    loginHead.style.opacity = '1'
+                    loginForm.style.opacity = '1'
+                }, 300)
+            }, 300)
+        } else {
+            loginForm.style.opacity = '0'
+            loginHead.style.opacity = '0'
+            setTimeout(() => {
+                loginHead.classList.remove('login__head--active')
+                loginForm.classList.remove('login__form--active')
+                registerHead.classList.add('register__head--acitve')
+                registerForm.classList.add('register__form--active')
+                setTimeout(() => {
+                    registerHead.style.opacity = '1'
+                    registerForm.style.opacity = '1'
+                }, 300)
+            }, 300)
+        }
+    })
+}registerSwitch()

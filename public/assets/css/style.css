@@ -1,5 +1,10 @@
 /* ============================== GLOBAL ============================== */
 /* ============================== GLOBAL ============================== */
+::selection {
+  color: rgb(126, 118, 118);
+  background: rgb(204, 204, 204);
+}
+
 .wrapper {
   min-height: 100%;
   width: 100%;
@@ -569,6 +574,225 @@
   font-size: 24px;
   font-weight: 700;
   line-height: 27px;
+}
+
+/* ============================== REGISTER ============================== */
+/* ============================== REGISTER ============================== */
+.register-header {
+  background: url("../img/back-icon/link.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-bottom: 90px;
+}
+
+.register {
+  margin-top: 80px;
+  position: relative;
+  z-index: 10;
+}
+.register::before {
+  content: url("../img/back-icon/contact-1.svg");
+  position: absolute;
+  z-index: -10;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  margin-left: -5%;
+}
+.register::after {
+  content: url("../img/back-icon/contact-2.svg");
+  position: absolute;
+  z-index: -10;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
+  margin-right: -5%;
+}
+
+.register--inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@keyframes switchRegister {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.register__head {
+  display: none;
+  transition: all 0.3s;
+}
+
+.register__head--acitve {
+  display: flex;
+}
+
+.register__switch {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: 120px;
+  height: 60px;
+  border: 2px solid rgb(59, 63, 141);
+  border-radius: 36px;
+  transition: all 0.3s;
+}
+
+.register__switch-link {
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, rgb(67, 161, 214), rgb(144, 126, 255) 100%);
+  transition: all 0.3s;
+}
+
+.register__switch-end {
+  transform: translateX(115%);
+}
+
+.register__form {
+  margin-top: 40px;
+  display: none;
+  transition: all 0.3s;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+.register__form--active {
+  display: flex;
+}
+
+.register__form-input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.register__form-item {
+  position: relative;
+}
+.register__form-item span {
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  top: 50%;
+  left: -205px;
+  transform: translateY(-50%);
+  color: rgb(59, 63, 141);
+  font-family: Comfortaa;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 27px;
+  width: 160px;
+}
+.register__form-item input {
+  color: rgb(173, 173, 173);
+  font-family: Comfortaa;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 27px;
+  border-radius: 61px;
+  background: rgb(243, 243, 243);
+  padding: 24px 32px;
+}
+
+.register__form-capcha {
+  position: relative;
+  display: flex;
+}
+.register__form-capcha span {
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  top: 50%;
+  left: -205px;
+  transform: translateY(-50%);
+  color: rgb(59, 63, 141);
+  font-family: Comfortaa;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 27px;
+  width: 160px;
+}
+.register__form-capcha input {
+  color: rgb(173, 173, 173);
+  font-family: Comfortaa;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 27px;
+  border-radius: 61px;
+  background: rgb(243, 243, 243);
+  padding: 24px 32px;
+}
+
+.register__form-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.register__form-button button {
+  color: rgb(255, 255, 255);
+  font-family: Comfortaa;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 27px;
+  border-radius: 62px;
+  padding: 24px 32px;
+  background: linear-gradient(90deg, rgb(67, 161, 214), rgb(144, 126, 255) 100%);
+}
+.register__form-button a {
+  color: rgb(173, 173, 173);
+  font-family: Comfortaa;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.register__form-agree {
+  display: flex;
+  gap: 16px;
+}
+.register__form-agree input {
+  width: 20px;
+}
+.register__form-agree span {
+  color: rgb(173, 173, 173);
+  font-family: Comfortaa;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.login__head {
+  display: none;
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+.login__head--active {
+  display: flex;
+}
+
+.login__form {
+  margin-top: 40px;
+  display: none;
+  transition: all 0.3s;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+.login__form--active {
+  display: flex;
 }
 
 /*# sourceMappingURL=style.css.map */
