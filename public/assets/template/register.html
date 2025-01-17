@@ -40,38 +40,43 @@
                         <div class="register__switch" id="switch">
                             <div class="register__switch-link"></div>
                         </div>
-                        <form action="" class="register__form register__form--active" id="register-form">
+                        <form class="register__form register__form--active" id="register-form">
                             <div class="register__form-input">
                                 <div class="register__form-item">
                                     <span>Name</span>
-                                    <input type="name" name="name" placeholder="Daniel" required>
+                                    <input type="name" id="name" name="name" placeholder="Daniel" required>
                                 </div>
                                 <div class="register__form-item">
                                     <span>Email</span>
-                                    <input type="email" name="email" placeholder="mail@example.com" required>
+                                    <input type="email" id="email" name="email" placeholder="mail@example.com" required>
                                 </div>
                                 <div class="register__form-item">
                                     <span>Password</span>
-                                    <input type="password" name="password" placeholder="********" required>
+                                    <input type="password" id="password" name="password" placeholder="********" required>
                                 </div>
                                 <div class="register__form-item">
                                     <span>Re-Password</span>
-                                    <input type="password" name="password" placeholder="********" required>
+                                    <input type="password" id="re-password" name="password" placeholder="********" required>
                                 </div>
                             </div>
-                            <div class="register__form-capcha">
-                                <span>Capcha</span>
-                                <input type="capcha" name="capcha" placeholder="capcha" required>
+                            <div class="register__form-captcha">
+                                <span>captcha</span>
+                                <div class="register__captcha-imgs">
+                                    <img src="/api/captcha" alt="captcha" id="captcha">
+                                    <img src="../img/icon/change.svg" alt="change" id="change-captcha">
+                                </div>
+                                <input type="captcha" id="captcha-response" name="captcha" placeholder="captcha" required>
                             </div>
                             <div class="register__form-button">
                                 <button>Регистрация</button>
                             </div>
                             <div class="register__form-agree" required>
-                                <input type="checkbox">
+                                <input type="checkbox" required>
                                 <span>Пользовательское соглашение</span>
                             </div>
                         </form>
-                        <form action="" class="login__form" id="login-form">
+                        <!-- ============================================ -->
+                        <form class="login__form" id="login-form">
                             <div class="register__form-item">
                                 <span>Email</span>
                                 <input type="email" name="email" placeholder="mail@example.com" required>
@@ -116,10 +121,6 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
-                    <div class="footer__line"></div>
-                    <div class="footer__bottom">
-                        <h2>Авторские права © 2025 - 2025 - SkyBox - Онлайн-хранилище файлов</h2>
                     </div>
                 </div>
             </div>

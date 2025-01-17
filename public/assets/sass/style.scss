@@ -602,26 +602,6 @@ $font-roboto: Roboto;
     font-weight: 400;
     line-height: 150%;
 }
-.footer__line {
-    width: 100%;
-    height: 1px;
-    border: 1px solid rgb(255, 255, 255);
-    opacity: 0.4;
-    margin: 70px 0;
-}
-.footer__bottom {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-bottom: 30px;
-    h2 {
-        color: rgb(255, 255, 255);
-        font-family: Comfortaa;
-        font-size: 24px;
-        font-weight: 700;
-        line-height: 27px;
-    }
-}
 
 /* ============================== REGISTER ============================== */
 /* ============================== REGISTER ============================== */
@@ -727,7 +707,7 @@ $font-roboto: Roboto;
         top: 50%;
         left: -205px;
         transform: translateY(-50%);
-        color: rgb(59, 63, 141);
+        color: #3b3f8d;
         font-family: Comfortaa;
         font-size: 24px;
         font-weight: 700;
@@ -745,9 +725,11 @@ $font-roboto: Roboto;
         padding: 24px 32px;
     }
 }
-.register__form-capcha {
+.register__form-captcha {
     position: relative;
     display: flex;
+    align-items: center;
+    gap: 15px;
 
     span {
         display: flex;
@@ -772,7 +754,22 @@ $font-roboto: Roboto;
         border-radius: 61px;
         background: rgb(243, 243, 243);
         padding: 24px 32px;
+        width: 170px;
     }
+}
+.register__captcha-imgs {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+#captcha {
+    width: 150px;
+    user-select: none;
+}
+#change-captcha {
+    cursor: pointer;
+    user-select: none;
+    width: 30px;
 }
 .register__form-button {
     display: flex;
