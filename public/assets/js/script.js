@@ -124,7 +124,7 @@ document
     const rePassword = document.getElementById("re-password").value;
     const captchaResponse = document.getElementById("captcha-response").value;
 
-    const response = await fetch("/register", {
+    const response = await fetch("/auth/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
