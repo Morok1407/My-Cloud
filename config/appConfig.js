@@ -5,7 +5,7 @@ export const configApp = (app) => {
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.use(session({
-        secret: "cookie",
+        secret: process.env.SESSION,
         resave: false,
         saveUninitialized: true,
         cookie: { maxAge: 60000 },

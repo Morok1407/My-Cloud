@@ -20,75 +20,22 @@
                         <div class="header_top-logo">
                             <a href="../../index.html">Cloudis</a>
                         </div>
+                        <div class="header_top-profile">
+                            <img src="../img/icon/person.svg" alt="percon">
+                        </div>
                     </div>
                 </div>
             </div>
         </header>
+
         <main class="main">
-            <section class="register main-registre">
+            <section class="profile-settings">
                 <div class="container">
-                    <div class="register--inner">
-                        <div class="register__head register__head--acitve section__head" id="register-head">
-                            <h2>Регистрация</h2>
+                    <div class="profile-settings--inner">
+                        <div class="profile-settings_head section__head">
+                            <h2>Профиль</h2>
                             <p>Онлайн-хранилище</p>
                         </div>
-                        <div class="login__head section__head" id="login-head">
-                            <h2>Вход</h2>
-                            <p>Онлайн-хранилище</p>
-                        </div>
-                        <div class="register__switch" id="switch">
-                            <div class="register__switch-link"></div>
-                        </div>
-                        <form class="register__form register__form--active" id="register-form">
-                            <div class="register__form-input">
-                                <div class="register__form-item">
-                                    <span>Name</span>
-                                    <input type="name" id="register-name" name="name" placeholder="Daniel" required>
-                                </div>
-                                <div class="register__form-item">
-                                    <span>Email</span>
-                                    <input type="email" id="register-email" name="email" placeholder="mail@example.com" required>
-                                </div>
-                                <div class="register__form-item">
-                                    <span>Password</span>
-                                    <input type="password" id="register-password" name="password" placeholder="********" required>
-                                </div>
-                                <div class="register__form-item">
-                                    <span>Re-Password</span>
-                                    <input type="password" id="register-re-password" name="password" placeholder="********" required>
-                                </div>
-                            </div>
-                            <div class="register__form-captcha">
-                                <span>captcha</span>
-                                <div class="register__captcha-imgs">
-                                    <img src="/api/captcha" alt="captcha" id="captcha">
-                                    <img src="../img/icon/change.svg" alt="change" id="change-captcha">
-                                </div>
-                                <input type="captcha" id="captcha-response" name="captcha" placeholder="captcha" required>
-                            </div>
-                            <div class="register__form-button">
-                                <button>Регистрация</button>
-                            </div>
-                            <div class="register__form-agree" required>
-                                <input type="checkbox" required>
-                                <span>Пользовательское соглашение</span>
-                            </div>
-                        </form>
-                        <!-- ============================================ -->
-                        <form class="login__form" id="login-form">
-                            <div class="register__form-item">
-                                <span>Email</span>
-                                <input type="email" name="email" id="login-email" placeholder="mail@example.com" required>
-                            </div>
-                            <div class="register__form-item">
-                                <span>Password</span>
-                                <input type="password" name="password" id="login-password" placeholder="********" required>
-                            </div>
-                            <div class="register__form-button">
-                                <button>Вход</button>
-                                <a href="#">Забыли пароль</a>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </section>
@@ -126,5 +73,5 @@
         </footer>
     </div>
 </body>
-<script src="../js/script.js"></script>
+<script src="../js/profile.js"></script>
 </html>

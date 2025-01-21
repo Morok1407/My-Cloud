@@ -10,6 +10,31 @@
   width: 100%;
   overflow: hidden;
   scroll-behavior: smooth;
+  position: relative;
+}
+.wrapper::before {
+  content: url("../img/back-icon/home-1.svg");
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: -10;
+}
+
+.wrapper-rest {
+  min-height: 100%;
+  width: 100%;
+  overflow: hidden;
+  scroll-behavior: smooth;
+  position: relative;
+}
+.wrapper-rest::before {
+  content: url("../img/back-icon/rest.png");
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: -10;
 }
 
 .container {
@@ -47,9 +72,6 @@
 /* ============================== HEADER ============================== */
 .header {
   position: relative;
-  background: url("../img/back-icon/home-1.svg");
-  background-repeat: no-repeat;
-  background-size: cover;
 }
 
 .header-top {
@@ -62,7 +84,7 @@
 .header_top-logo a {
   color: white;
   font-family: Comfortaa;
-  font-size: 36px;
+  font-size: 42px;
   font-weight: 700;
   line-height: 40px;
 }
@@ -238,10 +260,10 @@
 }
 
 .price__body-link {
-  display: flex;
+  display: none;
   flex-direction: column;
   gap: 20px;
-  transition: all 0.3s, margin-top 0.6s, opacity 0.6s;
+  transition: all 0.5s, margin-top 0.6s, opacity 0.6s;
   margin-top: 0;
   opacity: 0;
   height: 0;
@@ -557,9 +579,6 @@
 /* ============================== REGISTER ============================== */
 /* ============================== REGISTER ============================== */
 .register-header {
-  background: url("../img/back-icon/link.png");
-  background-repeat: no-repeat;
-  background-size: cover;
   padding-bottom: 90px;
 }
 
@@ -791,6 +810,13 @@
 
 .login__form--active {
   display: flex;
+}
+
+/* ============================== PROFILE ============================== */
+/* ============================== PROFILE ============================== */
+.header_top-profile img {
+  width: 80px;
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -14,9 +14,15 @@ function showPrice() {
       ) {
         priceNameIn.classList.remove("price__body-name--active");
         priceLinkIn.classList.remove("price__body-link--active");
+        setTimeout(() => {
+          priceLinkIn.style.display = 'none'
+        }, 200)
       } else {
-        priceNameIn.classList.add("price__body-name--active");
-        priceLinkIn.classList.add("price__body-link--active");
+        priceLinkIn.style.display = 'flex'
+        setTimeout(() => {
+          priceNameIn.classList.add("price__body-name--active");
+          priceLinkIn.classList.add("price__body-link--active");
+        }, 50)
       }
     });
   });
@@ -115,13 +121,13 @@ document.getElementById("change-captcha").addEventListener("click", () => {
 
 document
   .getElementById("register-form")
-  .addEventListener("submit", async (event) => {
-    event.preventDefault();
+  .addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-    const name = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    const rePassword = document.getElementById("re-password").value;
+    const name = document.getElementById("register-name").value;
+    const email = document.getElementById("register-email").value;
+    const password = document.getElementById("register-password").value;
+    const rePassword = document.getElementById("register-re-password").value;
     const captchaResponse = document.getElementById("captcha-response").value;
 
     const response = await fetch("/auth/register", {
@@ -140,7 +146,7 @@ document
 
     const data = await response.json();
       if (data.success) {
-        alert('Регистрация успешна!');
+        window.location.href = data.message
       } else {
         alert('Ошибка регистрации: ' + data.message);
         if (data.message === 'Неверный код с картинки') {
@@ -148,3 +154,28 @@ document
         }
     }
 });
+
+document.getElementById('login-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const email = document.getElementById("login-email").value;
+  const password = document.getElementById("login-password").value;
+
+  const response = await fetch('/auth/login', {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify ({
+      email,
+      password
+    })
+  })
+
+  const data = await response.json()
+  if(data.success) {
+    window.location.href = data.message
+  } else {
+    alert('Ошибка регистрации: ' + data.message);
+  }
+})
