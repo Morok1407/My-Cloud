@@ -119,9 +119,7 @@ document.getElementById("change-captcha").addEventListener("click", () => {
   captcha.src = `/api/captcha?${Date.now()}`;
 });
 
-document
-  .getElementById("register-form")
-  .addEventListener("submit", async (e) => {
+document.getElementById("register-form").addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const name = document.getElementById("register-name").value;

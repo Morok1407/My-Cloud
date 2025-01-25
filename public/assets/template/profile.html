@@ -13,6 +13,7 @@
 </head>
 <body>
     <div class="wrapper-rest">
+        <div class="overlay" id="overlay" style="display: none;"></div>
         <header class="register-header">
             <div class="container">
                 <div class="header-inner">
@@ -29,6 +30,38 @@
         </header>
 
         <main class="main">
+            <section class="profile-files">
+                <div class="container">
+                    <div class="profile-files--inner">
+                        <div class="profile-files__head section__head">
+                            <h2>Файлы</h2>
+                            <p>Онлайн-хранилище</p>
+                        </div>
+                        <div class="profile-files__body">
+                            <div class="profile-files__body-not-file">
+                                <img src="../img/item/Cloud.PNG" alt="">
+                                <span>Файлы отсутствуют</span>
+                            </div>
+
+                            <ul class="profile-files__body-list" id="files">
+
+                            </ul>
+
+                            <div class="profile-files__body-creation-button" id="creation-button">
+                                <img id="creation-button-plus" src="../img/icon/add.svg" alt="File-add">
+                            </div>
+                            <div class="profile-files__creation-folder" id="creation-folder">
+                                <img src="../img/icon/folder.svg" alt="folder">
+                            </div>
+                            <div class="profile-files__creation-file" id="creation-file">
+                                <img src="../img/icon/document.svg" alt="">
+                                <input type="file" id="creation-file-input" style="display: none;" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <section class="profile-settings">
                 <div class="container">
                     <div class="profile-settings--inner">
@@ -41,7 +74,7 @@
             </section>
         </main>
 
-        <footer class="footer">
+        <!-- <footer class="footer">
             <div class="container">
                 <div class="footer--inner">
                     <div class="footer__top">
@@ -70,7 +103,13 @@
                     </div>
                 </div>
             </div>
-        </footer>
+        </footer> -->
+
+        <div class="modal-file-name" id="modal-file-name" style="display: none;">
+            <input type="text" placeholder="Название папки">
+            <button>Создать</button>
+            <img id="close-modal" src="../img/icon/close.svg" alt="close">
+        </div>
     </div>
 </body>
 <script src="../js/profile.js"></script>
