@@ -12,15 +12,16 @@ const userSchema = new mongoose.Schema({
         unique: true, 
         match: [/.+@.+\..+/, 'Введите корректный email'], 
     },
-        password: {
+    password: {
         type: String,
         required: [true, 'Пароль обязателен'], 
         minlength: [6, 'Пароль должен содержать минимум 6 символов'], 
     },
-        createdAt: {
+    createdAt: {
         type: Date,
         default: Date.now, 
     },
+    folderPath: { type: String }
 })
 
 const User = mongoose.model('User', userSchema);

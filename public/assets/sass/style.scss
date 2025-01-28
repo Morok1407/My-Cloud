@@ -972,7 +972,7 @@ $font-roboto: Roboto;
 .plus--active {
     transform: rotate(225deg);
 }
-.modal-file-name {
+.modal-folder-name {
     flex-direction: column;
     gap: 16px;
     position: fixed;
@@ -1016,7 +1016,7 @@ $font-roboto: Roboto;
         cursor: pointer;
     }
 }
-.modal-file-name--active {
+.modal-folder-name--active {
     opacity: 1;
 }
 .profile-files__body-list {

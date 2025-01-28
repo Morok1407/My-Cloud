@@ -935,7 +935,7 @@
   transform: rotate(225deg);
 }
 
-.modal-file-name {
+.modal-folder-name {
   flex-direction: column;
   gap: 16px;
   position: fixed;
@@ -949,7 +949,7 @@
   transition: all 0.3s;
   opacity: 0;
 }
-.modal-file-name input {
+.modal-folder-name input {
   color: rgb(173, 173, 173);
   font-family: Comfortaa;
   font-size: 16px;
@@ -959,7 +959,7 @@
   background: rgb(243, 243, 243);
   padding: 16px 28px;
 }
-.modal-file-name button {
+.modal-folder-name button {
   color: rgb(255, 255, 255);
   font-family: Comfortaa;
   font-size: 16px;
@@ -969,7 +969,7 @@
   padding: 16px 28px;
   background: linear-gradient(90deg, rgb(67, 161, 214), rgb(144, 126, 255) 100%);
 }
-.modal-file-name img {
+.modal-folder-name img {
   position: absolute;
   top: 0;
   right: 0;
@@ -977,7 +977,7 @@
   cursor: pointer;
 }
 
-.modal-file-name--active {
+.modal-folder-name--active {
   opacity: 1;
 }
 

@@ -5,16 +5,15 @@ import { configApp } from './config/appConfig.js'
 import { connectDB } from './config/mongoConfig.js'
 import 'dotenv/config';
 import apiRouter from './router/api.js'
-import authrouter from './router/auth.js'
+import authRouter from './router/auth.js'
 
 const app = express();
 const PORT = process.env.PORT;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 configApp(app)
 
 function loadHost() {
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = path.dirname(__filename);
-
   app.use(express.static(path.join(__dirname, "public")));
 
   app.get("/", (req, res) => {
@@ -30,4 +29,4 @@ loadHost();
 connectDB(process.env.MongoDB)
 
 app.use('/api', apiRouter)
-app.use('/auth', authrouter)
+app.use('/auth', authRouter)
