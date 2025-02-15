@@ -2,8 +2,8 @@ import User from '../models/user.js';
 import bcrypt from "bcrypt";
 import fs from 'fs'
 import path from 'path'
-import jwt from 'jsonwebtoken'
-import { __filename, __dirname, SECRET_KEY } from '../config/appConfig.js'
+import { creatToken } from '../middleware/creatToken.js'
+import { __filename, __dirname } from '../config/appConfig.js'
 
 export const register = async (req, res) => {
     const { name, email, password, rePassword, captchaResponse } = req.body;
@@ -25,16 +25,9 @@ export const register = async (req, res) => {
 
     const newUser = new User({ name, email, password: hashedPassword });
 
-    const token = jwt.sign({ id: newUser.id, username: newUser.name }, SECRET_KEY, {
-        expiresIn: '1h',
-    });
-
-    res.cookie('token', token, {
-        httpOnly: true,
-        secure: false, // true для HTTPS
-        sameSite: 'Strict',
-    });
     try {
+        creatToken(newUser, res)
+
         await newUser.save();
         
         const userId = newUser._id.toString();

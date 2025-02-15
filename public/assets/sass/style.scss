@@ -889,20 +889,41 @@ $font-roboto: Roboto;
     margin-bottom: 50px;
 }
 .profile-files__body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 800px;
+    min-height: 400px;
     position: relative;
 }
-.profile-files__body-not-file {
+.profile-files__body-list {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    row-gap: 24px;
+    place-items: center;
+}
+.profile-folder-item {
     display: flex;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+
+    img {
+        width: 160px;
+    }
+    span {
+        color: rgb(59, 63, 141);
+        font-family: Comfortaa;
+        font-size: 28px;
+        font-weight: 700;
+        line-height: 27px;
+    }
+}
+.profile-files__body-not-file {
+    display: none;
     flex-direction: column;
     align-items: center;
     gap: 30px;
     user-select: none;
     opacity: .5;
-    
+    padding: 50px 0;
+
     img {
         border-radius: 50%;
     }
@@ -914,10 +935,20 @@ $font-roboto: Roboto;
         line-height: 27px;
     }
 }
+.profile-files__body-not-file--active {
+    display: flex;
+}
+.profile-files__button--inner {
+    position: absolute;
+    bottom: 2%;
+    right: 2%;
+    width: 100px;
+    aspect-ratio: 1 / 1;
+}
 .profile-files__body-creation-button {
     position: absolute;
-    right: 0;
-    bottom: 20px;
+    right: 2%;
+    bottom: 2%;
     z-index: 100;
     width: 100px;
     aspect-ratio: 1 / 1;
@@ -933,8 +964,8 @@ $font-roboto: Roboto;
 }
 .profile-files__creation-folder {
     position: absolute;
-    bottom: 9%;
-    right: 4%;
+    bottom: 50%;
+    right: 52%;
     transform: translate(50%, 50%);
     border-radius: 100%;
     width: 75px;
@@ -948,12 +979,12 @@ $font-roboto: Roboto;
     transition: all .5s ease-in-out;
 }
 .creation-folder--active {
-    bottom: 24%;
+    bottom: 163%;
 } 
 .profile-files__creation-file {
     position: absolute;
-    bottom: 9%;
-    right: 4%;
+    bottom: 50%;
+    right: 52%;
     transform: translate(50%, 50%);
     border-radius: 100%;
     width: 50px;
@@ -967,7 +998,7 @@ $font-roboto: Roboto;
     transition: all .5s ease-in-out;
 }
 .creation-file--active {
-    bottom: 36%;
+    bottom: 250%;
 }
 .plus--active {
     transform: rotate(225deg);
@@ -1019,7 +1050,38 @@ $font-roboto: Roboto;
 .modal-folder-name--active {
     opacity: 1;
 }
-.profile-files__body-list {
+
+.modal-warn {
+    flex-direction: column;
+    gap: 16px;
+    position: fixed;
+    top: 32%;
+    right: 50%;
+    transform: translate(50%, 50%);
+    z-index: 1001;
+    background-color: #ffffff;
+    padding: 42px 48px;
+    border-radius: 24px;
+    transition: all .3s;
+    opacity: 0;
+
+    span {
+        color: rgb(228, 46, 46);
+        font-family: Comfortaa;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 27px;
+    }
+    img {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 50px;
+        cursor: pointer;
+    }
+}
+.modal-warn--active {
+    opacity: 1;
 }
 
 /* ============================== SETTINGS ============================== */

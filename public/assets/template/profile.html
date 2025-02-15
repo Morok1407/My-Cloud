@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../css/reset.css">
     <link rel="stylesheet" href="../css/fonts.css">
     <link rel="stylesheet" href="../css/style.css">
-    <title>Cloudis</title>
+    <title>Skybin</title>
 </head>
 <body>
     <div class="wrapper-rest">
@@ -19,7 +19,7 @@
                 <div class="header-inner">
                     <div class="header-top">
                         <div class="header_top-logo">
-                            <a href="../../index.html">Cloudis</a>
+                            <a href="../../index.html">Skybin</a>
                         </div>
                         <div class="header_top-profile">
                             <img src="../img/icon/person.svg" alt="percon">
@@ -38,25 +38,14 @@
                             <p>Онлайн-хранилище</p>
                         </div>
                         <div class="profile-files__body">
-                            <div class="profile-files__body-not-file">
+                            <div class="profile-files__body-not-file" id="not-files">
                                 <img src="../img/item/Cloud.PNG" alt="">
                                 <span>Файлы отсутствуют</span>
                             </div>
 
-                            <ul class="profile-files__body-list" id="files">
-
+                            <ul class="profile-files__body-list" id="files-list">
                             </ul>
 
-                            <div class="profile-files__body-creation-button" id="creation-button">
-                                <img id="creation-button-plus" src="../img/icon/add.svg" alt="File-add">
-                            </div>
-                            <div class="profile-files__creation-folder" id="creation-folder">
-                                <img src="../img/icon/folder.svg" alt="folder">
-                            </div>
-                            <div class="profile-files__creation-file" id="creation-file">
-                                <img src="../img/icon/document.svg" alt="">
-                                <input type="file" id="creation-file-input" style="display: none;" />
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -74,14 +63,27 @@
             </section>
         </main>
 
+        <div class="profile-files__button--inner">
+            <div class="profile-files__body-creation-button" id="creation-button">
+                <img id="creation-button-plus" src="../img/icon/add.svg" alt="File-add">
+            </div>
+            <div class="profile-files__creation-folder" id="creation-folder">
+                <img src="../img/icon/folder.svg" alt="folder">
+            </div>
+            <div class="profile-files__creation-file" id="creation-file">
+                <img src="../img/icon/document.svg" alt="">
+                <input type="file" id="creation-file-input" style="display: none;" />
+            </div>
+        </div>
+
         <!-- <footer class="footer">
             <div class="container">
                 <div class="footer--inner">
                     <div class="footer__top">
                         <div class="footer__top-about">
                             <h2>О нас</h2>
-                            <p>При использовании услуг Cloudis Вы можете передавать, хранить и/или делиться определенными данными, информацией, файлами и т. д. Во избежание сомнений, Вы сохраняете полное право собственности на Ваши данные, так же Я (Б. Даниил) не несу ответственности за Ваши данные. При использовании Cloudis Вы и любой другой пользователь соглашаетесь с тем что данный сайт является дипломной работой студента. Весь программный код и история разработки, а именно репозитории и коммиты Git доступны в открытом доступе на моем GitHub профиле.</p>
-                            <a href="#" id="footer-title">Cloudis</a>
+                            <p>При использовании услуг Skybin Вы можете передавать, хранить и/или делиться определенными данными, информацией, файлами и т. д. Во избежание сомнений, Вы сохраняете полное право собственности на Ваши данные, так же Я (Б. Даниил) не несу ответственности за Ваши данные. При использовании Skybin Вы и любой другой пользователь соглашаетесь с тем что данный сайт является дипломной работой студента. Весь программный код и история разработки, а именно репозитории и коммиты Git доступны в открытом доступе на моем GitHub профиле.</p>
+                            <a href="#" id="footer-title">Skybin</a>
                         </div>
                         <div class="footer__top-contact">
                             <h2>Мои контакты</h2>
@@ -105,10 +107,14 @@
             </div>
         </footer> -->
 
-        <div class="modal-folder-name" id="modal-folder-name" style="display: none;">
+        <form class="modal-folder-name" id="modal-folder-name" style="display: none;">
             <input type="name" placeholder="Название папки" id="folder-name">
-            <button id="send-folder-name">Создать</button>
-            <img id="close-modal" src="../img/icon/close.svg" alt="close">
+            <button type="submit" id="send-folder-name">Создать</button>
+            <img class="close-modal" id="close-modal" src="../img/icon/close.svg" alt="close">
+        </form>
+
+        <div class="modal-warn" id="modal-warn" style="display: none;">
+            <span class="modal-warn-text" id="modal-warn-text"></span>
         </div>
     </div>
 </body>
