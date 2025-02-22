@@ -7,7 +7,7 @@ export const creatToken = async (req, res) => {
     });
     
     res.cookie('token', token, {
-        httpOnly: true,
+        httpOnly: false,
         secure: false, // true для HTTPS
         sameSite: 'Strict',
     });
