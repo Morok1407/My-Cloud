@@ -858,12 +858,13 @@
 }
 
 .profile-folder-item {
+  position: relative;
   display: flex;
   align-items: center;
   flex-direction: column;
   cursor: pointer;
 }
-.profile-folder-item img {
+.profile-folder-item .folders {
   width: 160px;
 }
 .profile-folder-item span {
@@ -967,6 +968,32 @@
 
 .plus--active {
   transform: rotate(225deg);
+}
+
+.context-menu {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.context-menu-list li {
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.context-menu-item a {
+  color: rgb(59, 63, 141);
+  font-family: Comfortaa;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.context-menu-item:last-child a {
+  color: red;
 }
 
 .modal-folder-name {

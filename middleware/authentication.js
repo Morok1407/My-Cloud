@@ -1,19 +1,18 @@
 import jwt from 'jsonwebtoken';
 import { SECRET_KEY } from '../config/appConfig.js'
 
-export const authenticate = (req, ws) => {
-    const token = req.token;
+export const authenticate = (req, res, next) => {
+    const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
 
     if (!token) {
-        return 'Требуется аутентификация';
+        return res.status(401).json({ error: 'Требуется аутентификация' });
     }
 
     try {
         const decoded = jwt.verify(token, SECRET_KEY);
-        return decoded
+        req.user = decoded;
+        next();
     } catch (error) {
-        ws.on('error', error => {
-            ws.send(error)
-        })
+        res.status(403).json({ error: 'Недействительный или просроченный токен' });
     }
 };

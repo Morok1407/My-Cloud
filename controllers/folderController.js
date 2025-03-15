@@ -3,22 +3,18 @@ import path from 'path'
 import Folder from '../models/folder.js'
 import { __filename, __dirname} from '../config/appConfig.js'
 
-export const creatFolder = async (req, ws) => {
+export const creatFolder = async (req, res, next) => {
     const userId = req.user.id;
-    const folderName = req.body;
+    const { folderName } = req.body;
 
-    folderName.trim()
+    folderName.trim().toUpperCase()
 
     if (!folderName) {
-        ws.on('error', error => {
-            ws.send(`Файл не назван ${error}`)
-        })
+        return res.status(400).json({ success: false, error: 'Папка не названа' });
     }
 
     if(folderName.length >= 25) {
-        ws.on('error', error => {
-            ws.send(`Длинное называние ${error}`)
-        })
+        return res.status(400).json({ success: false, error: 'Черезмерно длинное название'})
     }
 
     try {
@@ -32,7 +28,7 @@ export const creatFolder = async (req, ws) => {
         if (!fs.existsSync(newFolderPath)) {
             fs.mkdirSync(newFolderPath); 
         } else {
-            return res.status(400).json({ error: 'Такая папка уже существует' });
+            return res.status(400).json({ success: false, error: 'Такая папка уже существует' });
         }
 
         const newFolder = new Folder({
@@ -43,23 +39,8 @@ export const creatFolder = async (req, ws) => {
         });
     
         await newFolder.save();
-        ws.send(showFolders(req, ws))
+        next()    
     } catch (error) {
-        ws.on('error', error => {
-            ws.send(error)
-        })
-    }
-}
-
-export const showFolders = async (req, ws) => {
-    const userId = req.user.id;
-
-    try {
-        const folders = await Folder.find({ userId });
-        ws.send(JSON.stringify(folders))
-    } catch (error) {
-        ws.on('error', error => {
-            ws.send(error)
-        })
+        res.status(500).json({ success: false, error: `Error: ${error}` });
     }
 }

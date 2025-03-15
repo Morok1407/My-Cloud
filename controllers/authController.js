@@ -59,6 +59,10 @@ export const login = async (req, res) => {
     }
 
     try {
+        if (!req.cookies || !req.cookies.token) {
+            creatToken(user, res);
+        }
+        
         res.json({ success: true, message: '/assets/template/profile.html'});
     } catch (err) {
         res.json({ success: false, message: 'Ошибка при входе: ' + err.message });
