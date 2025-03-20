@@ -116,7 +116,7 @@ registerSwitch();
 
 document.getElementById("change-captcha").addEventListener("click", () => {
   const captcha = document.getElementById("captcha");
-  captcha.src = `/api/captcha?${Date.now()}`;
+  captcha.src = `/auth/captcha?${Date.now()}`;
 });
 
 document.getElementById("register-form").addEventListener("submit", async (e) => {
@@ -148,7 +148,7 @@ document.getElementById("register-form").addEventListener("submit", async (e) =>
       } else {
         alert('Ошибка регистрации: ' + data.message);
         if (data.message === 'Неверный код с картинки') {
-          document.getElementById('captchaResponse').src = `/api/captcha?${new Date().getTime()}`;
+          document.getElementById('captchaResponse').src = `/auth/captcha?${new Date().getTime()}`;
         }
     }
 });

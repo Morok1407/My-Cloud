@@ -1,6 +1,8 @@
 ("use strict");
 
 document.addEventListener('DOMContentLoaded', async () => {
+    const username = window.location.pathname.substring(1);
+    console.log(username)
     try {
         const response = await fetch('/api/showDataSet', {
             method: "POST",
@@ -9,6 +11,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         })
         const data = await response.json()
+        // console.log(data)
+        window.history.pushState(null, '', `/${data.user.username}`); 
         loadFiles(data)
     } catch (error) {
         console.error(error);
@@ -18,15 +22,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function loadFiles(data) {
     const folderList = document.getElementById('files-list')
     const NotFiles = document.getElementById('not-files')
-
+    
     const { folders, files } = await data;
-
+    
     if(folders.length <= 0 && files.length <= 0) {
         NotFiles.classList.add('profile-files__body-not-file--active')
     } else {
         NotFiles.classList.remove('profile-files__body-not-file--active')
     }
-
+    
     folderList.innerHTML = '';
     
     folders.forEach(folder => {
@@ -34,11 +38,14 @@ async function loadFiles(data) {
         const img = document.createElement('img')
         const span = document.createElement('span')
 
-        li.classList.add('profile-folder-item')
-        img.classList.add('folders')
-        span.classList.add('profile-folder-span')
+        li.dataset.type = 'folder'
+        li.dataset.id = folder._id
 
-        img.src = '../img/icon/main-folder.svg'
+        li.classList.add('profile-dataSet-item')
+        img.classList.add('icon')
+        span.classList.add('profile-dataSet-name')
+
+        img.src = '/assets/img/profile icon/folder.svg'
         span.textContent = folder.name
 
         folderList.appendChild(li);
@@ -46,9 +53,43 @@ async function loadFiles(data) {
         li.appendChild(span)
     });
     files.forEach(file => {
-        console.log(file)
+        const li = document.createElement('li');
+        const img = document.createElement('img')
+        const span = document.createElement('span')
+
+        li.dataset.type = file.mimeType
+        li.dataset.id = file._id
+
+        li.classList.add('profile-dataSet-item')
+        img.classList.add('icon')
+        img.style.display = 'block'
+        span.classList.add('profile-dataSet-name')
+
+        img.src = `/assets/img/profile icon/${checkType(file.mimeType)}.png`;
+        span.textContent = file.filename
+
+        folderList.appendChild(li);
+        li.appendChild(img)
+        li.appendChild(span)
     })
     controllerFiles()
+}
+function checkType(type) {
+    const matches = type.match(/([\w-]+)(?=[.\/]|$)/g);
+    switch(matches[matches.length - 1]) {
+        case 'document':
+            return 'document';
+        case 'pdf':
+            return 'pdf';
+        case 'png':
+            return 'png';
+        case 'x-zip-compressed':
+            return 'zip'
+        case 'x-compressed':
+            return 'rar'
+        default: 
+            return 'default'
+    }
 }
 
 document.getElementById('send-folder-name').addEventListener('click', async (e) => {
@@ -110,14 +151,18 @@ document.getElementById('creation-file-input').addEventListener('input', async (
     }
 })
 
+async function openFolder() {
+    const nameSection = document.getElementById('section_name')
+
+
+}
+
 function controllerFiles() {
-    const items = document.querySelectorAll('.profile-folder-item')
-    const files = document.querySelectorAll('.folders')
-    const spans = document.querySelectorAll('.profile-folder-span')
+    const items = document.querySelectorAll('.profile-dataSet-item')
+    const files = document.querySelectorAll('.icon')
+    const names = document.querySelectorAll('.profile-dataSet-name')
     
     items.forEach((item, index) => {
-        const childrenNodes = item.childNodes
-        
         item.addEventListener('contextmenu', (e) => {
             e.preventDefault()
 
@@ -147,9 +192,9 @@ function controllerFiles() {
         })
     })
 
-    spans.forEach((e, i) => {
+    names.forEach((e, i) => {
         e.addEventListener('dblclick', () => {
-            console.log(spans[i].textContent)
+            console.log(names[i].textContent)
         })
     })
 }

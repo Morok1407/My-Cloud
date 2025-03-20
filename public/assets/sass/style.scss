@@ -895,26 +895,36 @@ $font-roboto: Roboto;
 .profile-files__body-list {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    row-gap: 24px;
-    place-items: center;
+    gap: 16px;
+    place-items: unset;
 }
-.profile-folder-item {
+.profile-dataSet-item {
     position: relative;
     display: flex;
     align-items: center;
     flex-direction: column;
     cursor: pointer;
 
-    .folders {
-        width: 160px;
+    .icon {
+        width: 140px;
+        margin: 16px 0;
     }
-    span {
-        color: rgb(59, 63, 141);
-        font-family: Comfortaa;
-        font-size: 28px;
-        font-weight: 700;
-        line-height: 27px;
-    }
+}
+.profile-dataSet-name {
+    display: flex;
+    text-align: center;
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
+    color: rgb(59, 63, 141);
+    font-family: Comfortaa;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 27px;
+    padding: 3px;
 }
 .profile-files__body-not-file {
     display: none;
@@ -1013,7 +1023,6 @@ $font-roboto: Roboto;
     border: 1px solid #ccc;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-
 }
 .context-menu-list {
     li {

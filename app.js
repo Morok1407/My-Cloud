@@ -7,6 +7,7 @@ import { connectDB } from './config/mongoConfig.js'
 import 'dotenv/config';
 import apiRouter from './router/api.js'
 import authRouter from './router/auth.js'
+import { openUserProfile } from "./controllers/authController.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -19,6 +20,9 @@ function loadHost() {
 
   app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "index.html"));
+  });
+  app.get("/:username", async (req, res) => {
+    openUserProfile(req, res)
   });
 
   server.listen(PORT, () => {

@@ -8,8 +8,9 @@ export const showDataSet = async (req, res) => {
     try {
         const folders = await Folder.find({ userId });
         const files = await File.find({ userId });
-        
-        res.status(200).json({ success: true, folders, files });
+        const user = req.user
+
+        res.status(200).json({ success: true, folders, files, user});
     } catch(error) {
         res.status(500).json({ success: false, error: `Error: ${error}` });
     }

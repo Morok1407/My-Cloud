@@ -63,8 +63,22 @@ export const login = async (req, res) => {
             creatToken(user, res);
         }
         
-        res.json({ success: true, message: '/assets/template/profile.html'});
+        res.json({ success: true, message: '/api/user'});
     } catch (err) {
         res.json({ success: false, message: 'Ошибка при входе: ' + err.message });
+    }
+}
+
+export const openUserProfile = async (req, res) => {
+    const name = req.params.username
+    try {
+        const user = await User.findOne({ name });
+
+        if (user) {
+            return res.sendFile(path.join(__dirname, "..", "public", "assets", "template", "Profile.html"));
+        }
+    } catch (error) {
+        console.error("Ошибка при проверке пользователя:", error);
+        res.status(500).send("Внутренняя ошибка сервера");
     }
 }

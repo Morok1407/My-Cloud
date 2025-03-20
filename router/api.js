@@ -1,5 +1,6 @@
 import express from 'express'
-import { getCaptcha } from '../controllers/captchaController.js'
+import path from 'path'
+import { __dirname } from '../config/appConfig.js';
 import { authenticate } from '../middleware/authentication.js'
 import { showDataSet } from '../controllers/showDataSet.js';
 import { creatFolder } from '../controllers/folderController.js';
@@ -9,7 +10,9 @@ import upload from '../config/multerConfig.js';
 
 const router = express.Router()
 
-router.get('/captcha', getCaptcha);
+router.get("/user", (req, res) => {
+    res.sendFile(path.join(__dirname, "..", "public", "assets", "template", "Profile.html"));
+});
 
 router.post('/showDataSet', authenticate, showDataSet)
 
