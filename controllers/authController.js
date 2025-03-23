@@ -39,7 +39,7 @@ export const register = async (req, res) => {
         
         newUser.folderPath = relativePath;
         await newUser.save();
-        res.json({ success: true, message: '/assets/template/profile.html'});
+        res.json({ success: true, message: `/${user.name}`});
     } catch (err) {
         res.json({ success: false, message: 'Ошибка при регистрации: ' + err.message });
     }
@@ -63,7 +63,7 @@ export const login = async (req, res) => {
             creatToken(user, res);
         }
         
-        res.json({ success: true, message: '/api/user'});
+        res.json({ success: true, message: `/${user.name}`});
     } catch (err) {
         res.json({ success: false, message: 'Ошибка при входе: ' + err.message });
     }
@@ -78,7 +78,25 @@ export const openUserProfile = async (req, res) => {
             return res.sendFile(path.join(__dirname, "..", "public", "assets", "template", "Profile.html"));
         }
     } catch (error) {
-        console.error("Ошибка при проверке пользователя:", error);
-        res.status(500).send("Внутренняя ошибка сервера");
+        res.status(500).send(`${error}`);
     }
 }
+
+export const openUserFolder = async (req, res) => {
+    const fullPath = req.params[0]; 
+    const folders = fullPath.split("/"); 
+    const username = req.params.username;
+    try {
+        const user = await User.findOne({ name: username });
+
+        if (user) {
+            return res.sendFile(
+                path.join(__dirname, "..", "public", "assets", "template", "Profile.html")
+            );
+        } else {
+            return res.status(404).send("Пользователь не найден");
+        }
+    } catch (error) {
+        res.status(500).send("Внутренняя ошибка сервера");
+    }
+};

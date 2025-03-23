@@ -33,7 +33,9 @@ export const creatFolder = async (req, res, next) => {
 
         const newFolder = new Folder({
             userId,
-            name: folderName,
+            folderName: folderName,
+            mimeType: 'Folder',
+            destination: userFolderPath,
             path: newFolderPath,
             createdAt: new Date(),
         });
@@ -41,6 +43,6 @@ export const creatFolder = async (req, res, next) => {
         await newFolder.save();
         next()    
     } catch (error) {
-        res.status(500).json({ success: false, error: `Error: ${error}` });
+        res.status(500).json({ success: false, error: error });
     }
 }

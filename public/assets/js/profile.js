@@ -1,28 +1,36 @@
 ("use strict");
 
+const pageNow = location.pathname
+
 document.addEventListener('DOMContentLoaded', async () => {
-    const username = window.location.pathname.substring(1);
-    console.log(username)
+    const nameSection = document.getElementById('section_name')
     try {
         const response = await fetch('/api/showDataSet', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-            }
+            },
+            body: JSON.stringify({
+                pageNow
+            }),
         })
         const data = await response.json()
-        // console.log(data)
-        window.history.pushState(null, '', `/${data.user.username}`); 
+        if(data.folderName) {
+            nameSection.textContent = data.folderName
+        }
         loadFiles(data)
+        if(!data.success) {
+            showWarn(data.error)
+        }
     } catch (error) {
-        console.error(error);
+        console.error(data.error);
     }
 })
 
 async function loadFiles(data) {
     const folderList = document.getElementById('files-list')
     const NotFiles = document.getElementById('not-files')
-    
+
     const { folders, files } = await data;
     
     if(folders.length <= 0 && files.length <= 0) {
@@ -38,7 +46,7 @@ async function loadFiles(data) {
         const img = document.createElement('img')
         const span = document.createElement('span')
 
-        li.dataset.type = 'folder'
+        li.dataset.type = folder.mimeType
         li.dataset.id = folder._id
 
         li.classList.add('profile-dataSet-item')
@@ -46,7 +54,7 @@ async function loadFiles(data) {
         span.classList.add('profile-dataSet-name')
 
         img.src = '/assets/img/profile icon/folder.svg'
-        span.textContent = folder.name
+        span.textContent = folder.folderName
 
         folderList.appendChild(li);
         li.appendChild(img)
@@ -89,6 +97,32 @@ function checkType(type) {
             return 'rar'
         default: 
             return 'default'
+    }
+}
+
+async function openFolder(folder) {
+    const folderId = folder.dataset.id;
+    const userPage = location.pathname;
+    const nameSection = document.getElementById('section_name')
+
+    try {
+        const response = await fetch('/api/openFolder', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                pageNow,
+                folderId
+            }),
+        })
+        const data = await response.json();
+        console.log(data)
+        window.history.pushState(null, '', `${userPage}/${data.folderName}`)
+        nameSection.textContent = data.folderName
+        loadFiles(data)
+    } catch(error) {
+        showWarn(error)
     }
 }
 
@@ -151,11 +185,6 @@ document.getElementById('creation-file-input').addEventListener('input', async (
     }
 })
 
-async function openFolder() {
-    const nameSection = document.getElementById('section_name')
-
-
-}
 
 function controllerFiles() {
     const items = document.querySelectorAll('.profile-dataSet-item')
@@ -188,7 +217,7 @@ function controllerFiles() {
 
     files.forEach(e => {
         e.addEventListener('dblclick', () => {
-            console.log('Открытие файла')
+            openFolder(e.parentElement)
         })
     })
 
@@ -201,8 +230,7 @@ function controllerFiles() {
 
 document.getElementById('openFile').addEventListener('click', (e) => {
     e.preventDefault()
-
-    console.log("Открыть файл")
+    openFolder()
 })
 document.getElementById('renameFile').addEventListener('click', (e) => {
     e.preventDefault()
@@ -213,6 +241,11 @@ document.getElementById('deleteFile').addEventListener('click', (e) => {
     e.preventDefault()
 
     console.log("Удалить файл")
+})
+document.getElementById('infoFile').addEventListener('click', (e) => {
+    e.preventDefault()
+
+    console.log("Информация о файле")
 })
 
 document.getElementById('creation-button').addEventListener('click', () => {
@@ -283,5 +316,5 @@ function showWarn(warn) {
         overlay.style.display = 'flex'
         modalwarn.style.display = 'flex'
     }, 100)
-    modalWarnText.textContent = `${warn}`
+    modalWarnText.textContent = warn
 }

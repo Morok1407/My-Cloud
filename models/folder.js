@@ -6,7 +6,12 @@ const FolderSchema = new mongoose.Schema({
         required: true,
         ref: 'User',
     },
-    name: {
+    folderName: {
+        type: String,
+        required: true,
+    },
+    mimeType: String,
+    destination: {
         type: String,
         required: true,
     },

@@ -8,7 +8,7 @@ export const getCaptcha = (req, res) => {
         color: true,
         background: '#ddd7d7' 
     })
-
+    console.log(req)
     req.session.captcha = captcha.text;
 
     res.type('svg')
