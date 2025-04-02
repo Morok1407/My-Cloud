@@ -1,8 +1,22 @@
 ("use strict");
 
-const pageNow = location.pathname
+window.addEventListener("popstate", async () => {
+    const pageNow = location.pathname
+    const nameSection = document.getElementById('section_name')
+    nameSection.textContent = 'Файлы'
+    const backButton = document.getElementById('backFolder')
+    if(counterPage() < 2) {
+        backButton.classList.remove('back__folder--active')
+    }
+    showDataSet(pageNow)
+});
 
 document.addEventListener('DOMContentLoaded', async () => {
+    const pageNow = location.pathname
+    showDataSet(pageNow)
+})
+
+async function showDataSet(pageNow) {
     const nameSection = document.getElementById('section_name')
     try {
         const response = await fetch('/api/showDataSet', {
@@ -18,14 +32,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         if(data.folderName) {
             nameSection.textContent = data.folderName
         }
+        if(!(history.state == pageNow) || history.state == null) {
+            window.history.pushState(`${pageNow}`, `${pageNow}`)
+        }
         loadFiles(data)
+        goToBack()
         if(!data.success) {
-            showWarn(data.error)
+            setTimeout(() => {
+                showWarn(data.error)
+            }, 100)
         }
     } catch (error) {
         console.error(data.error);
+        setTimeout(() => {
+            showWarn(data.error)
+        }, 100)
     }
-})
+}
 
 async function loadFiles(data) {
     const folderList = document.getElementById('files-list')
@@ -101,6 +124,7 @@ function checkType(type) {
 }
 
 async function openFolder(folder) {
+    const pageNow = location.pathname
     const folderId = folder.dataset.id;
     const userPage = location.pathname;
     const nameSection = document.getElementById('section_name')
@@ -117,9 +141,9 @@ async function openFolder(folder) {
             }),
         })
         const data = await response.json();
-        console.log(data)
-        window.history.pushState(null, '', `${userPage}/${data.folderName}`)
+        window.history.pushState(`${userPage}/${data.folder_Name}`, `${data.folder_Name}`, `${userPage}/${data.folder_Name}`)
         nameSection.textContent = data.folderName
+        goToBack()
         loadFiles(data)
     } catch(error) {
         showWarn(error)
@@ -129,6 +153,7 @@ async function openFolder(folder) {
 document.getElementById('send-folder-name').addEventListener('click', async (e) => {
     e.preventDefault()
 
+    const pageNow = location.pathname
     const overlay = document.getElementById('overlay')
     const modalFolderName = document.getElementById('modal-folder-name')
     const folderNameInput = document.getElementById('folder-name').value;
@@ -148,6 +173,7 @@ document.getElementById('send-folder-name').addEventListener('click', async (e) 
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
+            pageNow,
             folderName
         }),
     })
@@ -163,19 +189,20 @@ document.getElementById('send-folder-name').addEventListener('click', async (e) 
 })
 
 document.getElementById('creation-file-input').addEventListener('input', async () => {
+    const pageNow = location.pathname
     const file = document.getElementById('creation-file-input').files[0];
 
     const formData = new FormData()
-    formData.append('file', file)
+    formData.append("file", file);
+    formData.append("pageNow", JSON.stringify(pageNow));
 
     file.value = '';
 
-    const response = await fetch("/api/uploadFile", { 
+    const response = await fetch('/api/uploadFile', {
         method: "POST",
-        body: formData 
-    });
-
-    const data = await response.json();
+        body: formData
+    })
+    const data = await response.json()
     if(!data.success) {
         setTimeout(() => {
             showWarn(data.error)
@@ -185,21 +212,22 @@ document.getElementById('creation-file-input').addEventListener('input', async (
     }
 })
 
-
 function controllerFiles() {
     const items = document.querySelectorAll('.profile-dataSet-item')
     const files = document.querySelectorAll('.icon')
     const names = document.querySelectorAll('.profile-dataSet-name')
-    
-    items.forEach((item, index) => {
+    let clickItem;
+
+    items.forEach((item) => {
         item.addEventListener('contextmenu', (e) => {
             e.preventDefault()
-
+            
             const contextMenu = document.getElementById('context-menu')
             contextMenu.style.display = 'flex'
             
             contextMenu.style.left = `${e.pageX}px`;
             contextMenu.style.top = `${e.pageY}px`;
+            clickItem = item;
         })
     })    
     document.addEventListener('click', function(e) {
@@ -215,6 +243,27 @@ function controllerFiles() {
         }
     });
 
+    document.getElementById('openFile').addEventListener('click', (e) => {
+        e.preventDefault()
+        openFolder(clickItem)
+    })
+
+    document.getElementById('renameFile').addEventListener('click', (e) => {
+        e.preventDefault()
+    
+        console.log("Переименовать файл")
+    })
+    document.getElementById('deleteFile').addEventListener('click', (e) => {
+        e.preventDefault()
+    
+        console.log("Удалить файл")
+    })
+    document.getElementById('infoFile').addEventListener('click', (e) => {
+        e.preventDefault()
+    
+        console.log("Информация о файле")
+    })
+
     files.forEach(e => {
         e.addEventListener('dblclick', () => {
             openFolder(e.parentElement)
@@ -227,26 +276,6 @@ function controllerFiles() {
         })
     })
 }
-
-document.getElementById('openFile').addEventListener('click', (e) => {
-    e.preventDefault()
-    openFolder()
-})
-document.getElementById('renameFile').addEventListener('click', (e) => {
-    e.preventDefault()
-
-    console.log("Переименовать файл")
-})
-document.getElementById('deleteFile').addEventListener('click', (e) => {
-    e.preventDefault()
-
-    console.log("Удалить файл")
-})
-document.getElementById('infoFile').addEventListener('click', (e) => {
-    e.preventDefault()
-
-    console.log("Информация о файле")
-})
 
 document.getElementById('creation-button').addEventListener('click', () => {
     const button = document.getElementById('creation-button-plus')
@@ -305,6 +334,21 @@ document.getElementById('creation-file').addEventListener('click', () => {
     fileInput.click()
 })
 
+function goToBack() {
+    const backButton = document.getElementById('backFolder')
+    if(counterPage() >= 2) {
+        backButton.classList.add('back__folder--active')
+    }
+    backButton.addEventListener('click', () => {
+        window.history.back();
+        setTimeout(() => {
+            if(counterPage() <= 1) {
+                backButton.classList.remove('back__folder--active')
+            }
+        }, 100)
+    })
+}
+
 function showWarn(warn) {
     const overlay = document.getElementById('overlay')
     const modalwarn = document.getElementById('modal-warn')
@@ -317,4 +361,11 @@ function showWarn(warn) {
         modalwarn.style.display = 'flex'
     }, 100)
     modalWarnText.textContent = warn
+}
+
+function counterPage() {
+    const pageNow = location.pathname
+    const arrPage = pageNow.split("/");
+    const removePage = arrPage.shift()
+    return arrPage.length
 }

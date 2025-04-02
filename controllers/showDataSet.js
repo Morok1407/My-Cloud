@@ -36,7 +36,10 @@ export const showDataSetToFolder = async (req, res) => {
     const folderId = req.body.folderId
     const arrPage = req.arrPage;
     if(arrPage.length >= 2) {
-        const folderName = arrPage[arrPage.length - 1];
+        const folder_NameBefore = arrPage[arrPage.length - 1];
+        const folder_Name = decodeURIComponent(folder_NameBefore)
+        const folderNameBefore = folder_Name.replace(/_/g, " ")
+        const folderName = decodeURIComponent(folderNameBefore)
         const folder = await Folder.find({ userId, folderName });
         const { path } = folder
         if(folder.length >= 1) {
@@ -44,7 +47,7 @@ export const showDataSetToFolder = async (req, res) => {
                 const folders = await Folder.find({ userId, destination: path });
                 const files = await File.find({ userId, destination: path });
                 
-                res.status(200).json({ success: true, folders, files, folderName});
+                res.status(200).json({ success: true, folders, files, folderName, folder_Name });
             } catch(error) {
                 res.status(500).json({ success: false, error: `Error: ${error}` });
             }
@@ -55,10 +58,11 @@ export const showDataSetToFolder = async (req, res) => {
         try {
             const folder = await Folder.find({ _id: folderId });
             const { folderName, path } = folder[0]
+            const folder_Name = folderName.replace(/\s/g, '_')
             const folders = await Folder.find({ userId, destination: path });
             const files = await File.find({ userId, destination: path });
             
-            res.status(200).json({ success: true, folders, files, folderName});
+            res.status(200).json({ success: true, folders, files, folderName, folder_Name });
         } catch(error) {
             res.status(500).json({ success: false, error: `Error: ${error}` });
         }

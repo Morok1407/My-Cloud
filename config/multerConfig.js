@@ -4,6 +4,7 @@ import fs from 'fs';
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
+        const pageNow = req.body.data
         const userId = req.user.id;
         const uploadPath = `uploads\\${userId}`;
 

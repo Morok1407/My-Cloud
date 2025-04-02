@@ -1,5 +1,4 @@
 import File from '../models/file.js'
-import { __filename, __dirname} from '../config/appConfig.js'
 
 export const uploadFile = async (req, res, next) => {
     const userId = req.user.id;

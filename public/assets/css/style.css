@@ -981,6 +981,30 @@
   transform: rotate(225deg);
 }
 
+.back__folder {
+  position: absolute;
+  display: none;
+  left: 2%;
+  bottom: 2%;
+  z-index: 100;
+  width: 100px;
+  aspect-ratio: 1/1;
+  border-radius: 100%;
+  user-select: none;
+  background: linear-gradient(90deg, rgb(67, 161, 214), rgb(144, 126, 255) 100%);
+  cursor: pointer;
+  box-shadow: -4px 6px 6px 7px rgba(67, 161, 214, 0.2);
+  transform: translateX(-200px);
+}
+.back__folder img {
+  padding: 15px;
+}
+
+.back__folder--active {
+  display: flex;
+  transform: translateX(0px);
+}
+
 .context-menu {
   display: none;
   flex-direction: column;
