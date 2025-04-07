@@ -1039,7 +1039,16 @@ $font-roboto: Roboto;
     transform: translateX(0px);
 }
 
-.context-menu {
+.context-menu-folder {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+.context-menu-file {
     display: none;
     flex-direction: column;
     position: absolute;

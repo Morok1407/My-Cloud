@@ -1,40 +1,53 @@
 ("use strict");
 
-window.addEventListener("popstate", async () => {
-    const pageNow = location.pathname
-    const nameSection = document.getElementById('section_name')
-    nameSection.textContent = 'Файлы'
-    const backButton = document.getElementById('backFolder')
-    if(counterPage() < 2) {
-        backButton.classList.remove('back__folder--active')
-    }
-    showDataSet(pageNow)
-});
-
 document.addEventListener('DOMContentLoaded', async () => {
-    const pageNow = location.pathname
-    showDataSet(pageNow)
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams_F = urlParams.get('f')
+    if(urlParams_F){
+        showDataSetToFolder(urlParams_F)
+    } else {
+        showDataSet()
+    }
 })
 
-async function showDataSet(pageNow) {
-    const nameSection = document.getElementById('section_name')
+async function showDataSet() {
     try {
         const response = await fetch('/api/showDataSet', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-                pageNow
-            }),
         })
         const data = await response.json()
-        if(data.folderName) {
-            nameSection.textContent = data.folderName
+        loadFiles(data)
+        if(!data.success) {
+            setTimeout(() => {
+                showWarn(data.error)
+            }, 100)
         }
-        if(!(history.state == pageNow) || history.state == null) {
-            window.history.pushState(`${pageNow}`, `${pageNow}`)
-        }
+    } catch (error) {
+        console.error(data.error);
+        setTimeout(() => {
+            showWarn(data.error)
+        }, 100)
+    }
+}
+
+async function showDataSetToFolder(urlParams_F) {
+    const nameSection = document.getElementById('section_name')
+    
+    try {
+        const response = await fetch('/api/showDataSetToFolder', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                urlParams_F
+            })
+        })
+        const data = await response.json()
+        nameSection.textContent = data.folderName
         loadFiles(data)
         goToBack()
         if(!data.success) {
@@ -53,7 +66,7 @@ async function showDataSet(pageNow) {
 async function loadFiles(data) {
     const folderList = document.getElementById('files-list')
     const NotFiles = document.getElementById('not-files')
-
+    
     const { folders, files } = await data;
     
     if(folders.length <= 0 && files.length <= 0) {
@@ -125,39 +138,21 @@ function checkType(type) {
 
 async function openFolder(folder) {
     const pageNow = location.pathname
+    const arrPage = pageNow.split("/");
+    const removePage = arrPage.shift()
     const folderId = folder.dataset.id;
-    const userPage = location.pathname;
-    const nameSection = document.getElementById('section_name')
-
-    try {
-        const response = await fetch('/api/openFolder', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                pageNow,
-                folderId
-            }),
-        })
-        const data = await response.json();
-        window.history.pushState(`${userPage}/${data.folder_Name}`, `${data.folder_Name}`, `${userPage}/${data.folder_Name}`)
-        nameSection.textContent = data.folderName
-        goToBack()
-        loadFiles(data)
-    } catch(error) {
-        showWarn(error)
-    }
+    window.location.href = `/${arrPage[0]}?f=${folderId}`;
 }
 
 document.getElementById('send-folder-name').addEventListener('click', async (e) => {
     e.preventDefault()
 
-    const pageNow = location.pathname
     const overlay = document.getElementById('overlay')
     const modalFolderName = document.getElementById('modal-folder-name')
     const folderNameInput = document.getElementById('folder-name').value;
     const folderName = folderNameInput.trim()
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams_F = urlParams.get('f')
 
     overlay.classList.remove('overlay--active')
     modalFolderName.classList.remove('modal-folder-name--active')
@@ -173,8 +168,8 @@ document.getElementById('send-folder-name').addEventListener('click', async (e) 
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            pageNow,
-            folderName
+            folderName,
+            urlParams_F
         }),
     })
 
@@ -189,17 +184,21 @@ document.getElementById('send-folder-name').addEventListener('click', async (e) 
 })
 
 document.getElementById('creation-file-input').addEventListener('input', async () => {
-    const pageNow = location.pathname
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams_F = urlParams.get('f')
     const file = document.getElementById('creation-file-input').files[0];
 
     const formData = new FormData()
+    formData.append("urlParams_F", JSON.stringify(urlParams_F));
     formData.append("file", file);
-    formData.append("pageNow", JSON.stringify(pageNow));
 
     file.value = '';
 
     const response = await fetch('/api/uploadFile', {
         method: "POST",
+        headers: {
+            'x-urlParams_F': 'urlParams_F'
+        },
         body: formData
     })
     const data = await response.json()
@@ -214,40 +213,54 @@ document.getElementById('creation-file-input').addEventListener('input', async (
 
 function controllerFiles() {
     const items = document.querySelectorAll('.profile-dataSet-item')
-    const files = document.querySelectorAll('.icon')
+    const iconItems = document.querySelectorAll('.icon')
     const names = document.querySelectorAll('.profile-dataSet-name')
-    let clickItem;
+    const contextMenuFolder = document.getElementById('context-menu-folder');
+    const contextMenuFile = document.getElementById('context-menu-file');
+    const menuOpenFolder = document.getElementById('openFolder');
+    let currentItem = null;
 
     items.forEach((item) => {
         item.addEventListener('contextmenu', (e) => {
-            e.preventDefault()
+            e.preventDefault();
             
-            const contextMenu = document.getElementById('context-menu')
-            contextMenu.style.display = 'flex'
-            
-            contextMenu.style.left = `${e.pageX}px`;
-            contextMenu.style.top = `${e.pageY}px`;
-            clickItem = item;
-        })
-    })    
+            if(item.dataset.type === 'Folder'){
+                contextMenuFolder.style.display = 'flex';
+                contextMenuFile.style.display = 'none';
+                contextMenuFolder.style.left = `${e.pageX}px`;
+                contextMenuFolder.style.top = `${e.pageY}px`;
+                currentItem = item;
+            } else {
+                contextMenuFile.style.display = 'flex';
+                contextMenuFolder.style.display = 'none';
+                contextMenuFile.style.left = `${e.pageX}px`;
+                contextMenuFile.style.top = `${e.pageY}px`;
+            }
+        });
+    });
     document.addEventListener('click', function(e) {
-        const contextMenu = document.getElementById('context-menu')
-        if (contextMenu.style.display === 'flex') {
-            contextMenu.style.display = 'none';
+        if (contextMenuFolder.style.display === 'flex') {
+            contextMenuFolder.style.display = 'none';
+        }
+        if (contextMenuFile.style.display === 'flex') {
+            contextMenuFile.style.display = 'none';
         }
     });
     document.addEventListener('keydown', function(e) {
-        const contextMenu = document.getElementById('context-menu');
-        if (e.key === 'Escape' && contextMenu.style.display === 'flex') {
-            contextMenu.style.display = 'none';
+        if (e.key === 'Escape' && contextMenuFolder.style.display === 'flex') {
+            contextMenuFolder.style.display = 'none';
+        }
+        if (e.key === 'Escape' && contextMenuFile.style.display === 'flex') {
+            contextMenuFile.style.display = 'none';
         }
     });
 
-    document.getElementById('openFile').addEventListener('click', (e) => {
+    // Controller File
+    document.getElementById('downloadFile').addEventListener('click', (e) => {
         e.preventDefault()
-        openFolder(clickItem)
+        
+        console.log("Скачать файл")
     })
-
     document.getElementById('renameFile').addEventListener('click', (e) => {
         e.preventDefault()
     
@@ -264,9 +277,38 @@ function controllerFiles() {
         console.log("Информация о файле")
     })
 
-    files.forEach(e => {
+    // Controller Folder
+    menuOpenFolder.replaceWith(menuOpenFolder.cloneNode(true));
+    const newOpenFolder = document.getElementById('openFolder');
+    newOpenFolder.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (currentItem) {
+            openFolder(currentItem);
+        }
+    });
+    document.getElementById('renameFolder').addEventListener('click', (e) => {
+        e.preventDefault()
+    
+        console.log("Переименовать папку")
+    })
+    document.getElementById('deleteFolder').addEventListener('click', (e) => {
+        e.preventDefault()
+    
+        console.log("Удалить папку")
+    })
+    document.getElementById('infoFolder').addEventListener('click', (e) => {
+        e.preventDefault()
+    
+        console.log("Информация о папке")
+    })
+
+    iconItems.forEach(e => {
         e.addEventListener('dblclick', () => {
-            openFolder(e.parentElement)
+            if(e.parentElement.dataset.type === 'Folder'){
+                openFolder(e.parentElement)
+            } else {
+                console.log('Скачать файл')
+            }
         })
     })
 
@@ -336,16 +378,14 @@ document.getElementById('creation-file').addEventListener('click', () => {
 
 function goToBack() {
     const backButton = document.getElementById('backFolder')
-    if(counterPage() >= 2) {
+    if(checkingPage()) {
         backButton.classList.add('back__folder--active')
     }
     backButton.addEventListener('click', () => {
         window.history.back();
-        setTimeout(() => {
-            if(counterPage() <= 1) {
-                backButton.classList.remove('back__folder--active')
-            }
-        }, 100)
+        if(!checkingPage()) {
+            backButton.classList.remove('back__folder--active')
+        }
     })
 }
 
@@ -363,9 +403,11 @@ function showWarn(warn) {
     modalWarnText.textContent = warn
 }
 
-function counterPage() {
-    const pageNow = location.pathname
-    const arrPage = pageNow.split("/");
-    const removePage = arrPage.shift()
-    return arrPage.length
+function checkingPage() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if(urlParams.get('f')) {
+        return true
+    } else {
+        return false
+    }
 }

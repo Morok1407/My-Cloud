@@ -81,22 +81,3 @@ export const openUserProfile = async (req, res) => {
         res.status(500).send(`${error}`);
     }
 }
-
-export const openUserFolder = async (req, res) => {
-    const fullPath = req.params[0]; 
-    const folders = fullPath.split("/"); 
-    const username = req.params.username;
-    try {
-        const user = await User.findOne({ name: username });
-
-        if (user) {
-            return res.sendFile(
-                path.join(__dirname, "..", "public", "assets", "template", "Profile.html")
-            );
-        } else {
-            return res.status(404).send("Пользователь не найден");
-        }
-    } catch (error) {
-        res.status(500).send("Внутренняя ошибка сервера");
-    }
-};
