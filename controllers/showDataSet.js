@@ -36,7 +36,7 @@ export const showDataSetToFolder = async (req, res) => {
         const folders = await Folder.find({ userId, destination: path });
         const files = await File.find({ userId, destination: path });
 
-        res.status(200).json({ success: true, folders, files, folderName });
+        res.status(200).json({ success: true, folders, files, folderName, path });
     } catch (error) {
         res.status(500).json({ success: false, error: `Error: ${error}` });
     }

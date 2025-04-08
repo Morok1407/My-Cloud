@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 })
 
 async function showDataSet() {
+    const sectionName = document.getElementById('section_name')
     try {
         const response = await fetch('/api/showDataSet', {
             method: "POST",
@@ -19,6 +20,7 @@ async function showDataSet() {
             },
         })
         const data = await response.json()
+        sectionName.textContent = data.name
         loadFiles(data)
         if(!data.success) {
             setTimeout(() => {
@@ -35,6 +37,11 @@ async function showDataSet() {
 
 async function showDataSetToFolder(urlParams_F) {
     const nameSection = document.getElementById('section_name')
+    const directoryMap = document.getElementById('directoryMap')
+    const directoryMapSpan = document.getElementById('directoryMapSpan')
+    const pageNow = location.pathname
+    const arrPage = pageNow.split("/");
+    arrPage.shift()
     
     try {
         const response = await fetch('/api/showDataSetToFolder', {
@@ -48,6 +55,14 @@ async function showDataSetToFolder(urlParams_F) {
         })
         const data = await response.json()
         nameSection.textContent = data.folderName
+        const arrPath = data.path.split("\\")
+        arrPath.shift(), arrPath.shift()
+        if(checkingPage()) {
+            directoryMap.style.display = 'flex'
+            directoryMapSpan.textContent = `${arrPage[0]}:\\${arrPath.join('\\')}`
+        } else {
+            directoryMap.style.display = 'none'
+        }
         loadFiles(data)
         goToBack()
         if(!data.success) {
@@ -211,14 +226,74 @@ document.getElementById('creation-file-input').addEventListener('input', async (
     }
 })
 
+async function deleteFile(file) {
+    const fileId = file.dataset.id
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams_F = urlParams.get('f')
+    try {
+        const response = await fetch('/api/deleteFile', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                fileId,
+                urlParams_F
+            })
+        })
+        const data = await response.json()
+        loadFiles(data)
+        if(!data.success) {
+            setTimeout(() => {
+                showWarn(data.error)
+            }, 100)
+        }
+    } catch (error) {
+        console.error(data.error);
+        setTimeout(() => {
+            showWarn(data.error)
+        }, 100)
+    }
+}
+
+async function deleteFolder(folder) {
+    const folderId = folder.dataset.id
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams_F = urlParams.get('f')
+    try {
+        const response = await fetch('/api/deleteFolder', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                folderId,
+                urlParams_F
+            })
+        })
+        const data = await response.json()
+        loadFiles(data)
+        if(!data.success) {
+            setTimeout(() => {
+                showWarn(data.error)
+            }, 100)
+        }
+    } catch (error) {
+        console.error(data.error);
+        setTimeout(() => {
+            showWarn(data.error)
+        }, 100)
+    }
+}
+
 function controllerFiles() {
     const items = document.querySelectorAll('.profile-dataSet-item')
     const iconItems = document.querySelectorAll('.icon')
     const names = document.querySelectorAll('.profile-dataSet-name')
     const contextMenuFolder = document.getElementById('context-menu-folder');
     const contextMenuFile = document.getElementById('context-menu-file');
-    const menuOpenFolder = document.getElementById('openFolder');
-    let currentItem = null;
+    let currentItemFolder = null;
+    let currentItemFile = null;
 
     items.forEach((item) => {
         item.addEventListener('contextmenu', (e) => {
@@ -229,12 +304,13 @@ function controllerFiles() {
                 contextMenuFile.style.display = 'none';
                 contextMenuFolder.style.left = `${e.pageX}px`;
                 contextMenuFolder.style.top = `${e.pageY}px`;
-                currentItem = item;
+                currentItemFolder = item;
             } else {
                 contextMenuFile.style.display = 'flex';
                 contextMenuFolder.style.display = 'none';
                 contextMenuFile.style.left = `${e.pageX}px`;
                 contextMenuFile.style.top = `${e.pageY}px`;
+                currentItemFile = item;
             }
         });
     });
@@ -268,8 +344,8 @@ function controllerFiles() {
     })
     document.getElementById('deleteFile').addEventListener('click', (e) => {
         e.preventDefault()
-    
-        console.log("Удалить файл")
+
+        deleteFile(currentItemFile)
     })
     document.getElementById('infoFile').addEventListener('click', (e) => {
         e.preventDefault()
@@ -278,13 +354,10 @@ function controllerFiles() {
     })
 
     // Controller Folder
-    menuOpenFolder.replaceWith(menuOpenFolder.cloneNode(true));
-    const newOpenFolder = document.getElementById('openFolder');
-    newOpenFolder.addEventListener('click', (e) => {
+    document.getElementById('openFolder').addEventListener('click', (e) => {
         e.preventDefault();
-        if (currentItem) {
-            openFolder(currentItem);
-        }
+
+        openFolder(currentItemFolder)
     });
     document.getElementById('renameFolder').addEventListener('click', (e) => {
         e.preventDefault()
@@ -294,7 +367,7 @@ function controllerFiles() {
     document.getElementById('deleteFolder').addEventListener('click', (e) => {
         e.preventDefault()
     
-        console.log("Удалить папку")
+        deleteFolder(currentItemFolder)
     })
     document.getElementById('infoFolder').addEventListener('click', (e) => {
         e.preventDefault()
@@ -377,15 +450,24 @@ document.getElementById('creation-file').addEventListener('click', () => {
 })
 
 function goToBack() {
+    const goToBackButtons = document.getElementById('goBackButtons')
     const backButton = document.getElementById('backFolder')
+    const backToHome = document.getElementById('backToHome')
     if(checkingPage()) {
-        backButton.classList.add('back__folder--active')
+        goToBackButtons.classList.add('profile-goback-button--active')
     }
     backButton.addEventListener('click', () => {
         window.history.back();
         if(!checkingPage()) {
-            backButton.classList.remove('back__folder--active')
+            goToBackButtons.classList.remove('profile-goback-button--active')
         }
+    })
+    backToHome.addEventListener('click', () => {
+        const pageNow = location.pathname
+        const arrPage = pageNow.split("/");
+        const removePage = arrPage.shift()
+        goToBackButtons.classList.remove('profile-goback-button--active')
+        window.location.href = `/${arrPage[0]}`;
     })
 }
 

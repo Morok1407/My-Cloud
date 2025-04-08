@@ -892,6 +892,17 @@ $font-roboto: Roboto;
     min-height: 400px;
     position: relative;
 }
+.directory_map {
+    display: none;
+    margin-bottom: 24px;
+    span {
+        color: rgb(59, 63, 141);
+        font-family: Comfortaa;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 27px;
+    }
+}
 .profile-files__body-list {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
@@ -1015,9 +1026,39 @@ $font-roboto: Roboto;
     transform: rotate(225deg);
 }
 
+.profile-goback-button {
+    display: none;
+    position: absolute;
+    bottom: 2%;
+    left: 2%;
+    width: 100px;
+    aspect-ratio: 1 / 1;
+}
+.profile-goback-button--active {
+    display: flex;
+}
+.back__to__home{
+    position: absolute;
+    display: flex;
+    bottom: 163%;
+    right: 48%;
+    transform: translate(50%, 50%);
+    z-index: 100;
+    width: 75px;
+    aspect-ratio: 1 / 1;
+    border-radius: 100%;
+    user-select: none;
+    background: linear-gradient(90.00deg, rgb(67, 161, 214),rgb(144, 126, 255) 100%);
+    cursor: pointer;
+    box-shadow: -4px 6px 6px 7px rgba(67, 161, 214, 0.2);
+    
+    img {
+        padding: 15px;
+    }
+}
 .back__folder {
     position: absolute;
-    display: none;
+    display: flex;
     left: 2%;
     bottom: 2%;
     z-index: 100;
@@ -1028,15 +1069,10 @@ $font-roboto: Roboto;
     background: linear-gradient(90.00deg, rgb(67, 161, 214),rgb(144, 126, 255) 100%);
     cursor: pointer;
     box-shadow: -4px 6px 6px 7px rgba(67, 161, 214, 0.2);
-    transform: translateX(-200px);
     
     img {
         padding: 15px;
     }
-}
-.back__folder--active {
-    display: flex;
-    transform: translateX(0px);
 }
 
 .context-menu-folder {
