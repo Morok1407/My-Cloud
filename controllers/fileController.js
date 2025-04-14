@@ -6,7 +6,7 @@ export const uploadFile = async (req, res, next) => {
     try {
         const fileData = new File({
             userId,
-            filename: req.file.filename,
+            fileName: req.file.filename,
             encoding: req.file.encoding,
             mimeType: req.file.mimetype,
             destination: req.file.destination,

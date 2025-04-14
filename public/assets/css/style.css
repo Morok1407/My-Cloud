@@ -876,6 +876,15 @@
   flex-direction: column;
   cursor: pointer;
 }
+.profile-dataSet-item a {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.profile-dataSet-item a .icon {
+  width: 140px;
+  margin: 16px 0;
+}
 .profile-dataSet-item .icon {
   width: 140px;
   margin: 16px 0;
@@ -1156,6 +1165,79 @@
 }
 
 .modal-warn--active {
+  opacity: 1;
+}
+
+.modal-alert {
+  flex-direction: column;
+  gap: 16px;
+  position: fixed;
+  top: 90px;
+  right: 50%;
+  transform: translate(50%, 50%);
+  z-index: 1001;
+  background-color: #ffffff;
+  padding: 42px 48px;
+  border-radius: 24px;
+  transition: all 0.3s;
+  opacity: 0;
+  border: 3px solid rgb(59, 63, 141);
+}
+.modal-alert span {
+  color: rgb(59, 63, 141);
+  font-family: Comfortaa;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 27px;
+  text-align: center;
+}
+.modal-alert img {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50px;
+  cursor: pointer;
+}
+
+.modal-alert-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.modal-alert-list li {
+  color: rgb(57, 60, 109);
+  font-family: Comfortaa;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24px;
+}
+.modal-alert-list li span {
+  color: rgb(21, 30, 202);
+  font-family: Comfortaa;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.modal-alert-buttons {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  gap: 52px;
+  margin-top: 16px;
+}
+.modal-alert-buttons button {
+  padding: 12px 24px;
+  color: rgb(255, 255, 255);
+  background: linear-gradient(90deg, rgb(67, 161, 214), rgb(144, 126, 255) 100%);
+  font-family: Comfortaa;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 27px;
+  border-radius: 24px;
+}
+
+.modal-alert--active {
   opacity: 1;
 }
 

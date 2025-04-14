@@ -41,3 +41,42 @@ export const showDataSetToFolder = async (req, res) => {
         res.status(500).json({ success: false, error: `Error: ${error}` });
     }
 }
+
+export const showDataInfoFile = async (req, res) => {
+    const userId = req.user.id
+    const fileId = req.body.itemId
+    
+    try {
+        const file = await File.find({ userId, _id: fileId })
+        const user = await User.find({ _id: userId })
+        
+        res.status(200).json({ success: true, file, user });
+    } catch (error) {
+        res.status(500).json({ success: false, error: `Error: ${error}` });
+    }
+}
+
+export const showDataInfoFolder = async (req, res) => {
+    const userId = req.user.id
+    const folderId = req.body.itemId
+    
+    try {
+        const folder = await Folder.find({ userId, _id: folderId })
+        const user = await User.find({ _id: userId })
+        const { path: folderPath } = folder[0]
+        const folders = await Folder.find({ userId, path: { $regex: `^${folderPath.replace(/\\/g, '\\\\')}`} })
+        const files = await File.find({ userId, path: { $regex: `^${folderPath.replace(/\\/g, '\\\\')}`} })
+        const itemLength = {
+            foldersLength: folders.length,
+            filesLength: files.length
+        }
+        let sumSizeFiles = 0;
+        files.forEach(file => {
+            sumSizeFiles += file.size
+        });
+        
+        res.status(200).json({ success: true, folder, user, itemLength, sumSizeFiles });
+    } catch (error) {
+        res.status(500).json({ success: false, error: `Error: ${error}` });
+    }
+}

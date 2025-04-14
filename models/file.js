@@ -6,7 +6,7 @@ const FileShema = new mongoose.Schema({
         required: true,
         ref: 'User',
     },
-    filename: {
+    fileName: {
         type: String,
         required: true,
     },

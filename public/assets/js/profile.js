@@ -113,6 +113,7 @@ async function loadFiles(data) {
     });
     files.forEach(file => {
         const li = document.createElement('li');
+        const a = document.createElement('a')
         const img = document.createElement('img')
         const span = document.createElement('span')
 
@@ -123,13 +124,23 @@ async function loadFiles(data) {
         img.classList.add('icon')
         img.style.display = 'block'
         span.classList.add('profile-dataSet-name')
-
+        a.classList.add('profile-dataSet-link')
+        a.href = `/api/downloadFile/${file._id}`
         img.src = `/assets/img/profile icon/${checkType(file.mimeType)}.png`;
-        span.textContent = file.filename
+        span.textContent = file.fileName
+
+        a.addEventListener('click', (e) => {
+            e.preventDefault();
+        });
+        
+        a.addEventListener('dblclick', () => {
+            window.location.href = a.href;
+        });
 
         folderList.appendChild(li);
-        li.appendChild(img)
-        li.appendChild(span)
+        li.appendChild(a)
+        a.appendChild(img)
+        a.appendChild(span)
     })
     controllerFiles()
 }
@@ -157,6 +168,121 @@ async function openFolder(folder) {
     const removePage = arrPage.shift()
     const folderId = folder.dataset.id;
     window.location.href = `/${arrPage[0]}?f=${folderId}`;
+}
+
+async function infoItem(item) {
+    const itemType = item.dataset.type
+    const itemId = item.dataset.id
+
+    if(itemType === 'Folder') {
+        try {
+            const response = await fetch('/api/infoFolder', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    itemId
+                })
+            })
+            const data = await response.json()
+            showAlert(`Информация о папке: "${data.folder[0].folderName}"`, 'List-folder', data)
+            if(!data.success) {
+                setTimeout(() => {
+                    showWarn(data.error)
+                }, 100)
+            }
+        } catch (error) {
+            console.error(data.error);
+            setTimeout(() => {
+                showWarn(data.error)
+            }, 100)
+        }
+    } else {
+        try {
+            const response = await fetch('/api/infoFile', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    itemId
+                })
+            })
+            const data = await response.json()
+            showAlert(`Информация о файле: "${data.file[0].fileName}"`, 'List-file', data)
+            if(!data.success) {
+                setTimeout(() => {
+                    showWarn(data.error)
+                }, 100)
+            }
+        } catch (error) {
+            console.error(data.error);
+            setTimeout(() => {
+                showWarn(data.error)
+            }, 100)
+        }
+    }
+}
+
+async function deleteFile(file) {
+    const fileId = file.dataset.id
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams_F = urlParams.get('f')
+    try {
+        const response = await fetch('/api/deleteFile', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                fileId,
+                urlParams_F
+            })
+        })
+        const data = await response.json()
+        loadFiles(data)
+        if(!data.success) {
+            setTimeout(() => {
+                showWarn(data.error)
+            }, 100)
+        }
+    } catch (error) {
+        console.error(data.error);
+        setTimeout(() => {
+            showWarn(data.error)
+        }, 100)
+    }
+}
+
+async function deleteFolder(folder) {
+    const folderId = folder.dataset.id
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams_F = urlParams.get('f')
+    try {
+        const response = await fetch('/api/deleteFolder', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                folderId,
+                urlParams_F
+            })
+        })
+        const data = await response.json()
+        loadFiles(data)
+        if(!data.success) {
+            setTimeout(() => {
+                showWarn(data.error)
+            }, 100)
+        }
+    } catch (error) {
+        console.error(data.error);
+        setTimeout(() => {
+            showWarn(data.error)
+        }, 100)
+    }
 }
 
 document.getElementById('send-folder-name').addEventListener('click', async (e) => {
@@ -226,66 +352,6 @@ document.getElementById('creation-file-input').addEventListener('input', async (
     }
 })
 
-async function deleteFile(file) {
-    const fileId = file.dataset.id
-    const urlParams = new URLSearchParams(window.location.search);
-    const urlParams_F = urlParams.get('f')
-    try {
-        const response = await fetch('/api/deleteFile', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                fileId,
-                urlParams_F
-            })
-        })
-        const data = await response.json()
-        loadFiles(data)
-        if(!data.success) {
-            setTimeout(() => {
-                showWarn(data.error)
-            }, 100)
-        }
-    } catch (error) {
-        console.error(data.error);
-        setTimeout(() => {
-            showWarn(data.error)
-        }, 100)
-    }
-}
-
-async function deleteFolder(folder) {
-    const folderId = folder.dataset.id
-    const urlParams = new URLSearchParams(window.location.search);
-    const urlParams_F = urlParams.get('f')
-    try {
-        const response = await fetch('/api/deleteFolder', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                folderId,
-                urlParams_F
-            })
-        })
-        const data = await response.json()
-        loadFiles(data)
-        if(!data.success) {
-            setTimeout(() => {
-                showWarn(data.error)
-            }, 100)
-        }
-    } catch (error) {
-        console.error(data.error);
-        setTimeout(() => {
-            showWarn(data.error)
-        }, 100)
-    }
-}
-
 function controllerFiles() {
     const items = document.querySelectorAll('.profile-dataSet-item')
     const iconItems = document.querySelectorAll('.icon')
@@ -335,22 +401,30 @@ function controllerFiles() {
     document.getElementById('downloadFile').addEventListener('click', (e) => {
         e.preventDefault()
         
-        console.log("Скачать файл")
+        const linkFile = currentItemFile.querySelector('.profile-dataSet-link')
+        currentItemFile = null;
+        window.location.href = linkFile.href;
     })
     document.getElementById('renameFile').addEventListener('click', (e) => {
         e.preventDefault()
     
         console.log("Переименовать файл")
     })
+    document.getElementById('infoFile').addEventListener('click', (e) => {
+        e.preventDefault()
+        
+        infoItem(currentItemFile)
+    })
     document.getElementById('deleteFile').addEventListener('click', (e) => {
         e.preventDefault()
 
-        deleteFile(currentItemFile)
+        showAlert(`Вы действительно хотите удалить файл "${currentItemFile.querySelector('.profile-dataSet-name').textContent}"?`, 'Buttons')
     })
-    document.getElementById('infoFile').addEventListener('click', (e) => {
-        e.preventDefault()
-    
-        console.log("Информация о файле")
+    document.getElementById('modal-alert-button-yes').addEventListener('click', () => {
+        if(currentItemFile) {
+            deleteFile(currentItemFile)
+            currentItemFile = null;
+        }
     })
 
     // Controller Folder
@@ -364,23 +438,27 @@ function controllerFiles() {
     
         console.log("Переименовать папку")
     })
+    document.getElementById('infoFolder').addEventListener('click', (e) => {
+        e.preventDefault()
+        
+        infoItem(currentItemFolder)
+    })
     document.getElementById('deleteFolder').addEventListener('click', (e) => {
         e.preventDefault()
     
-        deleteFolder(currentItemFolder)
+        showAlert(`Вы действительно хотите удалить папку вместе со всем содержимым "${currentItemFolder.querySelector('.profile-dataSet-name').textContent}"?`, 'Buttons')
     })
-    document.getElementById('infoFolder').addEventListener('click', (e) => {
-        e.preventDefault()
-    
-        console.log("Информация о папке")
+    document.getElementById('modal-alert-button-yes').addEventListener('click', () => {
+        if(currentItemFolder) {
+            deleteFolder(currentItemFolder)
+            currentItemFolder = null;
+        }
     })
 
-    iconItems.forEach(e => {
+    iconItems.forEach(e => {    
         e.addEventListener('dblclick', () => {
             if(e.parentElement.dataset.type === 'Folder'){
                 openFolder(e.parentElement)
-            } else {
-                console.log('Скачать файл')
             }
         })
     })
@@ -418,14 +496,26 @@ function closeModal() {
     const overlay = document.getElementById('overlay')
     const modalFolderName = document.getElementById('modal-folder-name')
     const modalwarn = document.getElementById('modal-warn')
+    const modalAlert = document.getElementById('modal-alert')
+    const modalAlertList = document.getElementById('modal-alert-list')
+    const modalAlertInput = document.getElementById('modal-alert-input')
+    const modalAlertButtons = document.getElementById('modal-alert-buttons')
 
     overlay.classList.remove('overlay--active')
     modalFolderName.classList.remove('modal-folder-name--active')
     modalwarn.classList.remove('modal-warn--active')
+    modalAlert.classList.remove('modal-alert--active')
+    modalAlertInput.value = ''
     setTimeout(() => {
         overlay.style.display = 'none'
         modalFolderName.style.display = 'none'
         modalwarn.style.display = 'none'
+        modalAlert.style.display = 'none'
+        modalAlertList.style.display = 'none'
+        modalAlertList.innerHTML = ''
+        modalAlert.style.top = `90px`
+        modalAlertInput.style.display = 'none'
+        modalAlertButtons.style.display = 'none'
     }, 100)
 }
 
@@ -483,6 +573,144 @@ function showWarn(warn) {
         modalwarn.style.display = 'flex'
     }, 100)
     modalWarnText.textContent = warn
+}
+
+function showAlert(alert, modifier, info) {
+    const overlay = document.getElementById('overlay')
+    const modalAlert = document.getElementById('modal-alert')
+    const modalAlertText = document.getElementById('modal-alert-text')
+    const modalAlertList = document.getElementById('modal-alert-list')
+    const modalAlertInput = document.getElementById('modal-alert-input')
+    const modalAlertButtons = document.getElementById('modal-alert-buttons')
+    const modalAlertButtonYes = document.getElementById('modal-alert-button-yes')
+    const modalAlertButtonNo = document.getElementById('modal-alert-button-no')
+
+    overlay.classList.add('overlay--active')
+    modalAlert.classList.add('modal-alert--active')
+    setTimeout(() => {
+        overlay.style.display = 'flex'
+        modalAlert.style.display = 'flex'
+    }, 100)
+    modalAlertText.textContent = alert
+
+    switch(modifier) {
+        case 'List-file': 
+            showDataInfoFile(info)
+            modalAlertList.style.display = 'flex'
+            setTimeout(() => {
+                showAlertHeight()
+            }, 100)
+            break;
+        case 'List-folder': 
+            showDataInfoFolder(info)
+            modalAlertList.style.display = 'flex'
+            setTimeout(() => {
+                showAlertHeight()
+            }, 100)
+            break;
+        case 'Buttons':
+            modalAlertButtons.style.display = 'flex'
+            setTimeout(() => {
+                showAlertHeight()
+            }, 100)
+            break;
+        case 'Input':
+            modalAlertInput.style.display = 'flex'
+            setTimeout(() => {
+                showAlertHeight()
+            }, 100)
+            break;
+    }
+
+    modalAlertButtonYes.addEventListener('click', () => {
+        closeModal()
+    })
+    modalAlertButtonNo.addEventListener('click', () => {
+        closeModal()
+    })
+}
+
+function showDataInfoFile(fileInfo) {
+    const modalAlertList = document.getElementById('modal-alert-list')
+    const { fileName, mimeType, path, size, uploadedAt } = fileInfo.file[0]
+    const arrPath = path.split("\\")
+    arrPath.shift(), arrPath.shift()
+    const liName = document.createElement('li')
+    const liType = document.createElement('li')
+    const liPath = document.createElement('li')
+    const liSize = document.createElement('li')
+    const liTime = document.createElement('li')
+
+    liName.innerHTML = `Имя файла: <span>${fileName}</span>`
+    liType.innerHTML = `Тип файла: <span>${mimeType}</span>`
+    liPath.innerHTML = `Путь к файлу файла: <span>${fileInfo.user[0].name}\\${arrPath.join('\\')}</span>`
+    liSize.innerHTML = `Размер файла: <span>${sizeCalculation(size)}</span>`
+    liTime.innerHTML = `Время создание файла: <span>${formatDateForSNG(uploadedAt)}</span>`
+
+    modalAlertList.appendChild(liName);
+    modalAlertList.appendChild(liType);
+    modalAlertList.appendChild(liPath);
+    modalAlertList.appendChild(liSize);
+    modalAlertList.appendChild(liTime);
+}
+function showDataInfoFolder(folderInfo) {
+    const modalAlertList = document.getElementById('modal-alert-list')
+    const { folderName, path, createdAt } = folderInfo.folder[0]
+    const arrPath = path.split("\\")
+    arrPath.shift(), arrPath.shift()
+    const liName = document.createElement('li')
+    const liPath = document.createElement('li')
+    const liSize = document.createElement('li')
+    const liTime = document.createElement('li')
+    const liСontains = document.createElement('li')
+    
+    liName.innerHTML = `Имя папки: <span>${folderName}</span>`
+    liPath.innerHTML = `Путь к папке: <span>${folderInfo.user[0].name}\\${arrPath.join('\\')}</span>`
+    liSize.innerHTML = `Размер папки: <span>${sizeCalculation(folderInfo.sumSizeFiles)}</span>`
+    liTime.innerHTML = `Время создание папки: <span>${formatDateForSNG(createdAt)}</span>`
+    liСontains.innerHTML = `Содержит: <span>Файлов: ${folderInfo.itemLength.filesLength}; Папок: ${folderInfo.itemLength.foldersLength - 1}</span>`
+    
+    modalAlertList.appendChild(liName);
+    modalAlertList.appendChild(liPath);
+    modalAlertList.appendChild(liSize);
+    modalAlertList.appendChild(liTime);
+    modalAlertList.appendChild(liСontains);
+}
+
+function sizeCalculation(size) {
+    if (size < 1024) {
+        return `${size} Байт`;
+    } else if (size < 1024 * 1024) {
+        return `${(size / 1024).toFixed(1)} КилоБайт`;
+    } else if (size < 1024 * 1024 * 1024) {
+        return `${(size / 1024 / 1024).toFixed(1)} МегаБайт`;
+    } else {
+        return `${(size / 1024 / 1024 / 1024).toFixed(1)} Гигабайт`;
+    }
+}
+
+function formatDateForSNG(isoDateString) {
+    const date = new Date(isoDateString);
+    
+    const options = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZone: 'Europe/Moscow'
+    };
+    
+    return date.toLocaleString('ru-RU', options);
+}
+
+function showAlertHeight() {
+    const modalAlert = document.getElementById('modal-alert');
+    const firstStyle = 227;
+    const styles = getComputedStyle(modalAlert);
+    let differenceHeight = modalAlert.offsetHeight - firstStyle;
+    let differenceTop = Number(styles.top.replace(/\D/g, '')) - differenceHeight;
+    modalAlert.style.top = `${differenceTop}px`
 }
 
 function checkingPage() {
