@@ -139,8 +139,8 @@ async function loadFiles(data) {
 
         folderList.appendChild(li);
         li.appendChild(a)
+        li.appendChild(span)
         a.appendChild(img)
-        a.appendChild(span)
     })
     controllerFiles()
 }
@@ -168,6 +168,42 @@ async function openFolder(folder) {
     const removePage = arrPage.shift()
     const folderId = folder.dataset.id;
     window.location.href = `/${arrPage[0]}?f=${folderId}`;
+}
+
+async function renameItem(item, renameText) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams_F = urlParams.get('f')
+    const itemId = item.dataset.id
+    const itemType = item.dataset.type
+
+    try {
+        const response = await fetch('/api/rename', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                itemId,
+                itemType,
+                renameText,
+                urlParams_F
+            })
+        })
+        const data = await response.json()
+        if(!(data.message === 'Not difference')) {
+            loadFiles(data)
+        }
+        if(!data.success) {
+            setTimeout(() => {
+                showWarn(data.error)
+            }, 100)
+        }
+    } catch (error) {
+        console.error(data.error);
+        setTimeout(() => {
+            showWarn(data.error)
+        }, 100)
+    }
 }
 
 async function infoItem(item) {
@@ -294,7 +330,7 @@ document.getElementById('send-folder-name').addEventListener('click', async (e) 
     const folderName = folderNameInput.trim()
     const urlParams = new URLSearchParams(window.location.search);
     const urlParams_F = urlParams.get('f')
-
+    
     overlay.classList.remove('overlay--active')
     modalFolderName.classList.remove('modal-folder-name--active')
     setTimeout(() => {
@@ -352,14 +388,14 @@ document.getElementById('creation-file-input').addEventListener('input', async (
     }
 })
 
+let currentItemFolder = null;
+let currentItemFile = null;
 function controllerFiles() {
     const items = document.querySelectorAll('.profile-dataSet-item')
     const iconItems = document.querySelectorAll('.icon')
     const names = document.querySelectorAll('.profile-dataSet-name')
     const contextMenuFolder = document.getElementById('context-menu-folder');
     const contextMenuFile = document.getElementById('context-menu-file');
-    let currentItemFolder = null;
-    let currentItemFile = null;
 
     items.forEach((item) => {
         item.addEventListener('contextmenu', (e) => {
@@ -397,64 +433,6 @@ function controllerFiles() {
         }
     });
 
-    // Controller File
-    document.getElementById('downloadFile').addEventListener('click', (e) => {
-        e.preventDefault()
-        
-        const linkFile = currentItemFile.querySelector('.profile-dataSet-link')
-        currentItemFile = null;
-        window.location.href = linkFile.href;
-    })
-    document.getElementById('renameFile').addEventListener('click', (e) => {
-        e.preventDefault()
-    
-        console.log("Переименовать файл")
-    })
-    document.getElementById('infoFile').addEventListener('click', (e) => {
-        e.preventDefault()
-        
-        infoItem(currentItemFile)
-    })
-    document.getElementById('deleteFile').addEventListener('click', (e) => {
-        e.preventDefault()
-
-        showAlert(`Вы действительно хотите удалить файл "${currentItemFile.querySelector('.profile-dataSet-name').textContent}"?`, 'Buttons')
-    })
-    document.getElementById('modal-alert-button-yes').addEventListener('click', () => {
-        if(currentItemFile) {
-            deleteFile(currentItemFile)
-            currentItemFile = null;
-        }
-    })
-
-    // Controller Folder
-    document.getElementById('openFolder').addEventListener('click', (e) => {
-        e.preventDefault();
-
-        openFolder(currentItemFolder)
-    });
-    document.getElementById('renameFolder').addEventListener('click', (e) => {
-        e.preventDefault()
-    
-        console.log("Переименовать папку")
-    })
-    document.getElementById('infoFolder').addEventListener('click', (e) => {
-        e.preventDefault()
-        
-        infoItem(currentItemFolder)
-    })
-    document.getElementById('deleteFolder').addEventListener('click', (e) => {
-        e.preventDefault()
-    
-        showAlert(`Вы действительно хотите удалить папку вместе со всем содержимым "${currentItemFolder.querySelector('.profile-dataSet-name').textContent}"?`, 'Buttons')
-    })
-    document.getElementById('modal-alert-button-yes').addEventListener('click', () => {
-        if(currentItemFolder) {
-            deleteFolder(currentItemFolder)
-            currentItemFolder = null;
-        }
-    })
-
     iconItems.forEach(e => {    
         e.addEventListener('dblclick', () => {
             if(e.parentElement.dataset.type === 'Folder'){
@@ -465,11 +443,75 @@ function controllerFiles() {
 
     names.forEach((e, i) => {
         e.addEventListener('dblclick', () => {
-            console.log(names[i].textContent)
+            if(e.parentElement.dataset.type === 'Folder') {
+                currentItemFolder = e.parentElement
+                showAlert(`Переименование папки`, 'Input-Folder', e.parentElement)
+            } else {
+                currentItemFile = e.parentElement
+                showAlert(`Переименование файла`, 'Input-File', e.parentElement)
+            }
         })
     })
 }
 
+// ControllerFile
+document.getElementById('downloadFile').addEventListener('click', (e) => {
+    e.preventDefault()
+    
+    const linkFile = currentItemFile.querySelector('.profile-dataSet-link')
+    window.location.href = linkFile.href;
+})
+document.getElementById('renameFile').addEventListener('click', (e) => {
+    e.preventDefault()
+
+    showAlert(`Переименование файла`, 'Input-File', currentItemFile)
+})
+document.getElementById('infoFile').addEventListener('click', (e) => {
+    e.preventDefault()
+    
+    infoItem(currentItemFile)
+})
+document.getElementById('deleteFile').addEventListener('click', (e) => {
+    e.preventDefault()
+
+    showAlert(`Вы действительно хотите удалить файл "${currentItemFile.querySelector('.profile-dataSet-name').textContent}"?`, 'Buttons')
+})
+document.getElementById('modal-alert-button-yes').addEventListener('click', () => {
+    if(currentItemFile) {
+        deleteFile(currentItemFile)
+        currentItemFile = null;
+    }
+})
+
+// Controller Folder
+document.getElementById('openFolder').addEventListener('click', (e) => {
+    e.preventDefault();
+
+    openFolder(currentItemFolder)
+});
+document.getElementById('renameFolder').addEventListener('click', (e) => {
+    e.preventDefault()
+
+    showAlert(`Переименование папки`, 'Input-Folder', currentItemFolder)
+})
+document.getElementById('infoFolder').addEventListener('click', (e) => {
+    e.preventDefault()
+    
+    infoItem(currentItemFolder)
+})
+document.getElementById('deleteFolder').addEventListener('click', (e) => {
+    e.preventDefault()
+
+    showAlert(`Вы действительно хотите удалить папку вместе со всем содержимым "${currentItemFolder.querySelector('.profile-dataSet-name').textContent}"?`, 'Buttons')
+})
+document.getElementById('modal-alert-button-yes').addEventListener('click', () => {
+    if(currentItemFolder) {
+        deleteFolder(currentItemFolder)
+        currentItemFolder = null;
+    }
+})
+
+// Creation Folder and File
 document.getElementById('creation-button').addEventListener('click', () => {
     const button = document.getElementById('creation-button-plus')
     const folder = document.getElementById('creation-folder')
@@ -479,17 +521,23 @@ document.getElementById('creation-button').addEventListener('click', () => {
     folder.classList.toggle('creation-folder--active')
     file.classList.toggle('creation-file--active')
 })
-
 document.getElementById('creation-folder').addEventListener('click', () => {
     const overlay = document.getElementById('overlay')
     const modalFolderName = document.getElementById('modal-folder-name')
+    const folderNameInput = document.getElementById('folder-name')
 
     overlay.style.display = 'flex'
     modalFolderName.style.display = 'flex'
     setTimeout(() => {
         overlay.classList.add('overlay--active')
         modalFolderName.classList.add('modal-folder-name--active')
+        folderNameInput.focus()
     }, 100)
+})
+document.getElementById('creation-file').addEventListener('click', () => {
+    const fileInput = document.getElementById('creation-file-input')
+
+    fileInput.click()
 })
 
 function closeModal() {
@@ -498,14 +546,18 @@ function closeModal() {
     const modalwarn = document.getElementById('modal-warn')
     const modalAlert = document.getElementById('modal-alert')
     const modalAlertList = document.getElementById('modal-alert-list')
-    const modalAlertInput = document.getElementById('modal-alert-input')
+    const modalAlertInputFolder = document.getElementById('modal-alert-input-folder')
+    const modalAlertInputFile = document.getElementById('modal-alert-input-file')
     const modalAlertButtons = document.getElementById('modal-alert-buttons')
+    const inputRenameSubmitFolder = document.getElementById('input-rename-submit-folder')
+    const inputRenameSubmitFile = document.getElementById('input-rename-submit-file')
 
     overlay.classList.remove('overlay--active')
     modalFolderName.classList.remove('modal-folder-name--active')
     modalwarn.classList.remove('modal-warn--active')
     modalAlert.classList.remove('modal-alert--active')
-    modalAlertInput.value = ''
+    modalAlertInputFolder.value = ''
+    modalAlertInputFile.value = ''
     setTimeout(() => {
         overlay.style.display = 'none'
         modalFolderName.style.display = 'none'
@@ -514,30 +566,22 @@ function closeModal() {
         modalAlertList.style.display = 'none'
         modalAlertList.innerHTML = ''
         modalAlert.style.top = `90px`
-        modalAlertInput.style.display = 'none'
+        modalAlertInputFolder.style.display = 'none'
+        modalAlertInputFile.style.display = 'none'
         modalAlertButtons.style.display = 'none'
     }, 100)
 }
-
 document.getElementById('close-modal').addEventListener('click', () => {
     closeModal()
 })
-
 document.getElementById('overlay').addEventListener('click', () => {
     closeModal()
 })
-
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         closeModal()
     }
 });
-
-document.getElementById('creation-file').addEventListener('click', () => {
-    const fileInput = document.getElementById('creation-file-input')
-
-    fileInput.click()
-})
 
 function goToBack() {
     const goToBackButtons = document.getElementById('goBackButtons')
@@ -580,11 +624,14 @@ function showAlert(alert, modifier, info) {
     const modalAlert = document.getElementById('modal-alert')
     const modalAlertText = document.getElementById('modal-alert-text')
     const modalAlertList = document.getElementById('modal-alert-list')
-    const modalAlertInput = document.getElementById('modal-alert-input')
+    const modalAlertInputFolder = document.getElementById('modal-alert-input-folder')
+    const modalAlertInputFile = document.getElementById('modal-alert-input-file')
     const modalAlertButtons = document.getElementById('modal-alert-buttons')
     const modalAlertButtonYes = document.getElementById('modal-alert-button-yes')
     const modalAlertButtonNo = document.getElementById('modal-alert-button-no')
-
+    const inputRenameFolder = document.getElementById('input-rename-folder')
+    const inputRenameFile = document.getElementById('input-rename-file')
+    
     overlay.classList.add('overlay--active')
     modalAlert.classList.add('modal-alert--active')
     setTimeout(() => {
@@ -602,21 +649,31 @@ function showAlert(alert, modifier, info) {
             }, 100)
             break;
         case 'List-folder': 
-            showDataInfoFolder(info)
+        showDataInfoFolder(info)
             modalAlertList.style.display = 'flex'
             setTimeout(() => {
                 showAlertHeight()
             }, 100)
             break;
-        case 'Buttons':
-            modalAlertButtons.style.display = 'flex'
+            case 'Buttons':
+                modalAlertButtons.style.display = 'flex'
+                setTimeout(() => {
+                    showAlertHeight()
+                }, 100)
+                break;
+        case 'Input-Folder':
+            modalAlertInputFolder.style.display = 'flex'
+            inputRenameFolder.value = info.querySelector('.profile-dataSet-name').textContent
             setTimeout(() => {
+                inputRenameFolder.focus()
                 showAlertHeight()
             }, 100)
             break;
-        case 'Input':
-            modalAlertInput.style.display = 'flex'
+        case 'Input-File':
+            modalAlertInputFile.style.display = 'flex'
+            inputRenameFile.value = info.querySelector('.profile-dataSet-name').textContent
             setTimeout(() => {
+                inputRenameFile.focus()
                 showAlertHeight()
             }, 100)
             break;
@@ -629,6 +686,19 @@ function showAlert(alert, modifier, info) {
         closeModal()
     })
 }
+
+document.getElementById('input-rename-submit-folder').addEventListener('click', (e) => {
+    e.preventDefault()
+    const inputRenameFolder = document.getElementById('input-rename-folder')
+    closeModal()
+    renameItem(currentItemFolder, inputRenameFolder.value)
+})
+document.getElementById('input-rename-submit-file').addEventListener('click', (e) => {
+    e.preventDefault()
+    const inputRenameFile = document.getElementById('input-rename-file')
+    closeModal()
+    renameItem(currentItemFile, inputRenameFile.value)
+})
 
 function showDataInfoFile(fileInfo) {
     const modalAlertList = document.getElementById('modal-alert-list')

@@ -89,37 +89,6 @@
             </div>
         </div>
 
-        <!-- <footer class="footer">
-            <div class="container">
-                <div class="footer--inner">
-                    <div class="footer__top">
-                        <div class="footer__top-about">
-                            <h2>О нас</h2>
-                            <p>При использовании услуг Skybin Вы можете передавать, хранить и/или делиться определенными данными, информацией, файлами и т. д. Во избежание сомнений, Вы сохраняете полное право собственности на Ваши данные, так же Я (Б. Даниил) не несу ответственности за Ваши данные. При использовании Skybin Вы и любой другой пользователь соглашаетесь с тем что данный сайт является дипломной работой студента. Весь программный код и история разработки, а именно репозитории и коммиты Git доступны в открытом доступе на моем GitHub профиле.</p>
-                            <a href="#" id="footer-title">Skybin</a>
-                        </div>
-                        <div class="footer__top-contact">
-                            <h2>Мои контакты</h2>
-                            <ul class="footer__contact-list">
-                                <li class="footer__contact-item">
-                                    <a href="https://t.me/Morok1407" target="_blank" class="footer__contact-link">Мой телеграмм: Morok1407</a>
-                                </li>
-                                <li class="footer__contact-item">
-                                    <a href="https://github.com/Morok1407" target="_blank" class="footer__contact-link">Мой GitHub: Morok1407</a>
-                                </li>
-                                <li class="footer__contact-item">
-                                    <a href="tel:+7 (775) 591-95-40" class="footer__contact-link">Телефон: +7 (775) 591-95-40</a>
-                                </li>
-                                <li class="footer__contact-item">
-                                    <a href="mailto:bugaevdaniil1407@icloud.com" class="footer__contact-link">Email: bugaevdaniil1407@icloud.com</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer> -->
-
         <form class="modal-folder-name" id="modal-folder-name" style="display: none;">
             <input type="name" placeholder="Название папки" id="folder-name">
             <button type="submit" id="send-folder-name">Создать</button>
@@ -133,9 +102,17 @@
         <div class="modal-alert" id="modal-alert" style="display: none;">
             <span class="modal-alert-text" id="modal-alert-text"></span>
             <ul class="modal-alert-list" id="modal-alert-list" style="display: none;"></ul>
-            <div class="modal-alert-input" id="modal-alert-input" style="display: none;">
-                <input type="text">
-            </div>
+
+            <form class="modal-alert-input" id="modal-alert-input-folder" style="display: none;">
+                <input id="input-rename-folder" type="text" placeholder="Введите новое название">
+                <button type="submit" id="input-rename-submit-folder">Переименовать</button>
+            </form>
+
+            <form class="modal-alert-input" id="modal-alert-input-file" style="display: none;">
+                <input id="input-rename-file" type="text" placeholder="Введите новое название">
+                <button type="submit" id="input-rename-submit-file">Переименовать</button>
+            </form>
+
             <div class="modal-alert-buttons" id="modal-alert-buttons" style="display: none;">
                 <button id="modal-alert-button-yes">Да</button>
                 <button id="modal-alert-button-no">Нет</button>

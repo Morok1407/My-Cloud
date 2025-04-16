@@ -37,7 +37,7 @@ export const deleteFolder = async (req, res, next) => {
         if(folders.length >= 2 || files.length >= 1) {
             fs.rm(folderPath, { recursive: true, force: true }, (error) => {
                 if (error) {
-                    res.status(500).json({ success: false, error: error });
+                    res.status(500).json({ success: false, error: `Error: ${error}` });
                 }
             });
             await Folder.deleteMany({ userId, path: { $regex: `^${folderPath.replace(/\\/g, '\\\\')}`} })
@@ -53,8 +53,6 @@ export const deleteFolder = async (req, res, next) => {
 
         next()
     } catch (error) {
-        if(!(error == 'TypeError: Cannot destructure property \'path\' of \'folder[0]\' as it is undefined.')) {
-            res.status(500).json({ success: false, error: `Error: ${error}` });
-        }
+        res.status(500).json({ success: false, error: `Error: ${error}` });
     }   
 }

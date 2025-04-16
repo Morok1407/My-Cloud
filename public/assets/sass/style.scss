@@ -1207,7 +1207,7 @@ $font-roboto: Roboto;
 
 .modal-alert {  
     flex-direction: column;
-    gap: 16px;
+    gap: 24px;
     position: fixed;
     top: 90px;
     right: 50%;
@@ -1273,6 +1273,35 @@ $font-roboto: Roboto;
         font-weight: 700;
         line-height: 27px;
         border-radius: 24px;
+    }
+}
+.modal-alert-input {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+
+    input {
+        color: rgb(57, 60, 109);
+        font-family: Comfortaa;
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 27px;
+        border-radius: 62px;
+        padding: 8px 12px;
+        border: rgb(57, 60, 109) solid 3px;
+        width: 300px;
+    }
+    button {
+        color: rgb(255, 255, 255);
+        font-family: Comfortaa;
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 27px;
+        border-radius: 62px;
+        padding: 12px 24px;
+        background: linear-gradient(90deg, rgb(67, 161, 214), rgb(144, 126, 255) 100%);
     }
 }
 .modal-alert--active {
