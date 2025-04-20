@@ -12,6 +12,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function showDataSet() {
     const sectionName = document.getElementById('section_name')
+    const loaderTimeout = setTimeout(() => {
+        loaderAnimation(true)
+    }, 1000)
     try {
         const response = await fetch('/api/showDataSet', {
             method: "POST",
@@ -32,6 +35,9 @@ async function showDataSet() {
         setTimeout(() => {
             showWarn(data.error)
         }, 100)
+    } finally {
+        clearTimeout(loaderTimeout)
+        loaderAnimation(false)
     }
 }
 
@@ -42,6 +48,10 @@ async function showDataSetToFolder(urlParams_F) {
     const pageNow = location.pathname
     const arrPage = pageNow.split("/");
     arrPage.shift()
+    
+    const loaderTimeout = setTimeout(() => {
+        loaderAnimation(true)
+    }, 1000) 
     
     try {
         const response = await fetch('/api/showDataSetToFolder', {
@@ -75,19 +85,30 @@ async function showDataSetToFolder(urlParams_F) {
         setTimeout(() => {
             showWarn(data.error)
         }, 100)
+    } finally {
+        clearTimeout(loaderTimeout)
+        loaderAnimation(false)
     }
 }
 
 async function loadFiles(data) {
     const folderList = document.getElementById('files-list')
     const NotFiles = document.getElementById('not-files')
+    const searchButton = document.getElementById('search__button')
+    const searchInput = document.getElementById('search__input')
     
     const { folders, files } = await data;
     
     if(folders.length <= 0 && files.length <= 0) {
         NotFiles.classList.add('profile-files__body-not-file--active')
+        searchButton.style.display = 'none'
     } else {
         NotFiles.classList.remove('profile-files__body-not-file--active')
+        searchButton.style.display = 'flex'
+    }
+
+    if(searchInput.style.display === 'flex') {
+        searchButton.style.display = 'flex'
     }
     
     folderList.innerHTML = '';
@@ -176,6 +197,10 @@ async function renameItem(item, renameText) {
     const itemId = item.dataset.id
     const itemType = item.dataset.type
 
+    const loaderTimeout = setTimeout(() => {
+        loaderAnimation(true)
+    }, 1000) 
+
     try {
         const response = await fetch('/api/rename', {
             method: 'POST',
@@ -203,12 +228,19 @@ async function renameItem(item, renameText) {
         setTimeout(() => {
             showWarn(data.error)
         }, 100)
+    } finally {
+        clearTimeout(loaderTimeout)
+        loaderAnimation(false)
     }
 }
 
 async function infoItem(item) {
     const itemType = item.dataset.type
     const itemId = item.dataset.id
+
+    const loaderTimeout = setTimeout(() => {
+        loaderAnimation(true)
+    }, 1000) 
 
     if(itemType === 'Folder') {
         try {
@@ -233,6 +265,9 @@ async function infoItem(item) {
             setTimeout(() => {
                 showWarn(data.error)
             }, 100)
+        } finally {
+            clearTimeout(loaderTimeout)
+            loaderAnimation(false)
         }
     } else {
         try {
@@ -257,6 +292,9 @@ async function infoItem(item) {
             setTimeout(() => {
                 showWarn(data.error)
             }, 100)
+        } finally {
+            clearTimeout(loaderTimeout)
+            loaderAnimation(false)
         }
     }
 }
@@ -265,6 +303,11 @@ async function deleteFile(file) {
     const fileId = file.dataset.id
     const urlParams = new URLSearchParams(window.location.search);
     const urlParams_F = urlParams.get('f')
+
+    const loaderTimeout = setTimeout(() => {
+        loaderAnimation(true)
+    }, 1000) 
+
     try {
         const response = await fetch('/api/deleteFile', {
             method: "POST",
@@ -288,6 +331,9 @@ async function deleteFile(file) {
         setTimeout(() => {
             showWarn(data.error)
         }, 100)
+    } finally {
+        clearTimeout(loaderTimeout)
+        loaderAnimation(false)
     }
 }
 
@@ -295,6 +341,11 @@ async function deleteFolder(folder) {
     const folderId = folder.dataset.id
     const urlParams = new URLSearchParams(window.location.search);
     const urlParams_F = urlParams.get('f')
+
+    const loaderTimeout = setTimeout(() => {
+        loaderAnimation(true)
+    }, 1000) 
+
     try {
         const response = await fetch('/api/deleteFolder', {
             method: "POST",
@@ -318,8 +369,50 @@ async function deleteFolder(folder) {
         setTimeout(() => {
             showWarn(data.error)
         }, 100)
+    } finally {
+        clearTimeout(loaderTimeout)
+        loaderAnimation(false)
     }
 }
+
+document.getElementById('search__input').addEventListener('input', async () => {
+    const nameSection = document.getElementById('section_name')
+    const searchInput = document.getElementById('search__input').value
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams_F = urlParams.get('f')
+    
+    const loaderTimeout = setTimeout(() => {
+        loaderAnimation(true)
+    }, 1000) 
+
+    try {
+        const response = await fetch('/api/searchData', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                searchInput,
+                urlParams_F
+            })
+        })
+        const data = await response.json()
+        loadFiles(data)
+        if(!data.success) {
+            setTimeout(() => {
+                showWarn(data.error)
+            }, 100)
+        }
+    } catch (error) {
+        console.error(data.error);
+        setTimeout(() => {
+            showWarn(data.error)
+        }, 100)
+    } finally {
+        clearTimeout(loaderTimeout)
+        loaderAnimation(false)
+    }
+})
 
 document.getElementById('send-folder-name').addEventListener('click', async (e) => {
     e.preventDefault()
@@ -339,24 +432,38 @@ document.getElementById('send-folder-name').addEventListener('click', async (e) 
         document.getElementById('folder-name').value = '';
     }, 100)
 
-    const response = await fetch('/api/creatFolder', {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            folderName,
-            urlParams_F
-        }),
-    })
+    const loaderTimeout = setTimeout(() => {
+        loaderAnimation(true)
+    }, 1000) 
 
-    const data = await response.json();
-    if(!data.success) {
+    try {
+        const response = await fetch('/api/creatFolder', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                folderName,
+                urlParams_F
+            }),
+        })
+    
+        const data = await response.json();
+        if(!data.success) {
+            setTimeout(() => {
+                showWarn(data.error)
+            }, 100)
+        } else {
+            loadFiles(data)
+        }
+    } catch (error) {
+        console.error(data.error);
         setTimeout(() => {
             showWarn(data.error)
         }, 100)
-    } else {
-        loadFiles(data)
+    } finally {
+        clearTimeout(loaderTimeout)
+        loaderAnimation(false)
     }
 })
 
@@ -371,20 +478,34 @@ document.getElementById('creation-file-input').addEventListener('input', async (
 
     file.value = '';
 
-    const response = await fetch('/api/uploadFile', {
-        method: "POST",
-        headers: {
-            'x-urlParams_F': 'urlParams_F'
-        },
-        body: formData
-    })
-    const data = await response.json()
-    if(!data.success) {
+    const loaderTimeout = setTimeout(() => {
+        loaderAnimation(true)
+    }, 1000) 
+
+    try {
+        const response = await fetch('/api/uploadFile', {
+            method: "POST",
+            headers: {
+                'x-urlParams_F': 'urlParams_F'
+            },
+            body: formData
+        })
+        const data = await response.json()
+        if(!data.success) {
+            setTimeout(() => {
+                showWarn(data.error)
+            }, 100)
+        } else {
+            loadFiles(data)
+        }
+    } catch (error) {
+        console.error(data.error);
         setTimeout(() => {
             showWarn(data.error)
         }, 100)
-    } else {
-        loadFiles(data)
+    } finally {
+        clearTimeout(loaderTimeout)
+        loaderAnimation(false)
     }
 })
 
@@ -776,11 +897,27 @@ function formatDateForSNG(isoDateString) {
 
 function showAlertHeight() {
     const modalAlert = document.getElementById('modal-alert');
-    const firstStyle = 227;
+    const firstStyle = 240;
     const styles = getComputedStyle(modalAlert);
     let differenceHeight = modalAlert.offsetHeight - firstStyle;
     let differenceTop = Number(styles.top.replace(/\D/g, '')) - differenceHeight;
     modalAlert.style.top = `${differenceTop}px`
+}
+
+function loaderAnimation(showLoader) {
+    const loader = document.getElementById('loader')
+    const overlay = document.getElementById('overlay-loader')
+
+    if (showLoader) {
+        loader.style.display = 'block';
+        overlay.style.display = 'flex'
+        overlay.classList.add('overlay--active')
+    } else {
+        loader.style.display = 'none';
+        overlay.style.display = 'none'
+        overlay.classList.remove('overlay--active')
+        showLoader = false;
+    }
 }
 
 function checkingPage() {
@@ -791,3 +928,18 @@ function checkingPage() {
         return false
     }
 }
+
+function searchButton() {
+    const searchButton = document.getElementById('search__button')
+    const searchInput = document.getElementById('search__input')
+
+    searchButton.addEventListener('click', () => {
+        searchInput.style.display = 'flex'
+        searchInput.focus()
+    })
+    searchInput.addEventListener('blur', () => {
+        if(searchInput.value === '') {
+            searchInput.style.display = 'none'
+        }
+    })
+} searchButton()

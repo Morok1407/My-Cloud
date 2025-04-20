@@ -15,6 +15,15 @@
 <body>
     <div class="wrapper-rest">
         <div class="overlay" id="overlay" style="display: none;"></div>
+        <div class="overlay" id="overlay-loader" style="display: none;"></div>
+        
+        <div class="cssload-thecube" id="loader" style="display: none;">
+            <div class="cssload-cube cssload-c1"></div>
+            <div class="cssload-cube cssload-c2"></div>
+            <div class="cssload-cube cssload-c4"></div>
+            <div class="cssload-cube cssload-c3"></div>
+        </div>
+
         <header class="register-header">
             <div class="container">
                 <div class="header-inner">
@@ -38,9 +47,18 @@
                             <h2 id="section_name">Файлы</h2>
                             <p>Онлайн-хранилище</p>
                         </div>
-                        <div class="directory_map" id="directoryMap">
-                            <span id="directoryMapSpan"></span>
+
+                        <div class="profile-menu">
+                            <div class="directory_map" id="directoryMap">
+                                <span id="directoryMapSpan"></span>
+                            </div>
+    
+                            <div class="search--inner" id="search--inner">
+                                <input id="search__input" type="text" style="display: none;">
+                                <img id="search__button" src="assets/img/icon/search.svg" alt="Search">
+                            </div>
                         </div>
+
                         <div class="profile-files__body">
                             <div class="profile-files__body-not-file" id="not-files">
                                 <img src="/assets/img/item/Cloud.PNG" alt="">

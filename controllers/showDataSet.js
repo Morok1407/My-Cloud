@@ -80,3 +80,24 @@ export const showDataInfoFolder = async (req, res) => {
         res.status(500).json({ success: false, error: `Error: ${error}` });
     }
 }
+
+export const searchData = async (req, res) => {
+    const userId = req.user.id
+    const searchValue = req.body.searchInput
+    
+    if(searchValue === '') {
+        showDataSet(req, res)
+    } else {
+        const escapedValue = searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    
+        try {
+            const searchRegex = new RegExp(escapedValue, 'i');
+            const folders = await Folder.find({ userId, folderName: searchRegex })
+            const files = await File.find({ userId, fileName: searchRegex })
+
+            res.status(200).json({ success: true, folders, files });
+        } catch (error) {
+            res.status(500).json({ success: false, error: `Error: ${error}` });
+        }
+    }
+}
