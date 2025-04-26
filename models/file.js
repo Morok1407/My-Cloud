@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 
+// Инициализация таблицы файлов в базе данных MongoDB
 const FileShema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,

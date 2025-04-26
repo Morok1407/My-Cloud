@@ -1,8 +1,10 @@
+// Импорт необходимых модулей, библиотек и функций
 import multer from "multer";
 import path from "path";
 import fs from 'fs';
 import Folder from '../models/folder.js'
 
+// Получение пользовательского файла
 const storage = multer.diskStorage({
     destination: async (req, file, cb) => {
         const userId = req.user.id
@@ -56,6 +58,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage }).single('file');
 
+// Отслеживание ошибок в модуле Multer
 export const uploadHandler = async (req, res, next) => {
     if (req.multerError) {
         res.status(400).json({ success: false, error: req.multerError.errorMessage });

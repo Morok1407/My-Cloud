@@ -1,3 +1,4 @@
+// Импорт необходимых модулей, библиотек и функций
 import express from 'express'
 import upload from '../config/multerConfig.js';
 import { uploadHandler } from '../config/multerConfig.js';
@@ -12,6 +13,7 @@ import { downloadFile } from '../controllers/downloadController.js';
 
 const router = express.Router()
 
+// Создание API ключей
 router.post('/showDataSet', authenticate, showDataSet)
 
 router.post('/showDataSetToFolder', authenticate, showDataSetToFolder)

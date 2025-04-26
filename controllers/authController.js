@@ -1,3 +1,4 @@
+// Импорт необходимых модулей, библиотек и функций
 import User from '../models/user.js';
 import bcrypt from "bcrypt";
 import fs from 'fs'
@@ -5,6 +6,7 @@ import path from 'path'
 import { creatToken } from '../middleware/creatToken.js'
 import { __filename, __dirname } from '../config/appConfig.js'
 
+// Регистрация пользователя
 export const register = async (req, res) => {
     const { name, email, password, rePassword, captchaResponse } = req.body;
 
@@ -45,6 +47,7 @@ export const register = async (req, res) => {
     }
 };
 
+// Вход пользователя
 export const login = async (req, res) => {
     const { email, password } = req.body;
 
@@ -69,6 +72,7 @@ export const login = async (req, res) => {
     }
 }
 
+// Открытие пользовательской странцы
 export const openUserProfile = async (req, res) => {
     const name = req.params.username
     try {

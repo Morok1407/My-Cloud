@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+// Инициализация таблицы папок в базе данных MongoDB
 const FolderSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,

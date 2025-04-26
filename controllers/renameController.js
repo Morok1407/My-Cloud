@@ -1,7 +1,9 @@
+// Импорт необходимых модулей, библиотек и функций
 import fs from 'fs'
 import File from '../models/file.js'
 import Folder from '../models/folder.js'
 
+// Переименование файла и/или папки
 export const rename = async (req, res, next) => {
     const userId = req.user.id
     const { itemId, itemType } = req.body;
@@ -24,9 +26,6 @@ export const rename = async (req, res, next) => {
                     const folders = await Folder.find({ userId, path: { $regex: `^${path.replace(/\\/g, '\\\\')}`} })
                     const files = await File.find({ userId, path: { $regex: `^${path.replace(/\\/g, '\\\\')}`} })
                     const pathRegex = new RegExp(`^${path.replace(/\\/g, '\\\\')}`);
-
-                    // На Windows 11 не работает переименование папок внутри которых есть другие папки
-                    // Заметка: "Изменить при переходе на другую OS"
                     fs.renameSync(path, newPath)
                     await Folder.updateOne(
                         { userId, _id: itemId }, 

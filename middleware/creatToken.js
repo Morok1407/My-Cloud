@@ -1,9 +1,10 @@
 import jwt from 'jsonwebtoken'
 import { SECRET_KEY } from '../config/appConfig.js'
 
+// Создание и отправка токена пользователю
 export const creatToken = async (req, res) => {
     const token = jwt.sign({ id: req.id, username: req.name }, SECRET_KEY, {
-        expiresIn: '90d',
+        expiresIn: '30d',
     });
     
     res.cookie('token', token, {

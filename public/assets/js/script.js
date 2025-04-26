@@ -1,5 +1,7 @@
-"use strict";
+// Включение строго режима JavaScript
+("use strict");
 
+// Функция показа цен
 function showPrice() {
   const priceItem = document.querySelectorAll(".price__body-item");
 
@@ -29,6 +31,7 @@ function showPrice() {
 }
 showPrice();
 
+// Аккордеон с часто задаваемыми вопросами
 function showAccord() {
   const accordItem = document.querySelectorAll(".faq__accord-item");
   const accordLink = document.querySelectorAll(".faq__accord-link");
@@ -58,6 +61,7 @@ function showAccord() {
 }
 showAccord();
 
+// Быстрое поднятие вверх
 function moveUp() {
   const button = document.getElementById("footer-title");
 
@@ -72,6 +76,7 @@ function moveUp() {
 }
 moveUp();
 
+// Выбор между регистрацией и входом
 function registerSwitch() {
   const buttonSwitch = document.getElementById("switch");
   const switchLink = document.querySelector(".register__switch-link");
@@ -114,11 +119,13 @@ function registerSwitch() {
 }
 registerSwitch();
 
+// Получение капчи с сервера
 document.getElementById("change-captcha").addEventListener("click", () => {
   const captcha = document.getElementById("captcha");
   captcha.src = `/auth/captcha?${Date.now()}`;
 });
 
+// Форма регистрации
 document.getElementById("register-form").addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -153,6 +160,7 @@ document.getElementById("register-form").addEventListener("submit", async (e) =>
     }
 });
 
+// Форма входа
 document.getElementById('login-form').addEventListener('submit', async (e) => {
   e.preventDefault();
 

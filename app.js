@@ -1,3 +1,4 @@
+// Импорт необходимых модулей, библиотек и фукнций 
 import express from "express";
 import http from 'http'
 import path from "path";
@@ -9,12 +10,15 @@ import apiRouter from './router/api.js'
 import authRouter from './router/auth.js'
 import { openUserProfile } from "./controllers/authController.js";
 
+// Инициализация Express-приложения
 const app = express();
 const server = http.createServer(app);
+// Получение абсолютного пути к текущему файлу и директории
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 configApp(app)
 
+// Асинхронная функция запуска хоста
 async function loadHost() {
   app.use(express.static(path.join(__dirname, "public")));
 
@@ -32,7 +36,9 @@ async function loadHost() {
 }
 loadHost();
 
+// Подключение к базе данных MongoDB
 connectDB(process.env.MongoDB)
 
+// Подключение маршрутов для API и аутентификации
 app.use('/api', apiRouter)
 app.use('/auth', authRouter)

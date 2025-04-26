@@ -1,8 +1,10 @@
+// Импорт необходимых модулей, библиотек и функций
 import fs from 'fs'
 import path from 'path'
 import Folder from '../models/folder.js'
 import { __filename, __dirname} from '../config/appConfig.js'
 
+// Создание папки пользователем
 export const creatFolder = async (req, res, next) => {  
     const userId = req.user.id;
     const { folderName, urlParams_F } = req.body;

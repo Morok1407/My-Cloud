@@ -1,5 +1,7 @@
+// Включение строго режима JavaScript
 ("use strict");
 
+// Проверка пользователя на открытие папки
 document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const urlParams_F = urlParams.get('f')
@@ -10,6 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 })
 
+// Асинхронный запрос на сервер для показа данных пользователя в корневой папке пользователя
 async function showDataSet() {
     const sectionName = document.getElementById('section_name')
     const loaderTimeout = setTimeout(() => {
@@ -41,6 +44,7 @@ async function showDataSet() {
     }
 }
 
+// Асинхронный запрос на сервер для показа данных пользователя в папке
 async function showDataSetToFolder(urlParams_F) {
     const nameSection = document.getElementById('section_name')
     const directoryMap = document.getElementById('directoryMap')
@@ -91,6 +95,7 @@ async function showDataSetToFolder(urlParams_F) {
     }
 }
 
+// Асинхронный загрузка данных пользователя на сайт
 async function loadFiles(data) {
     const folderList = document.getElementById('files-list')
     const NotFiles = document.getElementById('not-files')
@@ -165,6 +170,7 @@ async function loadFiles(data) {
     })
     controllerFiles()
 }
+// Типизация файлов
 function checkType(type) {
     const matches = type.match(/([\w-]+)(?=[.\/]|$)/g);
     switch(matches[matches.length - 1]) {
@@ -183,6 +189,7 @@ function checkType(type) {
     }
 }
 
+// Открытие папки
 async function openFolder(folder) {
     const pageNow = location.pathname
     const arrPage = pageNow.split("/");
@@ -191,6 +198,7 @@ async function openFolder(folder) {
     window.location.href = `/${arrPage[0]}?f=${folderId}`;
 }
 
+// Запрос на сервер для переименование файла или папки пользователем
 async function renameItem(item, renameText) {
     const urlParams = new URLSearchParams(window.location.search);
     const urlParams_F = urlParams.get('f')
@@ -234,6 +242,7 @@ async function renameItem(item, renameText) {
     }
 }
 
+// Запрос на сервер для получения информации о папке или файле
 async function infoItem(item) {
     const itemType = item.dataset.type
     const itemId = item.dataset.id
@@ -299,11 +308,12 @@ async function infoItem(item) {
     }
 }
 
+// Запрос на сервер для удаления файловых данных
 async function deleteFile(file) {
     const fileId = file.dataset.id
     const urlParams = new URLSearchParams(window.location.search);
     const urlParams_F = urlParams.get('f')
-
+    
     const loaderTimeout = setTimeout(() => {
         loaderAnimation(true)
     }, 1000) 
@@ -337,6 +347,7 @@ async function deleteFile(file) {
     }
 }
 
+// Запрос на сервер для удаления папок и содержащих в них данных
 async function deleteFolder(folder) {
     const folderId = folder.dataset.id
     const urlParams = new URLSearchParams(window.location.search);
@@ -375,6 +386,7 @@ async function deleteFolder(folder) {
     }
 }
 
+// Поиск данных по названию
 document.getElementById('search__input').addEventListener('input', async () => {
     const nameSection = document.getElementById('section_name')
     const searchInput = document.getElementById('search__input').value
@@ -414,6 +426,7 @@ document.getElementById('search__input').addEventListener('input', async () => {
     }
 })
 
+// Запрос на сервер для создания папки
 document.getElementById('send-folder-name').addEventListener('click', async (e) => {
     e.preventDefault()
 
@@ -467,6 +480,7 @@ document.getElementById('send-folder-name').addEventListener('click', async (e) 
     }
 })
 
+// Загрузка файла на сервер
 document.getElementById('creation-file-input').addEventListener('input', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const urlParams_F = urlParams.get('f')
@@ -509,6 +523,7 @@ document.getElementById('creation-file-input').addEventListener('input', async (
     }
 })
 
+// Функция для контроля данными пользователем
 let currentItemFolder = null;
 let currentItemFile = null;
 function controllerFiles() {
@@ -632,7 +647,7 @@ document.getElementById('modal-alert-button-yes').addEventListener('click', () =
     }
 })
 
-// Creation Folder and File
+// Визуальное отображение кнопок для создание папок и файлов
 document.getElementById('creation-button').addEventListener('click', () => {
     const button = document.getElementById('creation-button-plus')
     const folder = document.getElementById('creation-folder')
@@ -657,10 +672,10 @@ document.getElementById('creation-folder').addEventListener('click', () => {
 })
 document.getElementById('creation-file').addEventListener('click', () => {
     const fileInput = document.getElementById('creation-file-input')
-
     fileInput.click()
 })
 
+// Функция для закрытия модального окна
 function closeModal() {
     const overlay = document.getElementById('overlay')
     const modalFolderName = document.getElementById('modal-folder-name')
@@ -687,6 +702,7 @@ function closeModal() {
         modalAlertList.style.display = 'none'
         modalAlertList.innerHTML = ''
         modalAlert.style.top = `90px`
+        modalwarn.style.top = `90px`
         modalAlertInputFolder.style.display = 'none'
         modalAlertInputFile.style.display = 'none'
         modalAlertButtons.style.display = 'none'
@@ -704,6 +720,7 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
+// Функция для выхода из папки
 function goToBack() {
     const goToBackButtons = document.getElementById('goBackButtons')
     const backButton = document.getElementById('backFolder')
@@ -726,6 +743,7 @@ function goToBack() {
     })
 }
 
+// Автоматическая функция для показа ошибок присланных с сервера
 function showWarn(warn) {
     const overlay = document.getElementById('overlay')
     const modalwarn = document.getElementById('modal-warn')
@@ -738,8 +756,10 @@ function showWarn(warn) {
         modalwarn.style.display = 'flex'
     }, 100)
     modalWarnText.textContent = warn
+    showWarnHeight()
 }
 
+// Модальное окно для: переименования, показа информации и удаления данных
 function showAlert(alert, modifier, info) {
     const overlay = document.getElementById('overlay')
     const modalAlert = document.getElementById('modal-alert')
@@ -808,12 +828,14 @@ function showAlert(alert, modifier, info) {
     })
 }
 
+// Отправка данных для переименования папки
 document.getElementById('input-rename-submit-folder').addEventListener('click', (e) => {
     e.preventDefault()
     const inputRenameFolder = document.getElementById('input-rename-folder')
     closeModal()
     renameItem(currentItemFolder, inputRenameFolder.value)
 })
+// Отправка данных для переименования файла
 document.getElementById('input-rename-submit-file').addEventListener('click', (e) => {
     e.preventDefault()
     const inputRenameFile = document.getElementById('input-rename-file')
@@ -821,6 +843,7 @@ document.getElementById('input-rename-submit-file').addEventListener('click', (e
     renameItem(currentItemFile, inputRenameFile.value)
 })
 
+// Показ информации о файле в модальном окне
 function showDataInfoFile(fileInfo) {
     const modalAlertList = document.getElementById('modal-alert-list')
     const { fileName, mimeType, path, size, uploadedAt } = fileInfo.file[0]
@@ -831,7 +854,7 @@ function showDataInfoFile(fileInfo) {
     const liPath = document.createElement('li')
     const liSize = document.createElement('li')
     const liTime = document.createElement('li')
-
+    
     liName.innerHTML = `Имя файла: <span>${fileName}</span>`
     liType.innerHTML = `Тип файла: <span>${mimeType}</span>`
     liPath.innerHTML = `Путь к файлу файла: <span>${fileInfo.user[0].name}\\${arrPath.join('\\')}</span>`
@@ -844,6 +867,7 @@ function showDataInfoFile(fileInfo) {
     modalAlertList.appendChild(liSize);
     modalAlertList.appendChild(liTime);
 }
+// Показ информации о папке в модальном окне
 function showDataInfoFolder(folderInfo) {
     const modalAlertList = document.getElementById('modal-alert-list')
     const { folderName, path, createdAt } = folderInfo.folder[0]
@@ -868,6 +892,7 @@ function showDataInfoFolder(folderInfo) {
     modalAlertList.appendChild(liСontains);
 }
 
+// Подсчет размера файла или папки
 function sizeCalculation(size) {
     if (size < 1024) {
         return `${size} Байт`;
@@ -880,6 +905,7 @@ function sizeCalculation(size) {
     }
 }
 
+// Правильный показ даты
 function formatDateForSNG(isoDateString) {
     const date = new Date(isoDateString);
     
@@ -895,6 +921,7 @@ function formatDateForSNG(isoDateString) {
     return date.toLocaleString('ru-RU', options);
 }
 
+// Выравнивание модального окна по вертикали
 function showAlertHeight() {
     const modalAlert = document.getElementById('modal-alert');
     const firstStyle = 240;
@@ -903,7 +930,16 @@ function showAlertHeight() {
     let differenceTop = Number(styles.top.replace(/\D/g, '')) - differenceHeight;
     modalAlert.style.top = `${differenceTop}px`
 }
+function showWarnHeight() {
+    const modalwarn = document.getElementById('modal-warn')
+    const firstStyle = -10;
+    const styles = getComputedStyle(modalwarn);
+    let differenceHeight = modalwarn.offsetHeight - firstStyle;
+    let differenceTop = Number(styles.top.replace(/\D/g, '')) - differenceHeight;
+    modalwarn.style.top = `${differenceTop}px`
+}
 
+// Анимация загрузки
 function loaderAnimation(showLoader) {
     const loader = document.getElementById('loader')
     const overlay = document.getElementById('overlay-loader')
@@ -920,6 +956,7 @@ function loaderAnimation(showLoader) {
     }
 }
 
+// Проверка на нахождения пользователя в папке
 function checkingPage() {
     const urlParams = new URLSearchParams(window.location.search);
     if(urlParams.get('f')) {
@@ -929,6 +966,7 @@ function checkingPage() {
     }
 }
 
+// Кнопка для открытия поисковой строки
 function searchButton() {
     const searchButton = document.getElementById('search__button')
     const searchInput = document.getElementById('search__input')

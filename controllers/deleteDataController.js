@@ -1,8 +1,10 @@
+// Импорт необходимых модулей, библиотек и функций
 import fs from 'fs'
 import { __dirname, __filename } from '../config/appConfig.js'
 import Folder from '../models/folder.js'
 import File from '../models/file.js'
 
+// Функция удаления пользовательского файла
 export const deleteFile = async (req, res, next) => {
     const userId = req.user.id
     const fileId = req.body.fileId
@@ -24,6 +26,7 @@ export const deleteFile = async (req, res, next) => {
     }   
 }
 
+// Функция удаления пользовательской папки
 export const deleteFolder = async (req, res, next) => {
     const userId = req.user.id
     const folderId = req.body.folderId

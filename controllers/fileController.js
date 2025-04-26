@@ -1,5 +1,6 @@
 import File from '../models/file.js'
 
+// Добавление информации о файле в базу данных MongoDB
 export const uploadFile = async (req, res, next) => {
     const userId = req.user.id;
     

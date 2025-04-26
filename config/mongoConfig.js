@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+// Подключение к базе данных MongoDB
 export const connectDB = async (mongodb) => {
     try {
         const conn = await mongoose.connect(mongodb)

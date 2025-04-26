@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+// Инициализация таблицы пользователей в базе данных MongoDB
 const userSchema = new mongoose.Schema({
     name: {
         type: String,

@@ -1,5 +1,6 @@
 import File from "../models/file.js"
 
+// Фукнция для скачивания файлов пользователем
 export const downloadFile = async (req, res) => {
     const userId = req.user.id
     const fileId = req.params.fileId

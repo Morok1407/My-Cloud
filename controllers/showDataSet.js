@@ -1,8 +1,10 @@
+// Импорт необходимых модулей, библиотек и функций
 import Folder from '../models/folder.js'
 import File from '../models/file.js';
 import User from '../models/user.js'
 import { __filename, __dirname} from '../config/appConfig.js'
 
+// Проверка запроса на наличие urlParamsFolder
 export const showDataSet = async (req, res) => {
     const urlParams_F = req.body.urlParams_F
     if(urlParams_F && !(urlParams_F === 'null')){
@@ -12,6 +14,7 @@ export const showDataSet = async (req, res) => {
     }
 }
 
+// Предоставление пользователю его данных в корневой папке
 async function showDataSetUser(req, res) {
     const _id = req.user.id;
     try {
@@ -27,6 +30,7 @@ async function showDataSetUser(req, res) {
     }
 }
 
+// Предоставление пользователю данных в папке
 export const showDataSetToFolder = async (req, res) => {
     const userId = req.user.id;
     const urlParams_F = req.body.urlParams_F.replace(/"/g, '')
@@ -42,6 +46,7 @@ export const showDataSetToFolder = async (req, res) => {
     }
 }
 
+// Предоставление пользователю информационных данных о файле
 export const showDataInfoFile = async (req, res) => {
     const userId = req.user.id
     const fileId = req.body.itemId
@@ -56,6 +61,7 @@ export const showDataInfoFile = async (req, res) => {
     }
 }
 
+// Предоставление пользователю информационных данных о папке
 export const showDataInfoFolder = async (req, res) => {
     const userId = req.user.id
     const folderId = req.body.itemId
@@ -81,6 +87,7 @@ export const showDataInfoFolder = async (req, res) => {
     }
 }
 
+// Поиск пользовательских данных
 export const searchData = async (req, res) => {
     const userId = req.user.id
     const searchValue = req.body.searchInput
