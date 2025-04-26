@@ -6,12 +6,15 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Имя обязательно'],
         minlength: [3, 'Имя должно содержать минимум 3 символа'],
+        trim: true,
     },
     email: {
         type: String,
         required: [true, 'Email обязателен'], 
         unique: true, 
         match: [/.+@.+\..+/, 'Введите корректный email'], 
+        lowercase: true,
+        trim: true,
     },
     password: {
         type: String,

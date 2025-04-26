@@ -5,6 +5,8 @@ import fs from 'fs'
 import path from 'path'
 import { creatToken } from '../middleware/creatToken.js'
 import { __filename, __dirname } from '../config/appConfig.js'
+import jwt from 'jsonwebtoken';
+import { SECRET_KEY } from '../config/appConfig.js'
 
 // Регистрация пользователя
 export const register = async (req, res) => {
@@ -41,6 +43,7 @@ export const register = async (req, res) => {
         
         newUser.folderPath = relativePath;
         await newUser.save();
+        const user = await User.findOne({ _id: userId });
         res.json({ success: true, message: `/${user.name}`});
     } catch (err) {
         res.json({ success: false, message: 'Ошибка при регистрации: ' + err.message });
@@ -83,5 +86,22 @@ export const openUserProfile = async (req, res) => {
         }
     } catch (error) {
         res.status(500).send(`${error}`);
+    }
+}
+
+export const checkToken = async (req, res) => {
+    const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
+    
+    if (!token) {
+        return res.redirect("/assets/template/register.html");
+    }
+
+    const decoded = jwt.verify(token, SECRET_KEY);
+    const userName = decoded.username
+    
+    try {
+        return res.redirect(`/${userName}`);
+    } catch (error) {
+        res.status(500).json({ success: false, error: `Error: ${error}` });
     }
 }

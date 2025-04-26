@@ -63,6 +63,7 @@ export const creatFolder = async (req, res, next) => {
             const newFolder = new Folder({
                 userId,
                 folderName: folderName,
+                userWithAccess: userId,
                 mimeType: 'Folder',
                 destination: userFolderPath,
                 path: newFolderPath,

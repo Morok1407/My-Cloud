@@ -10,6 +10,7 @@ import { uploadFile } from '../controllers/fileController.js';
 import { rename } from '../controllers/renameController.js';
 import { deleteFile, deleteFolder } from '../controllers/deleteDataController.js';
 import { downloadFile } from '../controllers/downloadController.js';
+import { accessCheck, accessChange } from '../controllers/accessController.js';
 
 const router = express.Router()
 
@@ -33,6 +34,10 @@ router.post('/deleteFile', authenticate, deleteFile, showDataSet)
 router.post('/deleteFolder', authenticate, deleteFolder, showDataSet)
 
 router.post('/searchData', authenticate, searchData)
+
+router.post('/accessCheck', authenticate, accessCheck)
+
+router.post('/accessChange', authenticate, accessChange, showDataSet)
 
 router.get('/downloadFile/:fileId', authenticate, downloadFile)
 

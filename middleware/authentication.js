@@ -6,7 +6,7 @@ export const authenticate = (req, res, next) => {
     const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
 
     if (!token) {
-        return res.status(401).json({ error: 'Требуется аутентификация' });
+        return res.sendFile(path.join(__dirname, "public", "assets", "template", "register.html"));
     }
 
     try {

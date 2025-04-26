@@ -1433,13 +1433,13 @@ $font-roboto: Roboto;
         line-height: 27px;
         text-align: center;
     }
-    img {
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 50px;
-        cursor: pointer;
-    }
+    // img {
+    //     position: absolute;
+    //     top: 0;
+    //     right: 0;
+    //     width: 50px;
+    //     cursor: pointer;
+    // }
 }
 .modal-alert-list {
     display: flex;
@@ -1507,6 +1507,28 @@ $font-roboto: Roboto;
         border-radius: 62px;
         padding: 12px 24px;
         background: linear-gradient(90deg, rgb(67, 161, 214), rgb(144, 126, 255) 100%);
+    }
+}
+.modal-alert-access {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    
+    div {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+
+        img {
+            border-radius: 50%;
+            padding: 10px;
+            background: linear-gradient(90deg, rgb(67, 161, 214), rgb(144, 126, 255) 100%);
+            width: 60px;
+        }
+        span {
+            text-align: start;
+        }
     }
 }
 .modal-alert--active {

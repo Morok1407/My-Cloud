@@ -8,7 +8,8 @@ import { connectDB } from './config/mongoConfig.js'
 import 'dotenv/config';
 import apiRouter from './router/api.js'
 import authRouter from './router/auth.js'
-import { openUserProfile } from "./controllers/authController.js";
+import { checkToken, openUserProfile } from "./controllers/authController.js";
+import { grantingAccess } from "./controllers/accessController.js";
 
 // Инициализация Express-приложения
 const app = express();
@@ -25,9 +26,17 @@ async function loadHost() {
   app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "index.html"));
   });
+
+  app.get('/register', async (req, res) => {
+    checkToken(req, res);
+  });
   
   app.get("/:username", async (req, res) => {
     openUserProfile(req, res)
+  });
+
+  app.get("/access/:folderId", async (req, res) => {
+    grantingAccess(req, res)
   });
 
   server.listen(PORT, () => {

@@ -119,6 +119,7 @@
 
         <div class="modal-alert" id="modal-alert" style="display: none;">
             <span class="modal-alert-text" id="modal-alert-text"></span>
+
             <ul class="modal-alert-list" id="modal-alert-list" style="display: none;"></ul>
 
             <form class="modal-alert-input" id="modal-alert-input-folder" style="display: none;">
@@ -131,6 +132,21 @@
                 <button type="submit" id="input-rename-submit-file">Переименовать</button>
             </form>
 
+            <div class="modal-alert-access" id="modal-alert-access" style="display: none;">
+                <div class="modal-alert-access-lock" id="modal-alert-access-lock">
+                    <img src="/assets/img/icon/lock-closed.svg" alt="Lock">
+                    <span>Закрыть доступ</span>
+                </div>
+                <div class="modal-alert-access-global" id="modal-alert-access-global">
+                    <img src="/assets/img/icon/earth.svg" alt="Global">
+                    <span>Предоставить общий доступ по ссылке</span>
+                </div>
+                <div class="modal-alert-access-link" id="modal-alert-access-link">
+                    <img src="/assets/img/icon/link.svg" alt="Link">
+                    <span id="modal-alert-access-link-span"></span>
+                </div>
+            </div>
+
             <div class="modal-alert-buttons" id="modal-alert-buttons" style="display: none;">
                 <button id="modal-alert-button-yes">Да</button>
                 <button id="modal-alert-button-no">Нет</button>
@@ -141,6 +157,7 @@
             <ul class="context-menu-list">
                 <li class="context-menu-item"><a href="#" id="openFolder">Открыть</a></li>
                 <li class="context-menu-item"><a href="#" id="renameFolder">Переименовать</a></li>
+                <li class="context-menu-item"><a href="#" id="accessFolder">Общий доступ</a></li>
                 <li class="context-menu-item"><a href="#" id="infoFolder">Информация</a></li>
                 <li class="context-menu-item"><a href="#" id="deleteFolder">Удалить</a></li>
             </ul>

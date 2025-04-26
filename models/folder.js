@@ -11,6 +11,14 @@ const FolderSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    publicAccess: {
+        type: Boolean,
+        default: false,
+    },
+    userWithAccess: {
+        type: [String],
+        ref: 'User',
+    },
     mimeType: String,
     destination: {
         type: String,

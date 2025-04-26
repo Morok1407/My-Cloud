@@ -130,7 +130,14 @@ async function loadFiles(data) {
         img.classList.add('icon')
         span.classList.add('profile-dataSet-name')
 
-        img.src = '/assets/img/profile icon/folder.svg'
+        if(folder.publicAccess) {
+            img.src = '/assets/img/profile icon/folderAccess.png'
+            img.alt = 'Folder Access'
+        } else {
+            img.src = '/assets/img/profile icon/folder.svg'
+            img.alt = 'Folder'
+        }
+
         span.textContent = folder.folderName
 
         folderList.appendChild(li);
@@ -523,6 +530,130 @@ document.getElementById('creation-file-input').addEventListener('input', async (
     }
 })
 
+// Контролер доступа
+async function access(folder) {
+    const modalAlertAccess = document.getElementById('modal-alert-access')
+    const modalAlertAccessLock = document.getElementById('modal-alert-access-lock')
+    const modalAlertAccessGlobal = document.getElementById('modal-alert-access-global')
+    const modalAlertAccessLink = document.getElementById('modal-alert-access-link')
+    const modalAlertAccessLinkSpan = document.getElementById('modal-alert-access-link-span')
+
+    const data = await accessCheck(folder)
+    if(data.publicAccess) {
+        modalAlertAccessLink.style.display = 'flex'
+        modalAlertAccessLinkSpan.textContent = `http://localhost:3100/access/${folder.dataset.id}`
+    } else {
+        modalAlertAccessLink.style.display = 'none'
+    }
+    modalAlertAccess.style.display = 'flex'
+    setTimeout(() => {
+        showAlertHeight()
+    }, 100)
+}
+
+// Регистрация нажатия на кнопку закрытия доступа к папке
+document.getElementById('modal-alert-access-lock').addEventListener('click', () => {
+    const modalAlertAccessLink = document.getElementById('modal-alert-access-link')
+    const modalAlertAccessLinkSpan = document.getElementById('modal-alert-access-link-span')
+    accessChange(currentItemFolder, false)
+    modalAlertAccessLink.style.display = 'none'
+    modalAlertAccessLinkSpan.textContent = ''
+    showAlertHeight()
+})
+
+// Регистрация нажатия на кнопку предоставления доступа к папке
+document.getElementById('modal-alert-access-global').addEventListener('click', () => {
+    const modalAlertAccessLink = document.getElementById('modal-alert-access-link')
+    const modalAlertAccessLinkSpan = document.getElementById('modal-alert-access-link-span')
+    accessChange(currentItemFolder, true)
+    modalAlertAccessLink.style.display = 'flex'
+    modalAlertAccessLinkSpan.textContent = `http://localhost:3100/access/${currentItemFolder.dataset.id}`
+    showAlertHeight()
+})
+
+document.getElementById('modal-alert-access-link').addEventListener('click', () => {
+    const modalAlertAccessLinkSpan = document.getElementById('modal-alert-access-link-span')
+    navigator.clipboard.writeText(modalAlertAccessLinkSpan.textContent)
+})
+
+// Проврека папки на общий доступ
+async function accessCheck(item) {
+    const itemId = item.dataset.id
+
+    const loaderTimeout = setTimeout(() => {
+        loaderAnimation(true)
+    }, 1000) 
+
+    try {
+        const response = await fetch('/api/accessCheck', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                itemId,
+            })
+        })
+        const data = await response.json()
+        if(!data.success) {
+            setTimeout(() => {
+                showWarn(data.error)
+            }, 100)
+        } else {
+            return data
+        }
+    } catch (error) {
+        console.error(data.error);
+        setTimeout(() => {
+            showWarn(data.error)
+        }, 100)
+    } finally {
+        clearTimeout(loaderTimeout)
+        loaderAnimation(false)
+    }
+}
+
+// Предоставление общего доступа к папке и наоборот
+async function accessChange(item, status) {
+    const folderId = item.dataset.id
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams_F = urlParams.get('f')
+
+    const loaderTimeout = setTimeout(() => {
+        loaderAnimation(true)
+    }, 1000) 
+
+    try {
+        const response = await fetch('/api/accessChange', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                folderId,
+                status,
+                urlParams_F
+            })
+        })
+        const data = await response.json()
+        if(!data.success) {
+            setTimeout(() => {
+                showWarn(data.error)
+            }, 100)
+        } else {
+            loadFiles(data)
+        }
+    } catch (error) {
+        console.error(data.error);
+        setTimeout(() => {
+            showWarn(data.error)
+        }, 100)
+    } finally {
+        clearTimeout(loaderTimeout)
+        loaderAnimation(false)
+    }
+}
+
 // Функция для контроля данными пользователем
 let currentItemFolder = null;
 let currentItemFile = null;
@@ -630,6 +761,11 @@ document.getElementById('renameFolder').addEventListener('click', (e) => {
 
     showAlert(`Переименование папки`, 'Input-Folder', currentItemFolder)
 })
+document.getElementById('accessFolder').addEventListener('click', (e) => {
+    e.preventDefault()
+
+    showAlert(`Предоставление доступа к папке: "${currentItemFolder.querySelector('.profile-dataSet-name').textContent}"`, 'Access', currentItemFolder)
+})
 document.getElementById('infoFolder').addEventListener('click', (e) => {
     e.preventDefault()
     
@@ -685,8 +821,7 @@ function closeModal() {
     const modalAlertInputFolder = document.getElementById('modal-alert-input-folder')
     const modalAlertInputFile = document.getElementById('modal-alert-input-file')
     const modalAlertButtons = document.getElementById('modal-alert-buttons')
-    const inputRenameSubmitFolder = document.getElementById('input-rename-submit-folder')
-    const inputRenameSubmitFile = document.getElementById('input-rename-submit-file')
+    const modalAlertAccess = document.getElementById('modal-alert-access')
 
     overlay.classList.remove('overlay--active')
     modalFolderName.classList.remove('modal-folder-name--active')
@@ -700,6 +835,7 @@ function closeModal() {
         modalwarn.style.display = 'none'
         modalAlert.style.display = 'none'
         modalAlertList.style.display = 'none'
+        modalAlertAccess.style.display = 'none'
         modalAlertList.innerHTML = ''
         modalAlert.style.top = `90px`
         modalwarn.style.top = `90px`
@@ -796,12 +932,12 @@ function showAlert(alert, modifier, info) {
                 showAlertHeight()
             }, 100)
             break;
-            case 'Buttons':
-                modalAlertButtons.style.display = 'flex'
-                setTimeout(() => {
-                    showAlertHeight()
-                }, 100)
-                break;
+        case 'Buttons':
+            modalAlertButtons.style.display = 'flex'
+            setTimeout(() => {
+                showAlertHeight()
+            }, 100)
+            break;
         case 'Input-Folder':
             modalAlertInputFolder.style.display = 'flex'
             inputRenameFolder.value = info.querySelector('.profile-dataSet-name').textContent
@@ -809,6 +945,9 @@ function showAlert(alert, modifier, info) {
                 inputRenameFolder.focus()
                 showAlertHeight()
             }, 100)
+            break;
+        case 'Access':
+            access(info)
             break;
         case 'Input-File':
             modalAlertInputFile.style.display = 'flex'
@@ -867,6 +1006,7 @@ function showDataInfoFile(fileInfo) {
     modalAlertList.appendChild(liSize);
     modalAlertList.appendChild(liTime);
 }
+
 // Показ информации о папке в модальном окне
 function showDataInfoFolder(folderInfo) {
     const modalAlertList = document.getElementById('modal-alert-list')
@@ -876,18 +1016,26 @@ function showDataInfoFolder(folderInfo) {
     const liName = document.createElement('li')
     const liPath = document.createElement('li')
     const liSize = document.createElement('li')
+    const liAccess = document.createElement('li')
     const liTime = document.createElement('li')
     const liСontains = document.createElement('li')
     
     liName.innerHTML = `Имя папки: <span>${folderName}</span>`
     liPath.innerHTML = `Путь к папке: <span>${folderInfo.user[0].name}\\${arrPath.join('\\')}</span>`
     liSize.innerHTML = `Размер папки: <span>${sizeCalculation(folderInfo.sumSizeFiles)}</span>`
+    console.log(folderInfo.folder[0].publicAccess)
+    if(folderInfo.folder[0].publicAccess) {
+        liAccess.innerHTML = `Доступ к папке: <span>Разрешен</span>`
+    } else {
+        liAccess.innerHTML = `Доступ к папке: <span>Запрещен</span>`
+    }
     liTime.innerHTML = `Время создание папки: <span>${formatDateForSNG(createdAt)}</span>`
     liСontains.innerHTML = `Содержит: <span>Файлов: ${folderInfo.itemLength.filesLength}; Папок: ${folderInfo.itemLength.foldersLength - 1}</span>`
     
     modalAlertList.appendChild(liName);
     modalAlertList.appendChild(liPath);
     modalAlertList.appendChild(liSize);
+    modalAlertList.appendChild(liAccess);
     modalAlertList.appendChild(liTime);
     modalAlertList.appendChild(liСontains);
 }

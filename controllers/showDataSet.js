@@ -21,7 +21,12 @@ async function showDataSetUser(req, res) {
         const user = await User.find({ _id });
         const { name, folderPath } = user[0];
 
-        const folders = await Folder.find({ userId: _id, destination: folderPath });
+        const folders = await Folder.find({
+            $or: [
+                { userId: _id }, 
+                { userWithAccess: _id }
+            ]
+        });
         const files = await File.find({ userId: _id, destination: folderPath });
 
         res.status(200).json({ success: true, folders, files, name});
