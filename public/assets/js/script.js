@@ -84,10 +84,12 @@ function registerSwitch() {
   const registerHead = document.getElementById("register-head");
   const loginForm = document.getElementById("login-form");
   const registerForm = document.getElementById("register-form");
-
+  const codeConfirmHead = document.getElementById("code-confirm-head").style.display = 'none';
+  const codeConfirmForm = document.getElementById("code-confirm-form").style.display = 'none';
+  
   buttonSwitch.addEventListener("click", () => {
     switchLink.classList.toggle("register__switch-end");
-
+    
     if (registerHead.classList.contains("register__head--acitve")) {
       registerForm.style.opacity = "0";
       registerHead.style.opacity = "0";
@@ -119,11 +121,101 @@ function registerSwitch() {
 }
 registerSwitch();
 
-// Получение капчи с сервера
-document.getElementById("change-captcha").addEventListener("click", () => {
-  const captcha = document.getElementById("captcha");
-  captcha.src = `/auth/captcha?${Date.now()}`;
+// Открытие формы для отправки кода
+function codeConfirm() {
+  const buttonSwitch = document.getElementById("switch").style.display = 'none';
+  const loginHead = document.getElementById("login-head").style.display = 'none';
+  const registerHead = document.getElementById("register-head").style.display = 'none';
+  const loginForm = document.getElementById("login-form").style.display = 'none';
+  const registerForm = document.getElementById("register-form").style.display = 'none';
+  
+  const codeConfirmHead = document.getElementById("code-confirm-head").style.display = 'flex';
+  const codeConfirmForm = document.getElementById("code-confirm-form").style.display = 'flex';
+  
+  const inputs = document.querySelectorAll(".code-confirm-input");
+  
+  inputs.forEach((input, index) => {
+    input.addEventListener("input", (e) => {
+      const value = e.target.value.toUpperCase();
+      e.target.value = value;
+
+      if (value.length === 1 && index < inputs.length - 1) {
+        inputs[index + 1].focus();
+      }
+    });
+
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Backspace" && !input.value && index > 0) {
+        inputs[index - 1].focus();
+      }
+    });
+  });
+}
+
+function onElementLoaded(selector, callback) {
+  const targetNode = document.body;
+  const observerOptions = {
+    childList: true,
+    subtree: true
+  };
+
+  const observer = new MutationObserver(() => {
+    const element = document.querySelector(selector);
+    if (element) {
+      callback(element);
+      observer.disconnect();
+    }
+  });
+
+  observer.observe(targetNode, observerOptions);
+}
+
+onElementLoaded(".main-register", async (el) => {
+  const response = await fetch("/auth/checkVerificat", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+  if (data.success) {
+    console.log(data.message)
+  } else {
+    if(data.message == 'Not verification') {
+      codeConfirm()
+    } else {
+      alert('Ошибка регистрации: ' + data.message);
+    }
+  }
 });
+
+// Отправка кода на сервер для подтверждения
+document.getElementById('code-confirm-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const inputs = document.querySelectorAll(".code-confirm-input");
+  let code = ''
+  inputs.forEach(i => {
+    code += i.value
+  });
+
+  const response = await fetch("/auth/codeConfirm", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      code,
+    }),
+  });
+  code = ''
+  const data = await response.json();
+    if (data.success) {
+      window.location.href = data.message
+    } else {
+      alert('Ошибка регистрации: ' + data.message);
+  }
+})
 
 // Форма регистрации
 document.getElementById("register-form").addEventListener("submit", async (e) => {
@@ -133,7 +225,6 @@ document.getElementById("register-form").addEventListener("submit", async (e) =>
     const email = document.getElementById("register-email").value;
     const password = document.getElementById("register-password").value;
     const rePassword = document.getElementById("register-re-password").value;
-    const captchaResponse = document.getElementById("captcha-response").value;
 
     const response = await fetch("/auth/register", {
       method: "POST",
@@ -145,28 +236,24 @@ document.getElementById("register-form").addEventListener("submit", async (e) =>
         email,
         password,
         rePassword,
-        captchaResponse,
       }),
     });
 
     const data = await response.json();
       if (data.success) {
-        window.location.href = data.message
+        codeConfirm()
       } else {
         alert('Ошибка регистрации: ' + data.message);
-        if (data.message === 'Неверный код с картинки') {
-          document.getElementById('captchaResponse').src = `/auth/captcha?${new Date().getTime()}`;
-        }
-    }
-});
-
-// Форма входа
-document.getElementById('login-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
+      }
+    });
+    
+    // Форма входа
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
 
   const email = document.getElementById("login-email").value;
   const password = document.getElementById("login-password").value;
-
+  
   const response = await fetch('/auth/login', {
     method: 'POST',
     headers: {
@@ -182,6 +269,10 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
   if(data.success) {
     window.location.href = data.message
   } else {
-    alert('Ошибка регистрации: ' + data.message);
+    if(data.message == 'Not verification') {
+      codeConfirm()
+    } else {
+      alert('Ошибка регистрации: ' + data.message);
+    }
   }
 })

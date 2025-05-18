@@ -47,7 +47,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
   margin-bottom: 30px;
+  gap: 10px;
 }
 .section__head h2 {
   color: rgb(59, 102, 141);
@@ -831,6 +833,7 @@
   border: 2px solid rgb(59, 63, 141);
   border-radius: 36px;
   transition: all 0.3s;
+  background: transparent;
 }
 
 .register__switch-link {
@@ -893,54 +896,15 @@
   background: rgb(243, 243, 243);
   padding: 24px 32px;
 }
-
-.register__form-captcha {
-  position: relative;
+.register__form-item p {
   display: flex;
-  align-items: center;
-  gap: 15px;
-}
-.register__form-captcha span {
-  display: flex;
-  justify-content: flex-end;
-  position: absolute;
-  top: 50%;
-  left: -205px;
-  transform: translateY(-50%);
-  color: rgb(59, 63, 141);
+  text-align: center;
+  color: #3b3f8d;
   font-family: Comfortaa;
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 700;
   line-height: 27px;
-  width: 160px;
-}
-.register__form-captcha input {
-  color: rgb(173, 173, 173);
-  font-family: Comfortaa;
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 27px;
-  border-radius: 61px;
-  background: rgb(243, 243, 243);
-  padding: 24px 32px;
-  width: 170px;
-}
-
-.register__captcha-imgs {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-#captcha {
-  width: 150px;
-  user-select: none;
-}
-
-#change-captcha {
-  cursor: pointer;
-  user-select: none;
-  width: 30px;
+  width: 450px;
 }
 
 .register__form-button {
@@ -1003,6 +967,47 @@
 
 .login__form--active {
   display: flex;
+}
+
+.code-confirm-input-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.code-confirm-input {
+  width: 50px;
+  height: 50px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 1.5rem;
+  background-color: #fff;
+  padding: 0 !important;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.code-confirm-input:focus {
+  border-color: #007bff;
+}
+
+.code-confirm__form-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 14px 0;
+}
+.code-confirm__form-button button {
+  color: rgb(255, 255, 255);
+  font-family: Comfortaa;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 27px;
+  border-radius: 62px;
+  padding: 10px 16px;
+  background: linear-gradient(90deg, rgb(67, 161, 214), rgb(144, 126, 255) 100%);
 }
 
 /* ============================== PROFILE ============================== */

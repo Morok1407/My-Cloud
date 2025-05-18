@@ -26,4 +26,6 @@ export const configApp = (app) => {
 export const __filename = fileURLToPath(import.meta.url);
 export const __dirname = path.dirname(__filename);
 export const SECRET_KEY = process.env.TOKEN;
-export const PORT = process.env.PORT
+export const PORT = process.env.PORT;
+export const MAIL = process.env.MAIL;
+export const MAILPASS = process.env.MAILPASS;

@@ -8,7 +8,7 @@ import { connectDB } from './config/mongoConfig.js'
 import 'dotenv/config';
 import apiRouter from './router/api.js'
 import authRouter from './router/auth.js'
-import { checkToken, openUserProfile } from "./controllers/authController.js";
+import { checkToken, openUserProfile, verifyEmail } from "./controllers/authController.js";
 import { grantingAccess } from "./controllers/accessController.js";
 
 // Инициализация Express-приложения

@@ -26,7 +26,7 @@
             </div>
         </header>
         <main class="main">
-            <section class="register main-registre">
+            <section class="register main-register">
                 <div class="container">
                     <div class="register--inner">
                         <div class="register__head register__head--acitve section__head" id="register-head">
@@ -37,9 +37,13 @@
                             <h2>Вход</h2>
                             <p>Онлайн-хранилище</p>
                         </div>
-                        <div class="register__switch" id="switch">
-                            <div class="register__switch-link"></div>
+                        <div class="code-confirm__head section__head" id="code-confirm-head">
+                            <h2>Подтвердите почту</h2>
+                            <p>Онлайн-хранилище</p>
                         </div>
+                        <button class="register__switch" id="switch">
+                            <div class="register__switch-link"></div>
+                        </button>
                         <form class="register__form register__form--active" id="register-form">
                             <div class="register__form-input">
                                 <div class="register__form-item">
@@ -58,14 +62,6 @@
                                     <span>Re-Password</span>
                                     <input type="password" id="register-re-password" name="password" placeholder="********" required>
                                 </div>
-                            </div>
-                            <div class="register__form-captcha">
-                                <span>captcha</span>
-                                <div class="register__captcha-imgs">
-                                    <img src="/auth/captcha" alt="captcha" id="captcha">
-                                    <img src="../img/icon/change.svg" alt="change" id="change-captcha">
-                                </div>
-                                <input type="captcha" id="captcha-response" name="captcha" placeholder="captcha" required>
                             </div>
                             <div class="register__form-button">
                                 <button type="submit">Регистрация</button>
@@ -88,6 +84,23 @@
                             <div class="register__form-button">
                                 <button type="submit">Вход</button>
                                 <a href="#">Забыли пароль</a>
+                            </div>
+                        </form>
+                        <!-- ============================================ -->
+                        <form class="code-confirm__form" id="code-confirm-form">
+                            <div class="register__form-item">
+                                <div class="code-confirm-input-container">
+                                    <input type="text" maxlength="1" class="code-confirm-input" required/>
+                                    <input type="text" maxlength="1" class="code-confirm-input" required/>
+                                    <input type="text" maxlength="1" class="code-confirm-input" required/>
+                                    <input type="text" maxlength="1" class="code-confirm-input" required/>
+                                    <input type="text" maxlength="1" class="code-confirm-input" required/>
+                                    <input type="text" maxlength="1" class="code-confirm-input" required/>
+                                </div>
+                                <div class="code-confirm__form-button">
+                                    <button type="submit">Подтвердить</button>
+                                </div>
+                                <p>Введите код подтверждения отправленный на вашу почту</p>
                             </div>
                         </form>
                     </div>
