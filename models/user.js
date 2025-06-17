@@ -21,6 +21,13 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Пароль обязателен'], 
         minlength: [6, 'Пароль должен содержать минимум 6 символов'], 
     },
+    SubscriptionType: {
+        type: String,
+        default: 'Free'
+    },
+    RemainingPeriod: {
+        type: Number,
+    },
     isVerified: {
         type: Boolean,
         default: false,

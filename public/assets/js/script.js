@@ -135,6 +135,13 @@ function codeConfirm() {
   const inputs = document.querySelectorAll(".code-confirm-input");
   
   inputs.forEach((input, index) => {
+    input.addEventListener('focus', (e) => {
+      const fistInput = inputs[index - 1].value
+      if(fistInput.length < 1) {
+        inputs[index - 1].focus();
+      }
+    })
+
     input.addEventListener("input", (e) => {
       const value = e.target.value.toUpperCase();
       e.target.value = value;
@@ -150,6 +157,27 @@ function codeConfirm() {
       }
     });
   });
+}
+
+async function codeConfirmSendAgain() {
+  const codeConfirmButton = document.querySelector('.code-confirm__form-again-button')
+  const codeConfirmTimer = document.getElementById('code-confirm-timer')
+  let timer = 59
+
+  codeConfirmTimer.style.display = 'flex'
+  codeConfirmButton.style.display = 'none'
+  codeConfirmTimer.textContent = timer
+  
+  let codeConfirmInterval = setInterval(() => {
+    codeConfirmTimer.textContent = timer--
+  }, 1000)
+  
+  setTimeout(() => {
+    console.log('End')
+    clearInterval(codeConfirmInterval)
+    codeConfirmButton.style.display = 'flex'
+    codeConfirmTimer.style.display = 'none'
+  }, 62000)
 }
 
 function onElementLoaded(selector, callback) {
@@ -183,8 +211,6 @@ onElementLoaded(".main-register", async (el) => {
   } else {
     if(data.message == 'Not verification') {
       codeConfirm()
-    } else {
-      alert('Ошибка регистрации: ' + data.message);
     }
   }
 });
@@ -226,6 +252,10 @@ document.getElementById("register-form").addEventListener("submit", async (e) =>
     const password = document.getElementById("register-password").value;
     const rePassword = document.getElementById("register-re-password").value;
 
+    if(password.length < 6) {
+      return alert('Пароль должен содержать больше 6 символом.')
+    }
+
     const response = await fetch("/auth/register", {
       method: "POST",
       headers: {
@@ -245,11 +275,11 @@ document.getElementById("register-form").addEventListener("submit", async (e) =>
       } else {
         alert('Ошибка регистрации: ' + data.message);
       }
-    });
-    
-    // Форма входа
-    document.getElementById('login-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
+});
+
+// Форма входа
+document.getElementById('login-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
 
   const email = document.getElementById("login-email").value;
   const password = document.getElementById("login-password").value;

@@ -11,6 +11,14 @@ const FileShema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    publicAccess: {
+        type: Boolean,
+        default: false,
+    },
+    userWithAccess: {
+        type: [String],
+        ref: 'User',
+    },
     encoding: String,
     mimeType: String,
     destination: String,

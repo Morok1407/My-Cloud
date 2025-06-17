@@ -8,8 +8,10 @@ import { connectDB } from './config/mongoConfig.js'
 import 'dotenv/config';
 import apiRouter from './router/api.js'
 import authRouter from './router/auth.js'
-import { checkToken, openUserProfile, verifyEmail } from "./controllers/authController.js";
+import { checkToken, openUserProfile } from "./controllers/authController.js";
 import { grantingAccess } from "./controllers/accessController.js";
+import cron from 'node-cron';
+import { updateSubscriptions } from "./controllers/cyclicController.js";
 
 // Инициализация Express-приложения
 const app = express();
@@ -44,6 +46,10 @@ async function loadHost() {
   });
 }
 loadHost();
+
+cron.schedule('0 0 * * *', () => {
+  updateSubscriptions();
+});
 
 // Подключение к базе данных MongoDB
 connectDB(process.env.MongoDB)

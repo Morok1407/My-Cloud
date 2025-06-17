@@ -7,7 +7,7 @@ import cookiParser from 'cookie-parser'
 import dotenv from 'dotenv';
 
 // Путь к папке со всеми важными данными и ключами
-dotenv.config({ path: resolve('./.env')})
+dotenv.config({ path: resolve('./.env') })
 
 // Экспорт конфигураций модуля Express
 export const configApp = (app) => {

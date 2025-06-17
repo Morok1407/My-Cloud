@@ -88,7 +88,7 @@
                         </form>
                         <!-- ============================================ -->
                         <form class="code-confirm__form" id="code-confirm-form">
-                            <div class="register__form-item">
+                            <div class="register__form-item code-confirm--inner">
                                 <div class="code-confirm-input-container">
                                     <input type="text" maxlength="1" class="code-confirm-input" required/>
                                     <input type="text" maxlength="1" class="code-confirm-input" required/>
@@ -97,8 +97,12 @@
                                     <input type="text" maxlength="1" class="code-confirm-input" required/>
                                     <input type="text" maxlength="1" class="code-confirm-input" required/>
                                 </div>
-                                <div class="code-confirm__form-button">
+                                <div class="code-confirm__form-submit">
                                     <button type="submit">Подтвердить</button>
+                                </div>
+                                <div class="code-confirm__form-again">
+                                    <button type="button" class="code-confirm__form-again-button" onclick="codeConfirmSendAgain()">Повторно отправить код</button>
+                                    <span id="code-confirm-timer" style="display: none;"></span>
                                 </div>
                                 <p>Введите код подтверждения отправленный на вашу почту</p>
                             </div>

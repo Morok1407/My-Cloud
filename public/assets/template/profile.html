@@ -15,7 +15,7 @@
 <body>
     <div class="wrapper-rest">
         <div class="overlay" id="overlay" style="display: none;"></div>
-        <div class="overlay" id="overlay-loader" style="display: none;"></div>
+        <div class="overlay" id="overlay-loader" style="display: none; z-index: 2147483647;"></div>
         
         <div class="cssload-thecube" id="loader" style="display: none;">
             <div class="cssload-cube cssload-c1"></div>
@@ -31,16 +31,16 @@
                         <div class="header_top-logo">
                             <a href="/index.html">Skybin</a>
                         </div>
-                        <div class="header_top-profile">
+                        <button class="header_top-profile" id="settings-profile">
                             <img src="/assets/img/icon/person.svg" alt="percon">
-                        </div>
+                        </button>
                     </div>
                 </div>
             </div>
         </header>
 
         <main class="main">
-            <section class="profile-files">
+            <section class="profile-files" id="profile-files">
                 <div class="container">
                     <div class="profile-files--inner">
                         <div class="profile-files__head section__head">
@@ -48,18 +48,20 @@
                             <p>Онлайн-хранилище</p>
                         </div>
 
-                        <div class="profile-menu">
+                        <div class="profile-menu" id="profile-menu">
                             <div class="directory_map" id="directoryMap">
                                 <span id="directoryMapSpan"></span>
                             </div>
     
                             <div class="search--inner" id="search--inner">
                                 <input id="search__input" type="text" style="display: none;" placeholder="Search">
-                                <img id="search__button" src="assets/img/icon/search.svg" alt="Search">
+                                <button id="search__button">
+                                    <img src="assets/img/icon/search.svg" alt="Search">
+                                </button>
                             </div>
                         </div>
 
-                        <div class="profile-files__body">
+                        <div class="profile-files__body" id="section__body">
                             <div class="profile-files__body-not-file" id="not-files">
                                 <img src="/assets/img/item/Cloud.PNG" alt="">
                                 <span>Файлы отсутствуют</span>
@@ -73,12 +75,52 @@
                 </div>
             </section>
 
-            <section class="profile-settings">
+            <section class="profile-settings" id="profile-settings" style="display: none;">
                 <div class="container">
                     <div class="profile-settings--inner">
-                        <div class="profile-settings_head section__head">
-                            <h2>Профиль</h2>
+                        <div class="profile-settings__head section__head">
+                            <h2>Настройки</h2>
                             <p>Онлайн-хранилище</p>
+                        </div>
+                        <div class="profile-settings__body">
+                            <ul class="profile-settings__body-list">
+                                <li class="profile-settings__body-link">
+                                    <div class="profile-settings__link-img">
+                                        <img src="/assets/img/icon/crown.svg" alt="Crown">
+                                    </div>
+                                    <div class="profile-settings__link-text">
+                                        <p>ТИП АККАУНТА:</p>
+                                        <span>Бомж</span>
+                                    </div>
+                                </li>
+                                <li class="profile-settings__body-link">
+                                    <div class="profile-settings__link-img">
+                                        <img src="/assets/img/icon/calendar.svg" alt="Calendar">
+                                    </div>
+                                    <div class="profile-settings__link-text">
+                                        <p>Осталось дней:</p>
+                                        <span>30</span>
+                                    </div>
+                                </li>
+                                <li class="profile-settings__body-link">
+                                    <div class="profile-settings__link-img">
+                                        <img src="/assets/img/icon/database.svg" alt="Database">
+                                    </div>
+                                    <div class="profile-settings__link-text">
+                                        <p>Сохраненных файлов:</p>
+                                        <span>123456789 GB</span>
+                                    </div>
+                                </li>
+                            </ul>
+
+                            <div class="profile-settings__body-data">
+                                
+                            </div>
+
+                            <div class="profile-settings__body-buttons">
+                                <button onclick="showAlert('Подтвердите свое действие введя пароль', 'Password')">Удалить аккаунт</button>
+                                <a href="/api/logOutOfAccount">Выйти</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -94,17 +136,17 @@
             </div>
         </div>
 
-        <div class="profile-files__button--inner">
-            <div class="profile-files__body-creation-button" id="creation-button">
+        <div class="profile-files__button--inner" id="profileFilesButtons">
+            <button class="profile-files__body-creation-button" id="creation-button">
                 <img id="creation-button-plus" src="/assets/img/icon/add.svg" alt="File-add">
-            </div>
-            <div class="profile-files__creation-folder" id="creation-folder">
+            </button>
+            <button class="profile-files__creation-folder" id="creation-folder">
                 <img src="/assets/img/icon/folder.svg" alt="folder">
-            </div>
-            <div class="profile-files__creation-file" id="creation-file">
+            </button>
+            <button class="profile-files__creation-file" id="creation-file">
                 <img src="/assets/img/icon/document.svg" alt="">
                 <input type="file" id="creation-file-input" style="display: none;" />
-            </div>
+            </button>
         </div>
 
         <form class="modal-folder-name" id="modal-folder-name" style="display: none;">
@@ -132,6 +174,11 @@
                 <button type="submit" id="input-rename-submit-file">Переименовать</button>
             </form>
 
+            <form class="modal-alert-input" id="modal-alert-password" style="display: none;">
+                <input id="modal-alert-input-password" type="password" placeholder="******">
+                <button type="submit" id="input-password-submit">Подтвердить</button>
+            </form>
+
             <div class="modal-alert-access" id="modal-alert-access" style="display: none;">
                 <div class="modal-alert-access-lock" id="modal-alert-access-lock">
                     <img src="/assets/img/icon/lock-closed.svg" alt="Lock">
@@ -144,6 +191,10 @@
                 <div class="modal-alert-access-link" id="modal-alert-access-link">
                     <img src="/assets/img/icon/link.svg" alt="Link">
                     <span id="modal-alert-access-link-span"></span>
+                </div>
+                <div class="modal-alert-access-forbidden" id="modal-alert-access-forbidden" style="display: none;">
+                    <img src="/assets/img/icon/close-white.svg" alt="forbidden">
+                    <span id="modal-alert-access-forbidden-span"></span>
                 </div>
             </div>
 

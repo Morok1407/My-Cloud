@@ -5,11 +5,9 @@ import fs from 'fs'
 import path from 'path'
 import crypto from 'crypto'
 import { creatToken } from '../middleware/creatToken.js'
-import { __filename, __dirname } from '../config/appConfig.js'
+import { __filename, __dirname, SECRET_KEY, MAIL, MAILPASS } from '../config/appConfig.js'
 import jwt from 'jsonwebtoken';
-import { SECRET_KEY } from '../config/appConfig.js'
 import nodemailer from 'nodemailer';
-import { MAIL, MAILPASS } from '../config/appConfig.js';
 
 // Регистрация пользователя
 export const register = async (req, res) => {
@@ -17,6 +15,10 @@ export const register = async (req, res) => {
 
     if (password !== rePassword) {
         return res.json({ success: false, message: 'Пароли не совпадают' });
+    }
+
+    if(password.length < 6) {
+        return res.json({ success: false, message: 'Пароль должен содержать больше 6 символов' })
     }
 
     const existingUser = await User.findOne({ email });
@@ -140,6 +142,8 @@ export const openUserProfile = async (req, res) => {
 
         if (user) {
             return res.sendFile(path.join(__dirname, "..", "public", "assets", "template", "Profile.html"));
+        } else {
+            return res.redirect(`/register`);
         }
     } catch (error) {
         res.status(500).send(`${error}`);
@@ -175,17 +179,13 @@ export const checkToken = async (req, res) => {
 export const checkVerificat = async (req, res) => {
     const userId = req.user.id
 
-    try {
-        const verificationToken = crypto.randomBytes(3).toString("hex").toUpperCase();
-        await User.updateOne({ _id: userId }, { $set: { verificationToken } })
-        const user = await User.find({ _id: userId })
-        if(!user[0].isVerified) {
-            await sendVerificationEmail(user[0]);
-            return res.json({ success: false, message: `Not verification` });
-        }
-
-        res.json({ success: true });
-    } catch (error) {
-        res.status(200).json({ success: true });
+    const verificationToken = crypto.randomBytes(3).toString("hex").toUpperCase();
+    await User.updateOne({ _id: userId }, { $set: { verificationToken } })
+    const user = await User.find({ _id: userId })
+    if(!user.isVerified) {
+        await sendVerificationEmail(user[0]);
+        return res.json({ success: false, message: `Not verification` });
+    } else {
+        return res.json({ success: true })
     }
 }

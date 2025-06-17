@@ -27,14 +27,14 @@ async function showDataSet() {
         })
         const data = await response.json()
         sectionName.textContent = data.name
-        loadFiles(data)
+        loadData(data)
         if(!data.success) {
             setTimeout(() => {
                 showWarn(data.error)
             }, 100)
         }
     } catch (error) {
-        console.error(data.error);
+        console.error(error);
         setTimeout(() => {
             showWarn(data.error)
         }, 100)
@@ -77,7 +77,7 @@ async function showDataSetToFolder(urlParams_F) {
         } else {
             directoryMap.style.display = 'none'
         }
-        loadFiles(data)
+        loadData(data)
         goToBack()
         if(!data.success) {
             setTimeout(() => {
@@ -85,7 +85,7 @@ async function showDataSetToFolder(urlParams_F) {
             }, 100)
         }
     } catch (error) {
-        console.error(data.error);
+        console.error(error);
         setTimeout(() => {
             showWarn(data.error)
         }, 100)
@@ -96,7 +96,7 @@ async function showDataSetToFolder(urlParams_F) {
 }
 
 // Асинхронный загрузка данных пользователя на сайт
-async function loadFiles(data) {
+async function loadData(data) {
     const folderList = document.getElementById('files-list')
     const NotFiles = document.getElementById('not-files')
     const searchButton = document.getElementById('search__button')
@@ -231,7 +231,7 @@ async function renameItem(item, renameText) {
         })
         const data = await response.json()
         if(!(data.message === 'Not difference')) {
-            loadFiles(data)
+            loadData(data)
         }
         if(!data.success) {
             setTimeout(() => {
@@ -239,7 +239,7 @@ async function renameItem(item, renameText) {
             }, 100)
         }
     } catch (error) {
-        console.error(data.error);
+        console.error(error);
         setTimeout(() => {
             showWarn(data.error)
         }, 100)
@@ -277,7 +277,7 @@ async function infoItem(item) {
                 }, 100)
             }
         } catch (error) {
-            console.error(data.error);
+            console.error(error);
             setTimeout(() => {
                 showWarn(data.error)
             }, 100)
@@ -304,7 +304,7 @@ async function infoItem(item) {
                 }, 100)
             }
         } catch (error) {
-            console.error(data.error);
+            console.error(error);
             setTimeout(() => {
                 showWarn(data.error)
             }, 100)
@@ -337,14 +337,14 @@ async function deleteFile(file) {
             })
         })
         const data = await response.json()
-        loadFiles(data)
+        loadData(data)
         if(!data.success) {
             setTimeout(() => {
                 showWarn(data.error)
             }, 100)
         }
     } catch (error) {
-        console.error(data.error);
+        console.error(error);
         setTimeout(() => {
             showWarn(data.error)
         }, 100)
@@ -376,14 +376,14 @@ async function deleteFolder(folder) {
             })
         })
         const data = await response.json()
-        loadFiles(data)
+        loadData(data)
         if(!data.success) {
             setTimeout(() => {
                 showWarn(data.error)
             }, 100)
         }
     } catch (error) {
-        console.error(data.error);
+        console.error(error);
         setTimeout(() => {
             showWarn(data.error)
         }, 100)
@@ -416,14 +416,14 @@ document.getElementById('search__input').addEventListener('input', async () => {
             })
         })
         const data = await response.json()
-        loadFiles(data)
+        loadData(data)
         if(!data.success) {
             setTimeout(() => {
                 showWarn(data.error)
             }, 100)
         }
     } catch (error) {
-        console.error(data.error);
+        console.error(error);
         setTimeout(() => {
             showWarn(data.error)
         }, 100)
@@ -474,10 +474,10 @@ document.getElementById('send-folder-name').addEventListener('click', async (e) 
                 showWarn(data.error)
             }, 100)
         } else {
-            loadFiles(data)
+            loadData(data)
         }
     } catch (error) {
-        console.error(data.error);
+        console.error(error);
         setTimeout(() => {
             showWarn(data.error)
         }, 100)
@@ -517,10 +517,10 @@ document.getElementById('creation-file-input').addEventListener('input', async (
                 showWarn(data.error)
             }, 100)
         } else {
-            loadFiles(data)
+            loadData(data)
         }
     } catch (error) {
-        console.error(data.error);
+        console.error(error);
         setTimeout(() => {
             showWarn(data.error)
         }, 100)
@@ -537,11 +537,19 @@ async function access(folder) {
     const modalAlertAccessGlobal = document.getElementById('modal-alert-access-global')
     const modalAlertAccessLink = document.getElementById('modal-alert-access-link')
     const modalAlertAccessLinkSpan = document.getElementById('modal-alert-access-link-span')
+    const modalAlertAccessForbidden = document.getElementById('modal-alert-access-forbidden')
+    const modalAlertAccessForbiddenSpan = document.getElementById('modal-alert-access-forbidden-span')
 
     const data = await accessCheck(folder)
     if(data.publicAccess) {
         modalAlertAccessLink.style.display = 'flex'
         modalAlertAccessLinkSpan.textContent = `http://localhost:3100/access/${folder.dataset.id}`
+    } else if (data.message) {
+        modalAlertAccessLock.style.display = 'none'
+        modalAlertAccessGlobal.style.display = 'none'
+        modalAlertAccessLink.style.display = 'none'
+        modalAlertAccessForbidden.style.display = 'flex'
+        modalAlertAccessForbiddenSpan.textContent = data.message
     } else {
         modalAlertAccessLink.style.display = 'none'
     }
@@ -603,7 +611,7 @@ async function accessCheck(item) {
             return data
         }
     } catch (error) {
-        console.error(data.error);
+        console.error(error);
         setTimeout(() => {
             showWarn(data.error)
         }, 100)
@@ -641,10 +649,10 @@ async function accessChange(item, status) {
                 showWarn(data.error)
             }, 100)
         } else {
-            loadFiles(data)
+            loadData(data)
         }
     } catch (error) {
-        console.error(data.error);
+        console.error(error);
         setTimeout(() => {
             showWarn(data.error)
         }, 100)
@@ -822,6 +830,8 @@ function closeModal() {
     const modalAlertInputFile = document.getElementById('modal-alert-input-file')
     const modalAlertButtons = document.getElementById('modal-alert-buttons')
     const modalAlertAccess = document.getElementById('modal-alert-access')
+    const modalAlertPassword = document.getElementById('modal-alert-password')
+    const modalAlertInputPassword = document.getElementById('modal-alert-input-password')
 
     overlay.classList.remove('overlay--active')
     modalFolderName.classList.remove('modal-folder-name--active')
@@ -829,6 +839,7 @@ function closeModal() {
     modalAlert.classList.remove('modal-alert--active')
     modalAlertInputFolder.value = ''
     modalAlertInputFile.value = ''
+    modalAlertInputPassword.value = ''
     setTimeout(() => {
         overlay.style.display = 'none'
         modalFolderName.style.display = 'none'
@@ -842,6 +853,7 @@ function closeModal() {
         modalAlertInputFolder.style.display = 'none'
         modalAlertInputFile.style.display = 'none'
         modalAlertButtons.style.display = 'none'
+        modalAlertPassword.style.display = 'none'
     }, 100)
 }
 document.getElementById('close-modal').addEventListener('click', () => {
@@ -885,6 +897,10 @@ function showWarn(warn) {
     const modalwarn = document.getElementById('modal-warn')
     const modalWarnText = document.getElementById('modal-warn-text')
 
+    if(warn === 'Недействительный или просроченный токен') {
+        window.location.href = '/register'
+    }
+
     overlay.classList.add('overlay--active')
     modalwarn.classList.add('modal-warn--active')
     setTimeout(() => {
@@ -908,6 +924,8 @@ function showAlert(alert, modifier, info) {
     const modalAlertButtonNo = document.getElementById('modal-alert-button-no')
     const inputRenameFolder = document.getElementById('input-rename-folder')
     const inputRenameFile = document.getElementById('input-rename-file')
+    const modalAlertPassword = document.getElementById('modal-alert-password')
+    const modalAlertInputPassword = document.getElementById('modal-alert-input-password')
     
     overlay.classList.add('overlay--active')
     modalAlert.classList.add('modal-alert--active')
@@ -916,7 +934,7 @@ function showAlert(alert, modifier, info) {
         modalAlert.style.display = 'flex'
     }, 100)
     modalAlertText.textContent = alert
-
+    
     switch(modifier) {
         case 'List-file': 
             showDataInfoFile(info)
@@ -925,8 +943,8 @@ function showAlert(alert, modifier, info) {
                 showAlertHeight()
             }, 100)
             break;
-        case 'List-folder': 
-        showDataInfoFolder(info)
+            case 'List-folder': 
+            showDataInfoFolder(info)
             modalAlertList.style.display = 'flex'
             setTimeout(() => {
                 showAlertHeight()
@@ -938,8 +956,8 @@ function showAlert(alert, modifier, info) {
                 showAlertHeight()
             }, 100)
             break;
-        case 'Input-Folder':
-            modalAlertInputFolder.style.display = 'flex'
+            case 'Input-Folder':
+                modalAlertInputFolder.style.display = 'flex'
             inputRenameFolder.value = info.querySelector('.profile-dataSet-name').textContent
             setTimeout(() => {
                 inputRenameFolder.focus()
@@ -949,11 +967,25 @@ function showAlert(alert, modifier, info) {
         case 'Access':
             access(info)
             break;
+        case 'Users-with-access-list':
+            showUsersWithAccess(info)
+            modalAlertList.style.display = 'flex'
+            setTimeout(() => {
+                showAlertHeight()
+            }, 100)
+            break;
         case 'Input-File':
             modalAlertInputFile.style.display = 'flex'
             inputRenameFile.value = info.querySelector('.profile-dataSet-name').textContent
             setTimeout(() => {
                 inputRenameFile.focus()
+                showAlertHeight()
+            }, 100)
+            break;
+        case 'Password':
+            modalAlertPassword.style.display = 'flex'
+            setTimeout(() => {
+            modalAlertInputPassword.focus()
                 showAlertHeight()
             }, 100)
             break;
@@ -1016,28 +1048,133 @@ function showDataInfoFolder(folderInfo) {
     const liName = document.createElement('li')
     const liPath = document.createElement('li')
     const liSize = document.createElement('li')
+    const liAdminFolder = document.createElement('li')
     const liAccess = document.createElement('li')
+    const liUserWithAccess = document.createElement('li')
     const liTime = document.createElement('li')
     const liСontains = document.createElement('li')
     
     liName.innerHTML = `Имя папки: <span>${folderName}</span>`
-    liPath.innerHTML = `Путь к папке: <span>${folderInfo.user[0].name}\\${arrPath.join('\\')}</span>`
+    liPath.innerHTML = `Путь к папке: <span>${folderInfo.adminFolder.name}\\${arrPath.join('\\')}</span>`
     liSize.innerHTML = `Размер папки: <span>${sizeCalculation(folderInfo.sumSizeFiles)}</span>`
-    console.log(folderInfo.folder[0].publicAccess)
+    
+    if(folderInfo.folder[0].userId === folderInfo.adminFolder._id) {
+        liAdminFolder.innerHTML = `Админ папки: <span>${folderInfo.adminFolder.name} (Вы)</span>`
+    } else {
+        liAdminFolder.innerHTML = `Админ папки: <span>другой</span>`
+    }
+    
     if(folderInfo.folder[0].publicAccess) {
         liAccess.innerHTML = `Доступ к папке: <span>Разрешен</span>`
     } else {
         liAccess.innerHTML = `Доступ к папке: <span>Запрещен</span>`
     }
+    
     liTime.innerHTML = `Время создание папки: <span>${formatDateForSNG(createdAt)}</span>`
     liСontains.innerHTML = `Содержит: <span>Файлов: ${folderInfo.itemLength.filesLength}; Папок: ${folderInfo.itemLength.foldersLength - 1}</span>`
     
     modalAlertList.appendChild(liName);
     modalAlertList.appendChild(liPath);
     modalAlertList.appendChild(liSize);
+    modalAlertList.appendChild(liAdminFolder);
     modalAlertList.appendChild(liAccess);
+    if(folderInfo.folder[0].publicAccess) {
+        liUserWithAccess.innerHTML = `Пользователи с доступом к папке: <button class="modal-alert-list-button" id="modal-alert-list-button" data-id="${folderInfo.folder[0]._id}">Посмотреть</button>`
+
+        modalAlertList.appendChild(liUserWithAccess);
+
+        document.getElementById('modal-alert-list-button').addEventListener('click', (e) => {
+            closeModal()
+            setTimeout(() => {
+                showAlert(`Пользователи с доступом к папке "${folderInfo.folder[0].folderName}"`, 'Users-with-access-list', folderInfo)
+            }, 300)
+        })
+    } 
     modalAlertList.appendChild(liTime);
     modalAlertList.appendChild(liСontains);
+}
+
+// Показ пользователей имеющих доступ к папке
+function showUsersWithAccess(data) {
+    const modalAlertList = document.getElementById('modal-alert-list')
+    data.accessUsers.forEach((user) => {
+        if(user._id === data.adminFolder._id) {
+            // Админа папки не включаем в список
+        } else {
+            const li = document.createElement('li')
+            const div = document.createElement('div')
+            const span = document.createElement('span')
+            const deleteButton = document.createElement('img')
+            const adminButton = document.createElement('img')
+        
+            li.dataset.userId = user._id
+            li.dataset.folderId = data.folder[0]._id
+            li.classList.add('modal-alert-list-userAccess')
+        
+            span.innerHTML = user.name
+    
+            deleteButton.src = '/assets/img/icon/person-remove.svg'
+            deleteButton.alt = 'Delete person'
+            deleteButton.title = 'Закрыть доступ пользователю'
+            deleteButton.onclick = deletePerson
+            
+            adminButton.src = '/assets/img/icon/star.svg'
+            adminButton.alt = 'Make person admin'
+            adminButton.title = 'Сделать пользователя администратором'
+            adminButton.onclick = adminPerson
+        
+            div.appendChild(deleteButton)
+            div.appendChild(adminButton)
+            li.appendChild(span)
+            li.appendChild(div)
+            modalAlertList.appendChild(li)
+        }
+    })
+}
+
+async function deletePerson(e) {
+    const personId = e.target.closest('.modal-alert-list-userAccess').dataset.userId
+    const folderId = e.target.closest('.modal-alert-list-userAccess').dataset.folderId
+    const loaderTimeout = setTimeout(() => {
+        loaderAnimation(true)
+    }, 1000)
+    try {
+        const response = await fetch('/api/deletePerson', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                personId,
+                folderId
+            })
+        })
+        const data = await response.json()
+        updateList(data)
+        if(!data.success) {
+            setTimeout(() => {
+                showWarn(data.error)
+            }, 100)
+        }
+    } catch (error) {
+        console.error(error);
+        setTimeout(() => {
+            showWarn(error)
+        }, 100)
+    } finally {
+        clearTimeout(loaderTimeout)
+        loaderAnimation(false)
+    }
+}
+
+function updateList(id) {
+    const modalAlertList = document.getElementById('modal-alert-list')
+    const person = modalAlertList.querySelector(`[data-user-id="${id.personId}"]`)
+    person.remove()
+}
+
+async function adminPerson() {
+    
 }
 
 // Подсчет размера файла или папки
@@ -1129,3 +1266,97 @@ function searchButton() {
         }
     })
 } searchButton()
+
+//============================= Страница настройки ===================================
+
+document.getElementById('settings-profile').addEventListener('click', async () => {
+    const profileSettings = document.getElementById('profile-settings')
+    if(profileSettings.style.display === 'flex') {
+        const profileSettings = document.getElementById('profile-settings').style.display = 'none'
+        const profileFiles = document.getElementById('profile-files').style.display = 'flex',
+            profileFilesButtons = document.getElementById('profileFilesButtons').style.display = 'flex';
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlParams_F = urlParams.get('f')
+        if(urlParams_F){
+            const goBackButtons = document.getElementById('goBackButtons').style.display = 'flex'
+        } else {
+            const goBackButtons = document.getElementById('goBackButtons').style.display = 'none'
+        }
+    } else {
+        const loaderTimeout = setTimeout(() => {
+            loaderAnimation(true)
+        }, 1000) 
+        
+        try {
+            const response = await fetch('/api/showSettings', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+            const data = await response.json()
+            if(!data.success) {
+                setTimeout(() => {
+                    showWarn(data.error)
+                }, 100)
+            }
+            loadSettings(data)
+        } catch (error) {
+            console.error(error);
+            setTimeout(() => {
+                showWarn(error)
+            }, 100)
+        } finally {
+            clearTimeout(loaderTimeout)
+            loaderAnimation(false)
+        }
+    }
+})
+
+function loadSettings(data) {
+    const profileSettings = document.getElementById('profile-settings').style.display = 'flex'
+    const profileFiles = document.getElementById('profile-files').style.display = 'none',
+        goBackButtons = document.getElementById('goBackButtons').style.display = 'none',
+        profileFilesButtons = document.getElementById('profileFilesButtons').style.display = 'none';
+
+    
+}
+
+document.getElementById('input-password-submit').addEventListener('click', async (e) => {
+    e.preventDefault()
+    
+    const password = document.getElementById('modal-alert-input-password').value
+
+    const loaderTimeout = setTimeout(() => {
+        loaderAnimation(true)
+    }, 1000) 
+    
+    try {
+        const response = await fetch('/api/deleteAccount', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                password
+            })
+        })
+        const data = await response.json()
+        closeModal()
+        window.location.href = '/register';
+        if(!data.success) {
+            setTimeout(() => {
+                showWarn(data.error)
+            }, 100)
+        }   
+        loadSettings(data)
+    } catch (error) {
+        console.error(error);
+        setTimeout(() => {
+            showWarn(error)
+        }, 100)
+    } finally {
+        clearTimeout(loaderTimeout)
+        loaderAnimation(false)
+    }
+})

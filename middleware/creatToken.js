@@ -13,3 +13,12 @@ export const creatToken = async (req, res) => {
         sameSite: 'Strict',
     });
 }
+
+export const logOutOfAccount = async(req, res) => {
+    res.clearCookie("token", {
+        httpOnly: true,
+        secure: false,
+        sameSite: "Strict",
+    });
+    res.redirect("/register");
+}

@@ -22,8 +22,12 @@ export const creatFolder = async (req, res, next) => {
     if(!(urlParams_F === null)) {
         try {
             const folder = await Folder.find({ userId, _id: urlParams_F })
-            const { path: parentFolderPath } = folder[0]
+            const { path: parentFolderPath, publicAccess } = folder[0]
             const newFolderPath = path.join(parentFolderPath, folderName);
+
+            if(publicAccess) {
+                return res.status(303).json({ success: false, error: 'В публичной директории нельзя создавать папки' })
+            }
 
             if (!fs.existsSync(newFolderPath)) {
                 fs.mkdirSync(newFolderPath); 

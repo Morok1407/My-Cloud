@@ -23,8 +23,8 @@ async function showDataSetUser(req, res) {
 
         const folders = await Folder.find({
             $or: [
-                { userId: _id }, 
-                { userWithAccess: _id }
+                { userId: _id, destination: folderPath }, 
+                { userWithAccess: _id, publicAccess: true }
             ]
         });
         const files = await File.find({ userId: _id, destination: folderPath });
@@ -40,10 +40,25 @@ export const showDataSetToFolder = async (req, res) => {
     const userId = req.user.id;
     const urlParams_F = req.body.urlParams_F.replace(/"/g, '')
     try {
-        const folder = await Folder.find({ userId, _id: urlParams_F })
+        const folder = await Folder.find({ 
+            $or: [
+                { userId, _id: urlParams_F },
+                { userWithAccess: userId, _id: urlParams_F }
+            ]
+        })
         const { folderName, path } = folder[0]
-        const folders = await Folder.find({ userId, destination: path });
-        const files = await File.find({ userId, destination: path });
+        const folders = await Folder.find({ 
+            $or: [
+                { userId, destination: path },
+                { userWithAccess: userId, destination: path }
+            ]
+        });
+        const files = await File.find({ 
+            $or: [
+                { userId, destination: path },
+                { userWithAccess: userId, destination: path }
+            ]
+        });
 
         res.status(200).json({ success: true, folders, files, folderName, path });
     } catch (error) {
@@ -73,20 +88,31 @@ export const showDataInfoFolder = async (req, res) => {
     
     try {
         const folder = await Folder.find({ userId, _id: folderId })
-        const user = await User.find({ _id: userId })
-        const { path: folderPath } = folder[0]
+        const adminFolderFull = await User.find({ _id: userId })
+        const { name, _id } = adminFolderFull[0]
+        const adminFolder = { name, _id }
+        const { path: folderPath, userWithAccess } = folder[0]
+
+        const accessUsersFull = await User.find({ _id: userWithAccess })
+        let accessUsers = []
+        accessUsersFull.forEach((user) => {
+            const { name, _id } = user
+            accessUsers.push({ name, _id })
+        })
+
         const folders = await Folder.find({ userId, path: { $regex: `^${folderPath.replace(/\\/g, '\\\\')}`} })
         const files = await File.find({ userId, path: { $regex: `^${folderPath.replace(/\\/g, '\\\\')}`} })
         const itemLength = {
             foldersLength: folders.length,
             filesLength: files.length
         }
+
         let sumSizeFiles = 0;
         files.forEach(file => {
             sumSizeFiles += file.size
         });
         
-        res.status(200).json({ success: true, folder, user, itemLength, sumSizeFiles });
+        res.status(200).json({ success: true, folder, adminFolder, accessUsers, itemLength, sumSizeFiles });
     } catch (error) {
         res.status(500).json({ success: false, error: `Error: ${error}` });
     }
@@ -111,5 +137,17 @@ export const searchData = async (req, res) => {
         } catch (error) {
             res.status(500).json({ success: false, error: `Error: ${error}` });
         }
+    }
+}
+
+export const showSettings = async (req, res) => {
+    const userId = req.user.id
+    
+    try {
+        const userData = await User.findById(userId)
+
+        res.status(200).json({ success: true, userData });
+    } catch (error) {
+        res.status(500).json({ success: false, error: `Error: ${error}` });
     }
 }

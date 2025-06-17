@@ -4,13 +4,15 @@ import upload from '../config/multerConfig.js';
 import { uploadHandler } from '../config/multerConfig.js';
 import { __dirname } from '../config/appConfig.js';
 import { authenticate } from '../middleware/authentication.js'
-import { showDataSet, showDataSetToFolder, showDataInfoFile, showDataInfoFolder, searchData } from '../controllers/showDataSet.js';
+import { logOutOfAccount } from '../middleware/creatToken.js';
+import { showDataSet, showDataSetToFolder, showDataInfoFile, showDataInfoFolder, searchData, showSettings } from '../controllers/showDataSet.js';
 import { creatFolder } from '../controllers/folderController.js';
 import { uploadFile } from '../controllers/fileController.js';
 import { rename } from '../controllers/renameController.js';
 import { deleteFile, deleteFolder } from '../controllers/deleteDataController.js';
 import { downloadFile } from '../controllers/downloadController.js';
-import { accessCheck, accessChange } from '../controllers/accessController.js';
+import { accessCheck, accessChange, deletePerson } from '../controllers/accessController.js';
+import { deleteAccount } from '../controllers/accountConroller.js';
 
 const router = express.Router()
 
@@ -39,6 +41,16 @@ router.post('/accessCheck', authenticate, accessCheck)
 
 router.post('/accessChange', authenticate, accessChange, showDataSet)
 
+router.post('/deletePerson', authenticate, deletePerson)
+
 router.get('/downloadFile/:fileId', authenticate, downloadFile)
+
+// ===============================SETTINGS==================================
+
+router.post('/showSettings', authenticate, showSettings)
+
+router.post('/deleteAccount', authenticate, deleteAccount)
+
+router.get('/logOutOfAccount', authenticate, logOutOfAccount)
 
 export default router
