@@ -90,7 +90,7 @@
                                     </div>
                                     <div class="profile-settings__link-text">
                                         <p>ТИП АККАУНТА:</p>
-                                        <span>Бомж</span>
+                                        <span id="settings-type-account"></span>
                                     </div>
                                 </li>
                                 <li class="profile-settings__body-link">
@@ -99,7 +99,7 @@
                                     </div>
                                     <div class="profile-settings__link-text">
                                         <p>Осталось дней:</p>
-                                        <span>30</span>
+                                        <span id="settings-days-left"></span>
                                     </div>
                                 </li>
                                 <li class="profile-settings__body-link">
@@ -108,17 +108,65 @@
                                     </div>
                                     <div class="profile-settings__link-text">
                                         <p>Сохраненных файлов:</p>
-                                        <span>123456789 GB</span>
+                                        <span id="settinds-amount-data"></span>
                                     </div>
                                 </li>
                             </ul>
 
                             <div class="profile-settings__body-data">
-                                
+                                <div class="profile-settings__data-item">
+                                    <span>Ваше имя:</span>
+                                    <div class="profile-settings__data-text">
+                                        <p id="settings-text-name"></p>
+                                        <button id="settings-name-pencil">
+                                            <img src="/assets/img/icon/pencil.svg" alt="pencil">
+                                        </button>
+                                    </div>
+                                    <form class="profile-settings__data-input" style="display: none;">
+                                        <input type="text" name="name" id="settings-input-name">
+                                        <button type="submit" id="settings-input-name-checkmark">
+                                            <img src="/assets/img/icon/checkmark.svg" alt="">
+                                        </button>
+                                    </form>
+                                </div>
+                                <!-- ============================================ -->
+                                <div class="profile-settings__data-item">
+                                    <span>Ваш Email:</span>
+                                    <div class="profile-settings__data-text">
+                                        <p id="settings-text-email"></p>
+                                        <button id="settings-email-pencil">
+                                            <img src="/assets/img/icon/pencil.svg" alt="pencil">
+                                        </button>
+                                    </div>
+                                    <form class="profile-settings__data-input" style="display: none;">
+                                        <input type="text" name="email" id="settings-input-email">
+                                        <button type="submit" id="settings-input-email-checkmark">
+                                            <img src="/assets/img/icon/checkmark.svg" alt="">
+                                        </button>
+                                    </form>
+                                </div>
+                                <!-- ============================================ -->
+                                <form class="profile-settings__body-chenge-password">
+                                    <div class="profile-settings__chenge-password-item">
+                                        <p>Старый пароль:</p>
+                                        <input id="old-password" type="password" placeholder="Password" required>
+                                    </div>
+                                    <div class="profile-settings__chenge-password-item">
+                                        <p>Новый пароль:</p>
+                                        <input id="new-password" type="password" placeholder="Password" required>
+                                    </div>
+                                    <div class="profile-settings__chenge-password-item">
+                                        <p>Пов. новый пароль:</p>
+                                        <input id="re-new-password" type="password" placeholder="Password" required>
+                                    </div>
+                                    <div class="profile-settings__chenge-password-button">
+                                        <button type="submit" id="change-password-button">Поменять пароль</button>
+                                    </div>
+                                </form>
                             </div>
 
                             <div class="profile-settings__body-buttons">
-                                <button onclick="showAlert('Подтвердите свое действие введя пароль', 'Password')">Удалить аккаунт</button>
+                                <button id="button-delete-account">Удалить аккаунт</button>
                                 <a href="/api/logOutOfAccount">Выйти</a>
                             </div>
                         </div>
@@ -189,7 +237,8 @@
                     <span>Предоставить общий доступ по ссылке</span>
                 </div>
                 <div class="modal-alert-access-link" id="modal-alert-access-link">
-                    <img src="/assets/img/icon/link.svg" alt="Link">
+                    <img src="/assets/img/icon/checkmark.svg" alt="Сheckmark" id="modal-alert-access-link-checkmark" style="display: none;">
+                    <img src="/assets/img/icon/link.svg" alt="Link" id="modal-alert-access-link-main">
                     <span id="modal-alert-access-link-span"></span>
                 </div>
                 <div class="modal-alert-access-forbidden" id="modal-alert-access-forbidden" style="display: none;">

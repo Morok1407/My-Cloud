@@ -582,6 +582,16 @@ document.getElementById('modal-alert-access-global').addEventListener('click', (
 document.getElementById('modal-alert-access-link').addEventListener('click', () => {
     const modalAlertAccessLinkSpan = document.getElementById('modal-alert-access-link-span')
     navigator.clipboard.writeText(modalAlertAccessLinkSpan.textContent)
+
+    const modalAlertAccessLinkMain = document.getElementById('modal-alert-access-link-main')
+    modalAlertAccessLinkMain.style.display = 'none'
+    const modalAlertAccessLinkСheckmark = document.getElementById('modal-alert-access-link-checkmark')
+    modalAlertAccessLinkСheckmark.style.display = 'flex'
+    
+    setTimeout(() => {
+        modalAlertAccessLinkСheckmark.style.display = 'none'
+        modalAlertAccessLinkMain.style.display = 'flex'
+    }, 3000)
 })
 
 // Проврека папки на общий доступ
@@ -821,6 +831,7 @@ document.getElementById('creation-file').addEventListener('click', () => {
 
 // Функция для закрытия модального окна
 function closeModal() {
+    const searchInput = document.getElementById('search__input')
     const overlay = document.getElementById('overlay')
     const modalFolderName = document.getElementById('modal-folder-name')
     const modalwarn = document.getElementById('modal-warn')
@@ -833,6 +844,12 @@ function closeModal() {
     const modalAlertPassword = document.getElementById('modal-alert-password')
     const modalAlertInputPassword = document.getElementById('modal-alert-input-password')
 
+    const settingsInputName = document.getElementById('settings-input-name')
+    const settungsInputEmail = document.getElementById('settings-input-email')
+    
+    settingsInputName.blur()
+    settungsInputEmail.blur()
+    searchInput.blur()
     overlay.classList.remove('overlay--active')
     modalFolderName.classList.remove('modal-folder-name--active')
     modalwarn.classList.remove('modal-warn--active')
@@ -1318,19 +1335,43 @@ function loadSettings(data) {
     const profileFiles = document.getElementById('profile-files').style.display = 'none',
         goBackButtons = document.getElementById('goBackButtons').style.display = 'none',
         profileFilesButtons = document.getElementById('profileFilesButtons').style.display = 'none';
-
+    const name = document.getElementById('settings-text-name').textContent = data.userData.name,
+        email = document.getElementById('settings-text-email').textContent = data.userData.email,
+        typeAccount = document.getElementById('settings-type-account').textContent = data.userData.SubscriptionType,
+        amountData = document.getElementById('settinds-amount-data').textContent = sizeCalculation(data.sumSizeFiles)
     
+    if(data.userData.SubscriptionType === 'Free') {
+        const settingsDaysLeft = document.getElementById('settings-days-left').textContent = 'Бескончено'
+    } else {
+        const settingsDaysLeft = document.getElementById('settings-days-left').textContent = data.userData.RemainingPeriod
+    }
 }
 
-document.getElementById('input-password-submit').addEventListener('click', async (e) => {
+function comfirmPassword() {
+    return new Promise((resolve, reject) => {
+        const comfirmButton = document.getElementById('input-password-submit')
+        comfirmButton.addEventListener('click', (e) => {
+            e.preventDefault()
+            const password = document.getElementById('modal-alert-input-password').value
+            if(password.length >= 1) {
+                resolve(password) 
+            } else {
+                reject('Пароль не был введен')
+            }
+            closeModal()
+        })
+    })
+}
+
+document.getElementById('button-delete-account').addEventListener('click', async (e) => {
     e.preventDefault()
-    
-    const password = document.getElementById('modal-alert-input-password').value
+    showAlert('Подтвердите свое действие введя пароль', 'Password')
+
+    const password = await comfirmPassword()
 
     const loaderTimeout = setTimeout(() => {
         loaderAnimation(true)
     }, 1000) 
-    
     try {
         const response = await fetch('/api/deleteAccount', {
             method: "POST",
@@ -1342,7 +1383,6 @@ document.getElementById('input-password-submit').addEventListener('click', async
             })
         })
         const data = await response.json()
-        closeModal()
         window.location.href = '/register';
         if(!data.success) {
             setTimeout(() => {
@@ -1350,6 +1390,204 @@ document.getElementById('input-password-submit').addEventListener('click', async
             }, 100)
         }   
         loadSettings(data)
+    } catch (error) {
+        console.error(error);
+        setTimeout(() => {
+            showWarn(error)
+        }, 100)
+    } finally {
+        clearTimeout(loaderTimeout)
+        loaderAnimation(false)
+    }
+})
+
+document.getElementById('settings-name-pencil').addEventListener('click', () => {
+    const name = document.getElementById('settings-text-name')
+    const nameParentElement = name.parentElement
+    nameParentElement.style.display = 'none'
+    const input = document.getElementById('settings-input-name')
+    const inputParentElement = input.parentElement
+    inputParentElement.style.display = 'flex'
+    input.value = name.textContent
+    input.focus()
+})
+document.getElementById('settings-input-name-checkmark').addEventListener('click', (e) => {
+    e.preventDefault()
+    
+    const name = document.getElementById('settings-text-name')
+    const nameParentElement = name.parentElement
+    nameParentElement.style.display = 'flex'
+    const input = document.getElementById('settings-input-name')
+    const inputParentElement = input.parentElement
+    inputParentElement.style.display = 'none'
+
+    if(input.value !== name.textContent) {
+        changeName(input.value)
+    } 
+})
+
+async function changeName(newName) {
+    showAlert('Подтвердите свое действие введя пароль', 'Password')
+
+    const password = await comfirmPassword()
+
+    const loaderTimeout = setTimeout(() => {
+        loaderAnimation(true)
+    }, 1000) 
+    try {
+        const response = await fetch('/api/changeName', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                password,
+                newName
+            })
+        })
+        const data = await response.json()
+        window.location.href = `/${data.user.name}`;
+        if(!data.success) {
+            setTimeout(() => {
+                showWarn(data.error)
+            }, 100)
+        }
+    } catch (error) {
+        console.error(error);
+        setTimeout(() => {
+            showWarn(error)
+        }, 100)
+    } finally {
+        clearTimeout(loaderTimeout)
+        loaderAnimation(false)
+    }
+}
+
+function cancelActionInName() {
+    const name = document.getElementById('settings-text-name')
+    const nameParentElement = name.parentElement
+    const input = document.getElementById('settings-input-name')
+    const inputParentElement = input.parentElement
+
+    input.addEventListener('blur', () => {
+        if(input.value === name.textContent) {
+            inputParentElement.style.display = 'none'
+            nameParentElement.style.display = 'flex'
+        } 
+    })
+} cancelActionInName()
+
+
+
+document.getElementById('settings-email-pencil').addEventListener('click', () => {
+    const email = document.getElementById('settings-text-email')
+    const emailParentElement = email.parentElement
+    emailParentElement.style.display = 'none'
+    const input = document.getElementById('settings-input-email')
+    const inputParentElement = input.parentElement
+    inputParentElement.style.display = 'flex'
+    input.value = email.textContent
+    input.focus()
+})
+document.getElementById('settings-input-email-checkmark').addEventListener('click', (e) => {
+    e.preventDefault()
+    
+    const email = document.getElementById('settings-text-email')
+    const emailParentElement = email.parentElement
+    emailParentElement.style.display = 'flex'
+    const input = document.getElementById('settings-input-email')
+    const inputParentElement = input.parentElement
+    inputParentElement.style.display = 'none'
+
+    if(input.value !== email.textContent) {
+        changeEmail(input.value)
+    } 
+})
+
+async function changeEmail(newEmail) {
+    const email = document.getElementById('settings-text-email')
+    showAlert('Подтвердите свое действие введя пароль', 'Password')
+
+    const password = await comfirmPassword()
+
+    const loaderTimeout = setTimeout(() => {
+        loaderAnimation(true)
+    }, 1000) 
+    try {
+        const response = await fetch('/api/changeEmail', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                password,
+                newEmail
+            })
+        })
+        const data = await response.json()
+        window.location.href = '/register';
+        if(!data.success) {
+            setTimeout(() => {
+                showWarn(data.error)
+            }, 100)
+        }  
+    } catch (error) {
+        console.error(error);
+        setTimeout(() => {
+            showWarn(error)
+        }, 100)
+    } finally {
+        clearTimeout(loaderTimeout)
+        loaderAnimation(false)
+    }
+}
+
+function cancelActionInEmail() {
+    const email = document.getElementById('settings-text-email')
+    const emailParentElement = email.parentElement
+    const input = document.getElementById('settings-input-email')
+    const inputParentElement = input.parentElement
+
+    input.addEventListener('blur', () => {
+        if(input.value === email.textContent) {
+            inputParentElement.style.display = 'none'
+            emailParentElement.style.display = 'flex'
+        } 
+    })
+} cancelActionInEmail()
+
+document.getElementById('change-password-button').addEventListener('click', async (e) => {
+    e.preventDefault()
+
+    const oldPassword = document.getElementById('old-password').value
+    const newPassword = document.getElementById('new-password').value
+    const reNewPassword = document.getElementById('re-new-password').value
+
+    const loaderTimeout = setTimeout(() => {
+        loaderAnimation(true)
+    }, 1000) 
+    try {
+        const response = await fetch('/api/changePassword', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                oldPassword,
+                newPassword,
+                reNewPassword
+            })
+        })
+        const data = await response.json()
+        alert('Пароль изменен')
+        oldPassword.value = ''
+        newPassword.value = ''
+        reNewPassword.value = ''
+        if(!data.success) {
+            setTimeout(() => {
+                showWarn(data.error)
+            }, 100)
+        }  
     } catch (error) {
         console.error(error);
         setTimeout(() => {

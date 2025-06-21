@@ -57,7 +57,6 @@
   font-size: 72px;
   font-weight: 900;
   line-height: 70px;
-  letter-spacing: 40.5%;
   text-transform: uppercase;
 }
 .section__head p {
@@ -1606,7 +1605,7 @@
   align-items: center;
   gap: 50px;
 }
-.profile-settings__body-buttons :first-child {
+.profile-settings__body-buttons button {
   color: rgb(255, 255, 255);
   font-family: Comfortaa;
   font-size: 20px;
@@ -1629,6 +1628,134 @@
   background-color: blue;
   padding: 12px 16px;
   border-radius: 30px;
+}
+
+.profile-settings__body-data {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.profile-settings__data-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+.profile-settings__data-item span {
+  color: rgb(59, 63, 141);
+  font-family: Comfortaa;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 27px;
+  letter-spacing: 0%;
+}
+
+.profile-settings__data-text {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+.profile-settings__data-text p {
+  margin: 0 48px;
+  color: rgb(243, 109, 212);
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 48px;
+}
+.profile-settings__data-text button {
+  width: 64px;
+  aspect-ratio: 1/1;
+  border-radius: 100%;
+  user-select: none;
+  background: linear-gradient(90deg, rgb(67, 161, 214), rgb(144, 126, 255) 100%);
+  cursor: pointer;
+  box-shadow: 4px 6px 6px 7px rgba(67, 161, 214, 0.2);
+}
+.profile-settings__data-text button img {
+  width: 50%;
+}
+
+.profile-settings__data-input {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+.profile-settings__data-input input {
+  margin: 0 48px;
+  padding: 8px 28px;
+  border-radius: 61px;
+  background: rgb(243, 243, 243);
+  color: rgb(243, 109, 212);
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 48px;
+}
+.profile-settings__data-input button {
+  width: 64px;
+  aspect-ratio: 1/1;
+  border-radius: 100%;
+  user-select: none;
+  background: linear-gradient(90deg, rgb(67, 161, 214), rgb(144, 126, 255) 100%);
+  cursor: pointer;
+  box-shadow: 4px 6px 6px 7px rgba(67, 161, 214, 0.2);
+}
+.profile-settings__data-input button img {
+  width: 50%;
+}
+
+.profile-settings__body-chenge-password {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.profile-settings__chenge-password-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 48px;
+}
+.profile-settings__chenge-password-item p {
+  color: rgb(59, 63, 141);
+  font-family: Comfortaa;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 27px;
+  letter-spacing: 0%;
+}
+.profile-settings__chenge-password-item input {
+  margin: 0 48px;
+  padding: 8px 28px;
+  border-radius: 61px;
+  background: rgb(243, 243, 243);
+  color: rgb(243, 109, 212);
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 48px;
+}
+
+.profile-settings__chenge-password-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.profile-settings__chenge-password-button button {
+  padding: 12px 26px;
+  color: rgb(255, 255, 255);
+  font-family: Comfortaa;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 27px;
+  text-align: center;
+  border-radius: 62px;
+  background: linear-gradient(90deg, rgb(67, 161, 214), rgb(144, 126, 255) 100%);
 }
 
 /*# sourceMappingURL=style.css.map */

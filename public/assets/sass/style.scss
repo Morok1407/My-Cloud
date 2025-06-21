@@ -60,11 +60,10 @@ $font-roboto: Roboto;
 
     h2 {
         color: rgb(59, 102, 141);
-        font-family: Roboto;
+        font-family: $font-roboto;
         font-size: 72px;
         font-weight: 900;
         line-height: 70px;
-        letter-spacing: 40.5%;
         text-transform: uppercase;
     }
     p {
@@ -1609,7 +1608,6 @@ $font-roboto: Roboto;
 /* ============================== SETTINGS ============================== */
 
 .profile-settings {
-
 }
 .profile-settings--inner {
 }
@@ -1664,7 +1662,7 @@ $font-roboto: Roboto;
     align-items: center;
     gap: 50px;
 
-    :first-child {
+    button {
         color: rgb(255, 255, 255);
         font-family: $font-comfortaa;
         font-size: 20px;
@@ -1688,5 +1686,128 @@ $font-roboto: Roboto;
         background-color: blue;
         padding: 12px 16px;
         border-radius: 30px;
+    }
+}
+.profile-settings__body-data {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+}
+.profile-settings__data-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    span {
+        color: rgb(59, 63, 141);
+        font-family: Comfortaa;
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 27px;
+        letter-spacing: 0%;
+    }
+}
+.profile-settings__data-text {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    p {
+        margin: 0 48px;
+        color: rgb(243, 109, 212);
+        font-family: Roboto;
+        font-size: 24px;
+        font-weight: 400;
+        line-height: 48px;
+    }
+    button {
+        width: 64px;
+        aspect-ratio: 1 / 1;
+        border-radius: 100%;
+        user-select: none;
+        background: linear-gradient(90deg, rgb(67, 161, 214), rgb(144, 126, 255) 100%);
+        cursor: pointer;
+        box-shadow: 4px 6px 6px 7px rgba(67, 161, 214, 0.2);
+
+        img {
+            width: 50%;
+        }
+    }
+}
+.profile-settings__data-input {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    input {
+        margin: 0 48px;
+        padding: 8px 28px;
+        border-radius: 61px;
+        background: rgb(243, 243, 243);
+        color: rgb(243, 109, 212);
+        font-family: Roboto;
+        font-size: 24px;
+        font-weight: 400;
+        line-height: 48px;
+    }
+    button {
+        width: 64px;
+        aspect-ratio: 1 / 1;
+        border-radius: 100%;
+        user-select: none;
+        background: linear-gradient(90deg, rgb(67, 161, 214), rgb(144, 126, 255) 100%);
+        cursor: pointer;
+        box-shadow: 4px 6px 6px 7px rgba(67, 161, 214, 0.2);
+
+        img {
+            width: 50%;
+        }
+    }
+}
+.profile-settings__body-chenge-password {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+.profile-settings__chenge-password-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 48px;
+    p {
+        color: rgb(59, 63, 141);
+        font-family: Comfortaa;
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 27px;
+        letter-spacing: 0%;
+    }
+    input {
+        margin: 0 48px;
+        padding: 8px 28px;
+        border-radius: 61px;
+        background: rgb(243, 243, 243);
+        color: rgb(243, 109, 212);
+        font-family: Roboto;
+        font-size: 24px;
+        font-weight: 400;
+        line-height: 48px;
+    }
+}
+.profile-settings__chenge-password-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    button {
+        padding: 12px 26px;
+        color: rgb(255, 255, 255);
+        font-family: Comfortaa;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 27px;
+        text-align: center;
+        border-radius: 62px;
+        background: linear-gradient(90.00deg, rgb(67, 161, 214),rgb(144, 126, 255) 100%);
     }
 }

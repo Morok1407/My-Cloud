@@ -145,8 +145,14 @@ export const showSettings = async (req, res) => {
     
     try {
         const userData = await User.findById(userId)
+        const files = await File.find({ userId, path: { $regex: `^${userData.folderPath.replace(/\\/g, '\\\\')}`} })
 
-        res.status(200).json({ success: true, userData });
+        let sumSizeFiles = 0;
+        files.forEach(file => {
+            sumSizeFiles += file.size
+        });
+
+        res.status(200).json({ success: true, userData, sumSizeFiles });
     } catch (error) {
         res.status(500).json({ success: false, error: `Error: ${error}` });
     }

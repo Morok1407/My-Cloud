@@ -27,6 +27,7 @@ const userSchema = new mongoose.Schema({
     },
     RemainingPeriod: {
         type: Number,
+        default: 0
     },
     isVerified: {
         type: Boolean,

@@ -12,7 +12,7 @@ import { rename } from '../controllers/renameController.js';
 import { deleteFile, deleteFolder } from '../controllers/deleteDataController.js';
 import { downloadFile } from '../controllers/downloadController.js';
 import { accessCheck, accessChange, deletePerson } from '../controllers/accessController.js';
-import { deleteAccount } from '../controllers/accountConroller.js';
+import { deleteAccount, changeName, changeEmail, changePassword } from '../controllers/accountConroller.js';
 
 const router = express.Router()
 
@@ -48,6 +48,12 @@ router.get('/downloadFile/:fileId', authenticate, downloadFile)
 // ===============================SETTINGS==================================
 
 router.post('/showSettings', authenticate, showSettings)
+
+router.post('/changeName', authenticate, changeName)
+
+router.post('/changeEmail', authenticate, changeEmail)
+
+router.post('/changePassword', authenticate, changePassword)
 
 router.post('/deleteAccount', authenticate, deleteAccount)
 
