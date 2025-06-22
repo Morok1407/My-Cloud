@@ -10,6 +10,10 @@ $font-roboto: Roboto;
     background: rgb(204, 204, 204);
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 .wrapper {
     min-height: 100%;
     width: 100%;
@@ -61,7 +65,7 @@ $font-roboto: Roboto;
     h2 {
         color: rgb(59, 102, 141);
         font-family: $font-roboto;
-        font-size: 72px;
+        font-size: clamp(38px, 7vw, 72px);
         font-weight: 900;
         line-height: 70px;
         text-transform: uppercase;
@@ -69,7 +73,7 @@ $font-roboto: Roboto;
     p {
         color: rgb(59, 102, 141);
         font-family: Montserrat;
-        font-size: 24px;
+        font-size: clamp(20px, 2.5vw, 24px);
         font-weight: 400;
         line-height: 150%;
         letter-spacing: 90.5%;
@@ -295,7 +299,7 @@ $font-roboto: Roboto;
     a {
         color: white;
         font-family: $font-comfortaa;
-        font-size: 42px;
+        font-size: clamp(22px, 5vw, 42px);
         font-weight: 700;
         line-height: 40px;
     }
@@ -304,7 +308,7 @@ $font-roboto: Roboto;
     a {
         color: rgb(187, 109, 243);
         font-family: Comfortaa;
-        font-size: 13.42px;
+        font-size: clamp(12px, 2vw, 16px);
         font-weight: 500;
         line-height: 16px;
         letter-spacing: 1.25px;
@@ -326,14 +330,14 @@ $font-roboto: Roboto;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    padding-bottom: 32px;
-    margin-bottom: 45px;
+    padding-bottom: clamp(18px, 3.5vw, 32px);
+    margin-bottom: clamp(18px, 3.5vw, 32px);
     border-bottom: 2px solid rgb(59, 102, 141);
 
     h1 {
         color: rgb(59, 102, 141);
         font-family: Roboto;
-        font-size: 72px;
+        font-size: clamp(48px, 6vw, 72px);
         font-weight: 900;
         line-height: 70px;
     }
@@ -343,7 +347,6 @@ $font-roboto: Roboto;
         font-size: 24px;
         font-weight: 400;
         line-height: 150%;
-        letter-spacing: 90.5%;
     }
 }
 .header_left-description {
@@ -372,15 +375,15 @@ $font-roboto: Roboto;
         background: linear-gradient(90.00deg, rgb(67, 161, 214),rgb(144, 126, 255) 100%);
         color: rgb(255, 255, 255);
         font-family: Comfortaa;
-        font-size: 24px;
+        font-size: clamp(18px, 3vw, 24px);
         font-weight: 700;
         line-height: 27px;
-        padding: 20px 40px;
+        padding: clamp(16px, 3vw, 20px) clamp(20px, 4vw, 40px);
     }
 }
 .header_body-right {
     img {
-        max-width: 750px;
+        max-width: clamp(300px, 60vw, 750px);
     }
 }
 
@@ -403,7 +406,7 @@ $font-roboto: Roboto;
 }
 .featires-left {
     img {
-        width: 600px;
+        width: clamp(300px, 50vw, 600px);
     }
 }
 .features-right {
@@ -419,7 +422,7 @@ $font-roboto: Roboto;
 }
 .features_right-img {
     img {
-        width: 80px;
+        width: clamp(60px, 11vw, 80px);
     }
 }
 .features_right-link {
@@ -427,7 +430,7 @@ $font-roboto: Roboto;
         text-transform: uppercase;
         color: rgb(59, 102, 141);
         font-family: Roboto;
-        font-size: 24px;
+        font-size: clamp(18px, 4vw, 24px);
         font-weight: 400;
         line-height: 1.6;
     }
@@ -470,16 +473,17 @@ $font-roboto: Roboto;
 .price__body-name {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     h3 {
         color: rgb(59, 102, 141);
         font-family: Comfortaa;
-        font-size: 32px;
+        font-size: clamp(22px, 4vw, 32px);
         font-weight: 700;
         line-height: 54px;
     }
     img {
         transform: rotate(180deg);
-        width: 50px;
+        width: clamp(40px, 7vw, 50px);
         transition: all .3s;
         user-select: none;
     }
@@ -497,14 +501,14 @@ $font-roboto: Roboto;
     h4 {
         color: rgb(133, 114, 255);
         font-family: Comfortaa;
-        font-size: 24px;
+        font-size: clamp(18px, 3vw, 24px);
         font-weight: 400;
     }
 
     p {
         color: rgb(86, 119, 150);
         font-family: Comfortaa;
-        font-size: 18px;
+        font-size: clamp(16px, 3.5vw, 18px);
         font-weight: 400;
         line-height: 100%;
     }
@@ -577,7 +581,7 @@ $font-roboto: Roboto;
     h3 {
         color: rgb(70, 99, 126);
         font-family: Comfortaa;
-        font-size: 30px;
+        font-size: clamp(20px, 3vw, 30px);
         font-weight: 700;
         line-height: 33px;
     }
@@ -625,7 +629,7 @@ $font-roboto: Roboto;
     p {
         color: rgb(135, 135, 135);
         font-family: Comfortaa;
-        font-size: 20px;
+        font-size: clamp(16px, 3vw, 20px);
         font-weight: 400;
         line-height: 150%;
     }
@@ -679,15 +683,16 @@ $font-roboto: Roboto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 70px;
+    gap: clamp(32px, 6vw, 70px);
 }
 .contact__form-head {
     display: flex;
     justify-content: center;
+    text-align: center;
     h3 {
         color: rgb(59, 102, 141);
         font-family: Comfortaa;
-        font-size: 72px;
+        font-size: clamp(46px, 6vw, 72px);
         font-weight: 700;
         line-height: 80px;
     }
@@ -700,11 +705,11 @@ $font-roboto: Roboto;
     textarea {
         color: rgb(173, 173, 173);
         font-family: Comfortaa;
-        font-size: 24px;
+        font-size: clamp(18px, 4vw, 24px);
         font-weight: 700;
         line-height: 27px;
         border-radius: 50px;
-        height: 220px;
+        height: clamp(160px, 32vw, 220px);
         padding: 24px 32px;
         background: rgb(243, 243, 243);
     }
@@ -712,12 +717,12 @@ $font-roboto: Roboto;
 .contact__form-item {
     display: flex;
     align-items: center;
-    gap: 45px;
+    gap: clamp(24px, 4vw, 45px);
 
     h4 {
         color: rgb(59, 63, 141);
         font-family: Comfortaa;
-        font-size: 24px;
+        font-size: clamp(18px, 3vw, 24px);
         font-weight: 700;
         line-height: 27px;
     }
@@ -725,11 +730,11 @@ $font-roboto: Roboto;
     input {
         color: rgb(173, 173, 173);
         font-family: Comfortaa;
-        font-size: 24px;
+        font-size: clamp(18px, 3vw, 24px);
         font-weight: 700;
         line-height: 27px;
         border-radius: 61px;
-        padding: 24px 32px;
+        padding: clamp(18px, 3vw, 24px) clamp(24px, 3.5vw, 32px);
         background: rgb(243, 243, 243);
     }
 }
@@ -740,11 +745,11 @@ $font-roboto: Roboto;
     button {
         color: rgb(255, 255, 255);
         font-family: Comfortaa;
-        font-size: 24px;
+        font-size: clamp(18px, 3vw, 24px);
         font-weight: 700;
         line-height: 27px;
         border-radius: 62px;
-        padding: 24px 32px;
+        padding: clamp(18px, 3vw, 24px) clamp(24px, 3.5vw, 32px);
         background: linear-gradient(90.00deg, rgb(67, 161, 214),rgb(144, 126, 255) 100%);
     }
 }
@@ -771,19 +776,19 @@ $font-roboto: Roboto;
 .footer__top-about {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: clamp(12px, 3.6vw, 30px);
     
     h2 {
         color: hsl(0, 0%, 100%);
         font-family: Comfortaa;
-        font-size: 48px;
+        font-size: clamp(32px, 6vw, 48px);
         font-weight: 700;
         line-height: 54px;
     }
     p {
         color: rgb(255, 255, 255);
         font-family: Comfortaa;
-        font-size: 20px;
+        font-size: clamp(16px, 6vw, 20px);
         font-weight: 400;
         line-height: 150%;
     }
@@ -798,15 +803,18 @@ $font-roboto: Roboto;
 .footer__top-contact {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: clamp(12px, 3.6vw, 30px);
 
     h2 {
         color: rgb(255, 255, 255);
         font-family: Comfortaa;
-        font-size: 48px;
+        font-size: clamp(32px, 6vw, 48px);
         font-weight: 700;
         line-height: 54px;
     }
+}
+.footer__contact-list--button {
+    display: none;
 }
 .footer__contact-list {
     display: flex;
@@ -818,7 +826,7 @@ $font-roboto: Roboto;
 .footer__contact-link {
     color: rgb(255, 255, 255);
     font-family: Comfortaa;
-    font-size: 20px;
+    font-size: clamp(16px, 2.5vw, 20px);
     font-weight: 400;
     line-height: 150%;
 }
@@ -882,16 +890,16 @@ $font-roboto: Roboto;
     display: flex;
     align-items: center;
     cursor: pointer;
-    width: 120px;
-    height: 60px;
+    width: clamp(100px, 18vw, 120px);
+    height: clamp(50px, 9vw, 60px);
     border: 2px solid rgb(59, 63, 141);
     border-radius: 36px;
     transition: all .3s;
     background: transparent;
 }
 .register__switch-link {
-    width: 50px;
-    height: 50px;
+    width: clamp(40px, 7vw, 50px);
+    aspect-ratio: 1 / 1;
     margin: 5px;
     border-radius: 50%;
     background: linear-gradient(90.00deg, rgb(67, 161, 214),rgb(144, 126, 255) 100%);
@@ -944,16 +952,6 @@ $font-roboto: Roboto;
         background: rgb(243, 243, 243);
         padding: 24px 32px;
     }
-    p {
-        display: flex;
-        text-align: center;
-        color: #3b3f8d;
-        font-family: Comfortaa;
-        font-size: 18px;
-        font-weight: 700;
-        line-height: 27px;
-        width: 450px;
-    }
 }
 .register__form-button {
     display: flex;
@@ -966,9 +964,9 @@ $font-roboto: Roboto;
         font-family: Comfortaa;
         font-size: 24px;
         font-weight: 700;
-        line-height: 27px;
+        line-height: clamp(21px, 2vw, 27px);
         border-radius: 62px;
-        padding: 24px 32px;
+        padding: clamp(18px, 3vw, 24px) clamp(24px, 3.5vw, 32px);
         background: linear-gradient(90.00deg, rgb(67, 161, 214),rgb(144, 126, 255) 100%);
     }
 
@@ -982,6 +980,7 @@ $font-roboto: Roboto;
 }
 .register__form-agree {
     display: flex;
+    justify-content: center;
     gap: 16px;
 
     input {
@@ -1094,7 +1093,7 @@ $font-roboto: Roboto;
 .header_top-profile {
     background: transparent;
     img {
-        width: 80px;
+        width: clamp(50px, 9vw, 80px);
         cursor: pointer;
     }
 }
@@ -1167,12 +1166,12 @@ $font-roboto: Roboto;
         flex-direction: column;
 
         .icon {
-            width: 140px;
+            width: clamp(80px, 12vw, 140px);
             margin: 16px 0;
         }
     }
     .icon {
-        width: 140px;
+        width: clamp(80px, 12vw, 140px);
         margin: 16px 0;
     }
 }
@@ -1187,7 +1186,7 @@ $font-roboto: Roboto;
     -webkit-line-clamp: 2;
     color: #3b3f8d;
     font-family: Comfortaa;
-    font-size: 24px;
+    font-size: clamp(18px, 3vw, 24px);
     font-weight: 700;
     line-height: 27px;
     padding: 3px;
@@ -1203,8 +1202,10 @@ $font-roboto: Roboto;
 
     img {
         border-radius: 50%;
+        width: clamp(300px, 70vw, 580px);
     }
     span {
+        text-align: center;
         color: rgb(59, 63, 141);
         font-family: Comfortaa;
         font-size: 38px;
@@ -1618,7 +1619,7 @@ $font-roboto: Roboto;
 }
 .profile-settings__body-list {
     display: flex;
-    gap: 70px;
+    gap: 50px;
 }
 .profile-settings__body-link {
     display: flex;
@@ -1630,6 +1631,10 @@ $font-roboto: Roboto;
     background: rgb(255, 255, 255);
 }
 .profile-settings__link-img {
+    img {
+        width: clamp(80px, 20vw, 120px);
+        aspect-ratio: 1 / 1;
+    }
 }
 .profile-settings__link-text {
     display: flex;
@@ -1637,20 +1642,18 @@ $font-roboto: Roboto;
     p {
         color: rgb(59, 102, 141);
         font-family: Roboto;
-        font-size: 18px;
+        font-size: clamp(16px, 2.5vw, 20px);
         font-weight: 400;
         line-height: 48px;
-        letter-spacing: 0%;
         text-align: left;
         text-transform: uppercase;
     }
     span {
         color: rgb(243, 109, 212);
         font-family: Roboto;
-        font-size: 24px;
+        font-size: clamp(18px, 2.5vw, 24px);
         font-weight: 400;
         line-height: 48px;
-        letter-spacing: 0%;
         text-align: center;
         text-transform: uppercase;
     }
@@ -1665,7 +1668,7 @@ $font-roboto: Roboto;
     button {
         color: rgb(255, 255, 255);
         font-family: $font-comfortaa;
-        font-size: 20px;
+        font-size: clamp(18px, 2.5vw, 20px);
         font-weight: 700;
         line-height: 16px;
         letter-spacing: 1.25px;
@@ -1678,7 +1681,7 @@ $font-roboto: Roboto;
         color: white;
         // color: rgb(21, 30, 202);
         font-family: $font-comfortaa;
-        font-size: 20px;
+        font-size: clamp(18px, 2.5vw, 20px);
         font-weight: 700;
         line-height: 16px;
         letter-spacing: 1.25px;
@@ -1809,5 +1812,171 @@ $font-roboto: Roboto;
         text-align: center;
         border-radius: 62px;
         background: linear-gradient(90.00deg, rgb(67, 161, 214),rgb(144, 126, 255) 100%);
+    }
+}
+
+/* ============================== 1200 ============================== */
+/* ============================== 1200 ============================== */
+
+@media (max-width: 1200px) {
+    .profile-settings__body-list {
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+    }
+    .profile-settings__body-link {
+        width: clamp(280px, 70vw, 640px);
+    }
+    .profile-settings__link-text {
+        p {
+            line-height: 24px;
+        }
+    }
+}
+
+/* ============================== 1000 ============================== */
+/* ============================== 1000 ============================== */
+
+@media (max-width: 1000px) {
+    .header_left-headline {
+        h1 {
+            line-height: 50px;
+        }
+    }
+    .featires-left {
+        img {
+            display: none;
+        }
+    }
+    .profile-files__body-list {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+/* ============================== 900 ============================== */
+/* ============================== 900 ============================== */
+
+@media (max-width: 900px) {
+    .header_body-right {
+        img {
+            display: none;
+        }
+    }
+    .wrapper {
+        &::before {
+            // display: none;
+        }
+    }
+    .footer__top {
+        flex-direction: column;
+        gap: 32px;
+    }
+    .footer__top-about {
+        a {
+            display: none;
+        }
+    }
+    .footer__contact-list--button {
+        color: white;
+        font-family: $font-comfortaa;
+        font-size: 36px;
+        font-weight: 700;
+        line-height: 40px;
+        display: flex;
+    }
+    .footer__top-about {        
+        h2 {
+            line-height: 32px;
+        }
+    }
+    .register {
+        &::before{
+            display: none;
+        }
+        &::after {
+            display: none;
+        }
+    }
+}
+
+/* ============================== 800 ============================== */
+/* ============================== 800 ============================== */
+
+@media (max-width: 800px) {
+    .section__head {
+        h2 {
+            line-height: 42px;
+        }
+    }
+    .contact {
+        &::before{
+            display: none;
+        }
+        &::after {
+            display: none;
+        }
+    }
+    .register__form-item {
+        display: flex;
+        flex-direction: column;
+        span {
+            transform: none;
+            justify-content: flex-start;
+            position: static;
+            width: auto;
+            padding: 8px clamp(24px, 6vw, 34px);
+            font-size: clamp(20px, 4vw, 24px);
+        }
+        input {
+            font-size: clamp(20px, 4vw, 24px);
+            padding: clamp(18px, 4vw, 24px) clamp(24px, 6vw, 34px);
+        }
+    }
+}
+
+/* ============================== 700 ============================== */
+/* ============================== 700 ============================== */
+
+@media (max-width: 700px) {
+    .profile-files__body-list {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* ============================== 600 ============================== */
+/* ============================== 600 ============================== */
+
+@media (max-width: 600px) {
+    .price__body-name {
+        h3 {
+            line-height: 24px;
+        }
+    }
+    .faq__accord-name {
+        h3 {
+            line-height: 24px;
+        }
+    }
+    .profile-menu {
+        flex-direction: column;
+        align-items: flex-end;
+    }
+}
+
+/* ============================== 550 ============================== */
+/* ============================== 550 ============================== */
+
+@media (max-width: 550px) {
+    .profile-files__body-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* ============================== 450 ============================== */
+/* ============================== 450 ============================== */
+
+@media (max-width: 450px) {
+    .profile-files__body-list {
+        grid-template-columns: repeat(2, 1fr);
     }
 }

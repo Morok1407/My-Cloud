@@ -14,7 +14,7 @@
 </head>
 <body>
     <div class="wrapper-rest">
-        <header class="register-header">
+        <header class="register-header" id="header">
             <div class="container">
                 <div class="header-inner">
                     <div class="header-top">
@@ -37,7 +37,7 @@
                             <h2>Вход</h2>
                             <p>Онлайн-хранилище</p>
                         </div>
-                        <div class="code-confirm__head section__head" id="code-confirm-head">
+                        <div class="code-confirm__head section__head" id="code-confirm-head" style="display: none;">
                             <h2>Подтвердите почту</h2>
                             <p>Онлайн-хранилище</p>
                         </div>
@@ -87,7 +87,7 @@
                             </div>
                         </form>
                         <!-- ============================================ -->
-                        <form class="code-confirm__form" id="code-confirm-form">
+                        <form class="code-confirm__form" id="code-confirm-form" style="display: none;">
                             <div class="register__form-item code-confirm--inner">
                                 <div class="code-confirm-input-container">
                                     <input type="text" maxlength="1" class="code-confirm-input" required/>
@@ -137,6 +137,7 @@
                                     <a href="mailto:bugaevdaniil1407@icloud.com" class="footer__contact-link">Email: bugaevdaniil1407@icloud.com</a>
                                 </li>
                             </ul>
+                            <a href="#header" class="footer__contact-list--button">Skybin</a>
                         </div>
                     </div>
                 </div>
@@ -144,5 +145,5 @@
         </footer>
     </div>
 </body>
-<script src="../js/script.js"></script>
+<script src="/assets/js/register.js"></script>
 </html>

@@ -13,6 +13,7 @@ import { deleteFile, deleteFolder } from '../controllers/deleteDataController.js
 import { downloadFile } from '../controllers/downloadController.js';
 import { accessCheck, accessChange, deletePerson } from '../controllers/accessController.js';
 import { deleteAccount, changeName, changeEmail, changePassword } from '../controllers/accountConroller.js';
+import { sendMeMessage } from '../controllers/emailController.js';
 
 const router = express.Router()
 
@@ -44,6 +45,8 @@ router.post('/accessChange', authenticate, accessChange, showDataSet)
 router.post('/deletePerson', authenticate, deletePerson)
 
 router.get('/downloadFile/:fileId', authenticate, downloadFile)
+
+router.post('/sendMeMessage', sendMeMessage)
 
 // ===============================SETTINGS==================================
 

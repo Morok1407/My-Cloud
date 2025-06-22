@@ -1598,3 +1598,17 @@ document.getElementById('change-password-button').addEventListener('click', asyn
         loaderAnimation(false)
     }
 })
+
+//============================= Адаптив ===================================
+
+const mediaQuery900 = window.matchMedia('(max-width: 900px)');
+function handleScreenChange900(e) {
+    const img =document.getElementById('settings-profile-img')
+  if (e.matches) {
+    img.src = '/assets/img/icon/person-white.svg'
+  } else {
+    img.src = '/assets/img/icon/person.svg'
+  }
+}
+handleScreenChange900(mediaQuery900);
+mediaQuery900.addEventListener('change', handleScreenChange900);
