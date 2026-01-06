@@ -191,6 +191,8 @@ function checkType(type) {
             return 'zip'
         case 'x-compressed':
             return 'rar'
+        case 'presentation':
+            return 'pptx'
         default: 
             return 'default'
     }
